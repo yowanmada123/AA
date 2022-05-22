@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _AllScreenState extends State<AllScreen> {
             OFormText(title: "Alamat", maxLines: 4, formType: FormType.multiLine
                 // hintText: " Form",
                 ),
+            OdatePickerAndroid(title: "Tanggal Lahir",),
           ],
         ),
       ),

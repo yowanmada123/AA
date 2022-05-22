@@ -91,7 +91,6 @@ class OFormText extends StatelessWidget {
             validator: (value) => checkValidation(value!),
             controller: controller,
             keyboardType: textInputType(formType),
-
             // inputFormatters: maskFormat(formType),
             decoration: InputDecoration(
               // border: InputBorder.none,
