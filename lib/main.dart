@@ -11,8 +11,10 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
 //
 const Color m3BaseColor = Color(0xff153676);
+// const Color m3BaseColor = Color.fromARGB(255, 60, 0, 255);
 
 class _MyAppState extends State<MyApp> {
   bool useLightMode = true;

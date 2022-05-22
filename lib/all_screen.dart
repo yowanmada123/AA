@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -14,18 +15,22 @@ class _AllScreenState extends State<AllScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("a")),
+      appBar: AppBar(
+          title: Text(
+        "Template",
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      )),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
-            xForm(
-              title: "Form",
-              hintText: "isi Form",
-            ),
-            xForm(
-              title: "Form",
-              hintText: "isi Form",
+            Text(
+              "Form",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary)
+            ).titleText(),
+            OFormText(
+              title: "Nama",
+              // hintText: " Form",
             ),
           ],
         ),
