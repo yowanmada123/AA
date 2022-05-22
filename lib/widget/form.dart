@@ -5,7 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-enum FormType { text, email, phone, password, money }
+enum FormType { text, email, phone, password, money, multiLine }
 
 class OFormText extends StatelessWidget {
   final String title;
@@ -90,10 +90,8 @@ class OFormText extends StatelessWidget {
             maxLines: maxLines,
             validator: (value) => checkValidation(value!),
             controller: controller,
-            keyboardType:
-                (formType == FormType.phone || formType == FormType.money)
-                    ? TextInputType.number
-                    : TextInputType.text,
+            keyboardType: textInputType(formType),
+
             // inputFormatters: maskFormat(formType),
             decoration: InputDecoration(
               // border: InputBorder.none,
@@ -116,5 +114,17 @@ class OFormText extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  TextInputType textInputType(FormType formType) {
+    if (formType == FormType.multiLine) {
+      return TextInputType.multiline;
+    } else if (formType == FormType.phone) {
+      return TextInputType.number;
+    } else if (formType == FormType.money) {
+      return TextInputType.number;
+    } else {
+      return TextInputType.text;
+    }
   }
 }

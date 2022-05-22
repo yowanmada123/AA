@@ -24,14 +24,17 @@ class _AllScreenState extends State<AllScreen> {
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
-            Text(
-              "Form",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary)
-            ).titleText(),
+            Text("Form",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary))
+                .titleText(),
             OFormText(
               title: "Nama",
               // hintText: " Form",
             ),
+            OFormText(title: "Alamat", maxLines: 4, formType: FormType.multiLine
+                // hintText: " Form",
+                ),
           ],
         ),
       ),
