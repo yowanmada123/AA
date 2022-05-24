@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/all_screen.dart';
+import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
 import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,8 +50,11 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Boilerplate Flutter',
           theme: ThemeData(
-              colorSchemeSeed: m3BaseColor,
+              //TODO : AUTO THEME
+              // colorSchemeSeed: m3BaseColor,
               useMaterial3: true,
+              //TODO : CUSTOM THEME
+              colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
               brightness:
                   GlobalService.to.isDark ? Brightness.dark : Brightness.light),
           home: const AllScreen(),
