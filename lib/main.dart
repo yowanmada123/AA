@@ -28,9 +28,7 @@ const Color m3BaseColor = Color(0xff153676);
 
 class _MyAppState extends State<MyApp> {
   bool useLightMode = true;
-
   late ThemeData themeData;
-
   @override
   initState() {
     super.initState();
@@ -41,16 +39,21 @@ class _MyAppState extends State<MyApp> {
     return ThemeData(
         colorSchemeSeed: m3BaseColor,
         useMaterial3: true,
-        brightness: useLightMode ? Brightness.light : Brightness.dark);
+        brightness:
+            GlobalService.to.isDark ? Brightness.dark : Brightness.light);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Boilerplate Flutter',
-      theme: GlobalService.to.isDark ? AppTheme.dark : AppTheme.light,
-      home: const AllScreen(),
-    );
+    return Obx(() => GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Boilerplate Flutter',
+          theme: ThemeData(
+              colorSchemeSeed: m3BaseColor,
+              useMaterial3: true,
+              brightness:
+                  GlobalService.to.isDark ? Brightness.dark : Brightness.light),
+          home: const AllScreen(),
+        ));
   }
 }

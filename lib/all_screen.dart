@@ -41,6 +41,34 @@ class _AllScreenState extends State<AllScreen> {
             OdatePickerAndroid(
               title: "Tanggal Lahir",
             ),
+            Text("Color",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary))
+                .titleText(),
+            Row(
+              children: [
+                Container(
+                    width: 30,
+                    height: 30,
+                    color: Theme.of(context).colorScheme.primary),
+                Container(
+                    width: 30,
+                    height: 30,
+                    color: Theme.of(context).colorScheme.onPrimary),
+                Container(
+                    width: 30,
+                    height: 30,
+                    color: Theme.of(context).colorScheme.primaryContainer),
+                Container(
+                    width: 30,
+                    height: 30,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+                Container(
+                    width: 30,
+                    height: 30,
+                    color: Theme.of(context).colorScheme.secondary),
+              ],
+            )
           ],
         ),
       ),
