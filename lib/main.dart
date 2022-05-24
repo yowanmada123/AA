@@ -1,7 +1,17 @@
 import 'package:boilerplate_flutter/all_screen.dart';
+import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'global_service.dart';
 
 void main() {
+  appInit();
+}
+
+appInit() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put<GlobalService>(GlobalService());
   runApp(const MyApp());
 }
 
@@ -36,10 +46,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Boilerplate Flutter',
-      theme: themeData,
+      theme: GlobalService.to.isDark ? AppTheme.dark : AppTheme.light,
       home: const AllScreen(),
     );
   }

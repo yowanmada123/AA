@@ -1,9 +1,11 @@
+import 'package:boilerplate_flutter/global_service.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class AllScreen extends StatefulWidget {
   const AllScreen({Key? key}) : super(key: key);
@@ -36,9 +38,16 @@ class _AllScreenState extends State<AllScreen> {
             OFormText(title: "Alamat", maxLines: 4, formType: FormType.multiLine
                 // hintText: " Form",
                 ),
-            OdatePickerAndroid(title: "Tanggal Lahir",),
+            OdatePickerAndroid(
+              title: "Tanggal Lahir",
+            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => GlobalService.to.switchTheme(),
+        child: Obx(() =>
+            Icon(GlobalService.to.isDark ? Icons.dark_mode : Icons.light_mode)),
       ),
     );
   }
