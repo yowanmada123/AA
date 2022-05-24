@@ -1,19 +1,20 @@
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class OdatePickerAndroid extends StatefulWidget {
+class OdatePickeriOS extends StatefulWidget {
   final String title;
   DateTime? date;
-  OdatePickerAndroid({Key? key, required this.title, required this.date})
+  OdatePickeriOS({Key? key, required this.title, required this.date})
       : super(key: key);
 
   @override
-  State<OdatePickerAndroid> createState() => _OdatePickerAndroidState();
+  State<OdatePickeriOS> createState() => _OdatePickeriOSState();
 }
 
-class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
+class _OdatePickeriOSState extends State<OdatePickeriOS> {
 //init date
 
   @override
@@ -44,7 +45,7 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
                   child: TextFormField(
                     readOnly: true,
                     onTap: () {
-                      _selectDate(context);
+                      _showIOS_DatePicker(context);
                     },
                     validator: (baseValidator) {
                       if (baseValidator == null || baseValidator.isEmpty) {
@@ -83,5 +84,28 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
         widget.date = picked;
       });
     }
+  }
+
+  void _showIOS_DatePicker(ctx) {
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => Container(
+              height: 190,
+              color: Color.fromARGB(255, 255, 255, 255),
+              child: Column(
+                children: [
+                  Container(
+                    height: 180,
+                    child: CupertinoDatePicker(
+                        initialDateTime: widget.date,
+                        onDateTimeChanged: (val) {
+                          setState(() {
+                            widget.date = val;
+                          });
+                        }),
+                  ),
+                ],
+              ),
+            ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/global_service.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
+import 'package:boilerplate_flutter/widget/date_picker_ios.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class AllScreen extends StatefulWidget {
 }
 
 class _AllScreenState extends State<AllScreen> {
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,12 @@ class _AllScreenState extends State<AllScreen> {
                 // hintText: " Form",
                 ),
             OdatePickerAndroid(
-              title: "Tanggal Lahir",
+              title: "Tanggal Lahir Android",
+              date: selectedDate,
+            ),
+            OdatePickeriOS(
+              title: "Tanggal Lahir iOS",
+              date: selectedDate,
             ),
             Text("Color",
                     style:

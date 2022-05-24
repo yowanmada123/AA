@@ -51,10 +51,10 @@ class _MyAppState extends State<MyApp> {
           title: 'Boilerplate Flutter',
           theme: ThemeData(
               //TODO : AUTO THEME
-              // colorSchemeSeed: m3BaseColor,
+              colorSchemeSeed: m3BaseColor,
               useMaterial3: true,
               //TODO : CUSTOM THEME
-              colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
+              // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
               brightness:
                   GlobalService.to.isDark ? Brightness.dark : Brightness.light),
           home: const AllScreen(),
