@@ -5,7 +5,18 @@ import 'package:flutter/material.dart';
 extension TextExtension on Text {
   Text gray() => copyWith(style: const TextStyle(color: Color(0xff99A4AB)));
   Text titleText() => copyWith(
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700));
+  Text pageTitleText() => copyWith(
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700));
+  Text fieldTitleText() => copyWith(
+      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700));
+  Text descriptionText() => copyWith(
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400));
+  Text redirectText() => copyWith(
+      style: const TextStyle(
+          fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xff2D79F6)));
+  Text informationText() => copyWith(
+      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700));
 
   Text copyWith(
       {Key? key,

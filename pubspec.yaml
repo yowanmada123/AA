@@ -40,6 +40,7 @@ dependencies:
   mask_text_input_formatter: ^2.3.0
   get: ^4.6.5
   get_storage: ^2.0.3
+  google_fonts: ^3.0.1
 
 
 dev_dependencies:

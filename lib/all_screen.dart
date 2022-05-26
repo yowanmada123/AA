@@ -36,9 +36,8 @@ class _AllScreenState extends State<AllScreen> {
               onTap: () {
                 Get.to(OnboardingPage());
               },
-              child: Text("Halaman Onboarding",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary))
+              child: Text("Masuk ke Onboarding",
+                      style: TextStyle(color: Colors.blueAccent))
                   .titleText(),
             ),
             Text("Form",
@@ -87,7 +86,29 @@ class _AllScreenState extends State<AllScreen> {
                     height: 30,
                     color: Theme.of(context).colorScheme.secondary),
               ],
-            )
+            ),
+            Text("Text :",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary))
+                .titleText(),
+            Text(
+              "Description Title - Nunito Bold 16",
+            ).titleText(),
+            Text(
+              "Page Title - Nunito Bold 14",
+            ).pageTitleText(),
+            Text(
+              "Field TITLE - Nunito Bold 12",
+            ).fieldTitleText(),
+            Text(
+              "Field Text - Nunito Regular 14",
+            ).descriptionText(),
+            Text(
+              "Redirect Text - Nunito Bold 12",
+            ).redirectText(),
+            Text(
+              "Information Text - Nunito Regular 12",
+            ).informationText(),
           ],
         ),
       ),

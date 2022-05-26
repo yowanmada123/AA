@@ -3,6 +3,7 @@ import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
 import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'global_service.dart';
 
@@ -56,7 +57,11 @@ class _MyAppState extends State<MyApp> {
               //TODO : CUSTOM THEME
               // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
               brightness:
-                  GlobalService.to.isDark ? Brightness.dark : Brightness.light),
+                  GlobalService.to.isDark ? Brightness.dark : Brightness.light,
+                  textTheme: GoogleFonts.nunitoTextTheme(
+              Theme.of(context).textTheme,
+            ),
+          ),
           home: const AllScreen(),
         ));
   }
