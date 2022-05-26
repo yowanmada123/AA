@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/global_service.dart';
+import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/date_picker_ios.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -6,6 +7,7 @@ import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class AllScreen extends StatefulWidget {
@@ -30,6 +32,15 @@ class _AllScreenState extends State<AllScreen> {
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
+            InkWell(
+              onTap: () {
+                Get.to(OnboardingPage());
+              },
+              child: Text("Halaman Onboarding",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary))
+                  .titleText(),
+            ),
             Text("Form",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
