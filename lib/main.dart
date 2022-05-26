@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 //
-const Color m3BaseColor = Color(0xff153676);
+const Color m3BaseColor = Color(0xff5A5A5A);
 // const Color m3BaseColor = Color.fromARGB(255, 60, 0, 255);
 
 class _MyAppState extends State<MyApp> {
@@ -51,14 +51,14 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Boilerplate Flutter',
           theme: ThemeData(
-              //TODO : AUTO THEME
-              colorSchemeSeed: m3BaseColor,
-              useMaterial3: true,
-              //TODO : CUSTOM THEME
-              // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
-              brightness:
-                  GlobalService.to.isDark ? Brightness.dark : Brightness.light,
-                  textTheme: GoogleFonts.nunitoTextTheme(
+            //TODO : AUTO THEME
+            // colorSchemeSeed: m3BaseColor,
+            useMaterial3: true,
+            //TODO : CUSTOM THEME
+            colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
+            brightness:
+                GlobalService.to.isDark ? Brightness.dark : Brightness.light,
+            textTheme: GoogleFonts.nunitoTextTheme(
               Theme.of(context).textTheme,
             ),
           ),

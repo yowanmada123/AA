@@ -4,15 +4,15 @@ const seed = Color(0xFF6750A4);
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF6750A4),
+  primary: Color(0xFF5A5A5A),
   onPrimary: Color(0xFFFFFFFF),
   primaryContainer: Color(0xFFEADDFF),
   onPrimaryContainer: Color(0xFF21005D),
-  secondary: Color(0xFFFF0000),
+  secondary: Color(0xFF8A8A8A),
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFFE8DEF8),
   onSecondaryContainer: Color(0xFF1D192B),
-  tertiary: Color(0xFF7D5260),
+  tertiary: Color(0xFFC1C1C1),
   onTertiary: Color(0xFFFFFFFF),
   tertiaryContainer: Color(0xFFFFD8E4),
   onTertiaryContainer: Color(0xFF31111D),

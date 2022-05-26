@@ -40,7 +40,8 @@ class _AllScreenState extends State<AllScreen> {
                       style: TextStyle(color: Colors.blueAccent))
                   .titleText(),
             ),
-            Text("Form",
+            Divider(),
+            Text("Form :",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
                 .titleText(),
@@ -59,7 +60,8 @@ class _AllScreenState extends State<AllScreen> {
               title: "Tanggal Lahir iOS",
               date: selectedDate,
             ),
-            Text("Color",
+            Divider(),
+            Text("Color :",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
                 .titleText(),
@@ -87,6 +89,7 @@ class _AllScreenState extends State<AllScreen> {
                     color: Theme.of(context).colorScheme.secondary),
               ],
             ),
+            Divider(),
             Text("Text :",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
@@ -109,6 +112,13 @@ class _AllScreenState extends State<AllScreen> {
             Text(
               "Information Text - Nunito Regular 12",
             ).informationText(),
+            Divider(),
+            Text("Button :",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary))
+                .titleText(),
+                
+            Divider(),
           ],
         ),
       ),
