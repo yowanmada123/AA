@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/global_service.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
+import 'package:boilerplate_flutter/widget/button.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/date_picker_ios.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -117,7 +118,10 @@ class _AllScreenState extends State<AllScreen> {
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
                 .titleText(),
-                
+            OButton(
+              title: "Button 1 - Nunito bold 14 ",
+              onPressed: () {},
+            ),
             Divider(),
           ],
         ),

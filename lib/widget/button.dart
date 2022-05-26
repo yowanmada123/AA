@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -60,7 +61,7 @@ class OButton extends StatelessWidget {
                         fontSize: 16,
                         color: textColor ?? Colors.white,
                       ),
-                    ),
+                    ).titleText(),
                   ),
                 ],
               ),
