@@ -1,21 +1,21 @@
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
 import 'package:boilerplate_flutter/widget/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
-import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:boilerplate_flutter/widget/title_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _emailController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: "");
@@ -30,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(12.0),
             child: Wrap(
               children: [
-                 TitleHeader(
-                  title: "Masuk",
+                TitleHeader(
+                 title: "Register",
                 ),
                 OFormText(
                   title: "EMAIL",
@@ -43,18 +43,11 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _passwordController,
                   formType: FormType.password,
                 ),
-                Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InkWell(
-                      onTap: () {
-                        bottomSheetWidget(
-                            heightFactor: 0.8,
-                            context: context,
-                            child: ForgotPassPage());
-                      },
-                      child: Text("Lupa Password ?").linkText()),
-                ))
+                OFormText(
+                  title: "KONFIRMASI PASSWORD",
+                  controller: _passwordController,
+                  formType: FormType.password,
+                ),
               ],
             ),
           ),
@@ -63,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               if (_key.currentState!.validate()) {
                 // submit();
-                log("login");
+                log("register");
               }
             },
             // color: Color(primaryDark),

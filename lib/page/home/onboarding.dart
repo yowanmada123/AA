@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/page/login/login.dart';
+import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/widget/button.dart';
 import 'package:boilerplate_flutter/widget/dummy/logo.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -70,8 +71,13 @@ class OnboardingPage extends StatelessWidget {
                       OButton(
                           color: Theme.of(context).colorScheme.onPrimary,
                           textColor: Theme.of(context).colorScheme.primary,
-                          title: "Button 1 - Nunito bold 14 ",
-                          onPressed: () {}),
+                          title: "Button 1 - Nunito bold 14 Register ",
+                          onPressed: () {
+                            bottomSheetWidget(
+                                heightFactor: 0.8,
+                                context: context,
+                                child: RegisterPage());
+                          }),
                       Divider(
                         color: Colors.white,
                       ),

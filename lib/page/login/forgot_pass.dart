@@ -1,21 +1,23 @@
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
+import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/widget/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:boilerplate_flutter/widget/title_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ForgotPassPage extends StatefulWidget {
+  const ForgotPassPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPassPage> createState() => _ForgotPassPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPassPageState extends State<ForgotPassPage> {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _emailController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: "");
@@ -30,31 +32,14 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(12.0),
             child: Wrap(
               children: [
-                 TitleHeader(
-                  title: "Masuk",
+                TitleHeader(
+                  title: "Lupa Password",
                 ),
                 OFormText(
                   title: "EMAIL",
                   controller: _emailController,
                   formType: FormType.email,
                 ),
-                OFormText(
-                  title: "PASSWORD",
-                  controller: _passwordController,
-                  formType: FormType.password,
-                ),
-                Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InkWell(
-                      onTap: () {
-                        bottomSheetWidget(
-                            heightFactor: 0.8,
-                            context: context,
-                            child: ForgotPassPage());
-                      },
-                      child: Text("Lupa Password ?").linkText()),
-                ))
               ],
             ),
           ),
