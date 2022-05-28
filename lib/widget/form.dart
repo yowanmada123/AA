@@ -7,7 +7,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum FormType { text, email, phone, password, money, multiLine }
 
-class OFormText extends StatelessWidget {
+class OFormText extends StatefulWidget {
   final String title;
   final String? hintText;
   final TextEditingController? controller;
@@ -27,25 +27,30 @@ class OFormText extends StatelessWidget {
     this.readOnly = false,
   }) : super(key: key);
 
+  @override
+  State<OFormText> createState() => _OFormTextState();
+}
+
+class _OFormTextState extends State<OFormText> {
   String? checkValidation(String value) {
-    if (isRequired) {
+    if (widget.isRequired) {
       if (value.isEmpty) {
-        return '${title.toUpperCase()} TIDAK BOLEH KOSONG';
+        return '${widget.title.toUpperCase()} TIDAK BOLEH KOSONG';
       }
     }
-    if (formType == FormType.phone) {
+    if (widget.formType == FormType.phone) {
       if (int.tryParse(value) == null) {
-        return '${title.toUpperCase()} HANYA ANGKA SAJA';
+        return '${widget.title.toUpperCase()} HANYA ANGKA SAJA';
       }
     }
-    if (formType == FormType.email) {
+    if (widget.formType == FormType.email) {
       String pattern =
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
           r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
           r"{0,253}[a-zA-Z0-9])?)*$";
       RegExp regex = RegExp(pattern);
       if (value.trim().isNotEmpty && !regex.hasMatch(value.trim())) {
-        return '${title.toUpperCase()} HARUS VALID EMAIL';
+        return '${widget.title.toUpperCase()} HARUS VALID EMAIL';
       }
     }
     return null;
@@ -65,11 +70,16 @@ class OFormText extends StatelessWidget {
     return [];
   }
 
+  bool obscureText = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.formType == FormType.password) obscureText = true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool obscureText = false;
-    if (formType == FormType.password) obscureText = true;
-
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -79,29 +89,34 @@ class OFormText extends StatelessWidget {
             height: 20,
           ),
           Text(
-            title,
+            widget.title,
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).colorScheme.primary),
           ),
           TextFormField(
-            readOnly: readOnly,
-            maxLines: maxLines,
+            readOnly: widget.readOnly,
+            maxLines: widget.maxLines,
             validator: (value) => checkValidation(value!),
-            controller: controller,
-            keyboardType: textInputType(formType),
+            controller: widget.controller,
+            keyboardType: textInputType(widget.formType),
             // inputFormatters: maskFormat(formType),
             decoration: InputDecoration(
               // border: InputBorder.none,
-              hintText: hintText ?? 'Masukkan ${title.capitalizeText()}',
+              hintText: widget.hintText ??
+                  'Masukkan ${widget.title.capitalizeText()}',
               // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
-              suffixIcon: (formType == FormType.password)
+              suffixIcon: (widget.formType == FormType.password)
                   ? InkWell(
                       child: Icon((obscureText)
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined),
-                      onTap: () => obscureText = !obscureText,
+                      onTap: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
                     )
                   : SizedBox.shrink(),
             ),

@@ -109,7 +109,7 @@ class _AllScreenState extends State<AllScreen> {
             ).descriptionText(),
             Text(
               "Redirect Text - Nunito Bold 12",
-            ).redirectText(),
+            ).linkText(),
             Text(
               "Information Text - Nunito Regular 12",
             ).informationText(),

@@ -12,7 +12,9 @@ extension TextExtension on Text {
       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700));
   Text descriptionText() => copyWith(
       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400));
-  Text redirectText() => copyWith(
+  Text regularText() => copyWith(
+      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400));
+  Text linkText() => copyWith(
       style: const TextStyle(
           fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xff2D79F6)));
   Text informationText() => copyWith(
