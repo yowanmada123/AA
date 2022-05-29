@@ -1,13 +1,10 @@
 import 'dart:developer';
 
-
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/widget/alertx.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-
-
 
 export 'package:graphql/client.dart';
 
@@ -25,9 +22,11 @@ class GraphQLBase {
       defaultHeaders: {
         'Authorization': gstate.token,
       },
+      
     );
 
     return GraphQLClient(
+
       cache: GraphQLCache(),
       link: _link,
     );
@@ -116,6 +115,7 @@ class GraphQLBase {
       } catch (s) {}
     } else {
       log(result.data.toString());
+      log(result.toString());
     }
 
     // Dismisse Loading

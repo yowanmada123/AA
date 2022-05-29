@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
+import 'package:boilerplate_flutter/page/login/term_and_condition/term_and_cond.dart';
 import 'package:boilerplate_flutter/widget/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:boilerplate_flutter/widget/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -61,13 +63,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 OButtonBar(
                   title: "LANJUT",
                   onPressed: () {
-                    if (_key.currentState!.validate()) {
-                      // submit();
-                      c.email = _emailController.text;
-                      c.password = _rePasswordController.text;
-                      c.signUpEmail();
-                      log("register");
-                    }
+                    // if (_key.currentState!.validate()) {
+                    //   // submit();
+                    //   c.email = _emailController.text;
+                    //   c.password = _rePasswordController.text;
+                    //   c.signUpEmail();
+                    //   log("register");
+                    // }
+
+                    bottomSheetWidget(
+                        heightFactor: 0.9,
+                        context: context,
+                        child: TandCPage());
                   },
                   // color: Color(primaryDark),
                   // textColor: Colors.white,

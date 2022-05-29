@@ -1,6 +1,7 @@
 import 'package:boilerplate_flutter/global_service.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/widget/button.dart';
+import 'package:boilerplate_flutter/widget/checkbox.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/date_picker_ios.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -20,7 +21,7 @@ class AllScreen extends StatefulWidget {
 
 class _AllScreenState extends State<AllScreen> {
   DateTime selectedDate = DateTime.now();
-
+  bool accept = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +124,16 @@ class _AllScreenState extends State<AllScreen> {
               onPressed: () {},
             ),
             Divider(),
+            OCheckBox(
+                text:
+                    "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
+                accept: accept,
+                fungsi: (val) {
+                  setState(() {
+                    accept = !accept;
+                    print(accept);
+                  });
+                }),
           ],
         ),
       ),
