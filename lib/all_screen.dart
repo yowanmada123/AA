@@ -4,8 +4,10 @@ import 'package:boilerplate_flutter/widget/button.dart';
 import 'package:boilerplate_flutter/widget/checkbox.dart';
 import 'package:boilerplate_flutter/widget/date_picker.dart';
 import 'package:boilerplate_flutter/widget/date_picker_ios.dart';
+import 'package:boilerplate_flutter/widget/dropdown.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/radio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,6 +24,10 @@ class AllScreen extends StatefulWidget {
 class _AllScreenState extends State<AllScreen> {
   DateTime selectedDate = DateTime.now();
   bool accept = false;
+  bool _isRadioSelected = false;
+
+  List<String> itemDropdown = ["Satu", "Dua", "Tiga"];
+  String dropdownValue = "Satu";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,6 +140,37 @@ class _AllScreenState extends State<AllScreen> {
                     print(accept);
                   });
                 }),
+            ORadio(
+              label: 'This is the first label text',
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              value: true,
+              groupValue: _isRadioSelected,
+              onChanged: (bool newValue) {
+                setState(() {
+                  _isRadioSelected = newValue;
+                });
+              },
+            ),
+            ORadio(
+              label: 'This is the second label text',
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              value: false,
+              groupValue: _isRadioSelected,
+              onChanged: (bool newValue) {
+                setState(() {
+                  _isRadioSelected = newValue;
+                });
+              },
+            ),
+            ODropdown(
+              itemDropdown: itemDropdown,
+              dropdownValue: dropdownValue,
+              onChanged: (val) {
+                setState(() {
+                  dropdownValue = val;
+                });
+              },
+            )
           ],
         ),
       ),
