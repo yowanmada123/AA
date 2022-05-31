@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/page/profil/list_profil.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
@@ -46,7 +47,7 @@ class LoginController extends GetxController {
     try {
       Map<String, dynamic>? res = await GraphQLBase().mutate(q);
       if (res != null) {
-        // Get.to(EmailSentPage());
+        
       }
     } on Error catch (e, s) {
       print(e);
