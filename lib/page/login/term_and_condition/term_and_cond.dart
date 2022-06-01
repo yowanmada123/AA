@@ -17,9 +17,7 @@ class TandCPage extends StatefulWidget {
 
 class _TandCPageState extends State<TandCPage> {
   bool accept = false;
-  String dataTnC = "";
-  String dataVersion = "";
-  String dataTime = "";
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RegisterController>(
@@ -28,19 +26,19 @@ class _TandCPageState extends State<TandCPage> {
         builder: (c) {
           return Column(
             children: [
+              TitleHeader(
+                title: "Syarat Dan Ketentuan",
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Version $dataVersion").titleText(),
-                    Text("Updated ").informationText(),
+                    Text("Version ${c.tncVersion}").titleText(),
+                    Text("Updated ${c.tncUpdatedAt}").informationText(),
                   ],
                 ),
-              ),
-              TitleHeader(
-                title: "Syarat Dan Ketentuan",
               ),
               Divider(
                 thickness: 1,
@@ -48,8 +46,7 @@ class _TandCPageState extends State<TandCPage> {
               Expanded(
                 child: Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                            "Terms & Agreements Text - Nunito Regular 14 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur ac amet dui tortor ante aenean. Gravida orci ultrices sed ut. Donec id sodales porta nec cursus purus facilisis natoque. Dapibus venenatis sit quis condimentum ante est tincidunt non. Sollicitudin sed pharetra dictum tincidunt faucibus accumsan, cursus lectus convallis. Eleifend lectus sit eget hendrerit aliquet. Viverra elementum aliquam tellus est. Mattis at ac mi in. Et sit vel, interdum tristique cras duis senectus eget duis. Nulla tincidunt mattis a pretium eget facilisi. Elit, dolor in maecenas ornare scelerisque tristique ultrices. Sed neque, velit at nunc consectetur ullamcorper. Mauris imperdiet cras ante elementum aliquet bibendum enim feugiat aliquam. Elit porttitor pretium egestas nulla elementum semper eget. ")
+                    child: Text(c.tncContent)
                         .descriptionText()), // Html(data: dataTnC)),
               ),
               OCheckBox(
@@ -64,6 +61,7 @@ class _TandCPageState extends State<TandCPage> {
                   }),
               OButtonBar(
                 title: "LANJUT",
+                isEnable: accept,
                 onPressed: () async {
                   // if (res != null) {
                   //   Get.to(EmailSentPage(

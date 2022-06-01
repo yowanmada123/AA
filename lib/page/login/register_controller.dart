@@ -10,10 +10,15 @@ class RegisterController extends GetxController {
   RegisterController() {
     init();
   }
-  init() {}
+  init() {
+    getTNC();
+  }
 
   String email = '';
   String password = '';
+  String tncContent = '';
+  String tncVersion = '';
+  String tncUpdatedAt = '';
   final cGlobal = Get.find<GlobalController>();
 
   Future<void> signUpEmail() async {
@@ -62,6 +67,7 @@ class RegisterController extends GetxController {
                         id
                         email
                         isActive   
+                        
                     }
                 }
                 ... on Error {
@@ -80,6 +86,34 @@ class RegisterController extends GetxController {
         log(token);
         cGlobal.setToken(token);
         Get.offAll(ListProfil());
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  Future<void> getTNC() async {
+    String q = '''
+     query{
+        tncs(filter:{
+          isActive :  {is:true}
+        }){
+          id
+          content
+          version
+          isActive
+          updatedAt
+        }
+      }
+    ''';
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().query(q);
+      log(res.toString());
+      if (res != null) {
+        tncContent = res['tncs'][0]['content'];
+        tncVersion = res['tncs'][0]['version'];
+        tncUpdatedAt = res['tncs'][0]['updatedAt'];
       }
     } on Error catch (e, s) {
       print(e);
