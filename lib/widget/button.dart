@@ -31,39 +31,42 @@ class OButton extends StatelessWidget {
         ? Container(
             child: Center(child: CircularProgressIndicator()),
           )
-        : Container(
-            width: double.infinity,
-            // constraints: BoxConstraints(
-            //   maxWidth:
-            // ),
-            height: 60,
-            child: TextButton(
-              style: flatButtonStyle,
-              onPressed: onPressed,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (icon == null)
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: icon,
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Container(
+              width: double.infinity,
+              // constraints: BoxConstraints(
+              //   maxWidth:
+              // ),
+              height: 60,
+              child: TextButton(
+                style: flatButtonStyle,
+                onPressed: onPressed,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    (icon == null)
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: icon,
+                            ),
                           ),
+                    Center(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: textColor ?? Colors.white,
                         ),
-                  Center(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor ?? Colors.white,
-                      ),
-                    ).titleText(),
-                  ),
-                ],
+                      ).titleText(),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

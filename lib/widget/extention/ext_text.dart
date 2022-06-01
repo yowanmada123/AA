@@ -20,6 +20,10 @@ extension TextExtension on Text {
   Text informationText() => copyWith(
       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700));
 
+  Text white() => copyWith(style: const TextStyle(color: Colors.white));
+  Text black() => copyWith(style: const TextStyle(color: Colors.black));
+  Text red() => copyWith(style: const TextStyle(color: Colors.red));
+
   Text copyWith(
       {Key? key,
       StrutStyle? strutStyle,

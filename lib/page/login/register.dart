@@ -63,18 +63,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 OButtonBar(
                   title: "LANJUT",
                   onPressed: () {
-                    // if (_key.currentState!.validate()) {
-                    //   // submit();
-                    //   c.email = _emailController.text;
-                    //   c.password = _rePasswordController.text;
-                    //   c.signUpEmail();
-                    //   log("register");
-                    // }
-
-                    bottomSheetWidget(
-                        heightFactor: 0.9,
-                        context: context,
-                        child: TandCPage());
+                    if (_key.currentState!.validate()) {
+                      //   // submit();
+                      c.email = _emailController.text;
+                      c.password = _rePasswordController.text;
+                      bottomSheetWidget(
+                          heightFactor: 0.9,
+                          context: context,
+                          child: TandCPage());
+                      //   log("register");
+                    }
                   },
                   // color: Color(primaryDark),
                   // textColor: Colors.white,

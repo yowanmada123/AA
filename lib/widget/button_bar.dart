@@ -9,12 +9,14 @@ class OButtonBar extends StatelessWidget {
   final Color? color;
   final Color? textColor;
   final bool loading;
+  final bool isEnable;
   const OButtonBar({
     Key? key,
     required this.title,
     required this.onPressed,
     this.icon,
     this.loading = false,
+    this.isEnable = true,
     this.color,
     this.textColor,
   }) : super(key: key);
@@ -38,8 +40,15 @@ class OButtonBar extends StatelessWidget {
             // ),
             height: 60,
             child: TextButton(
-              style: flatButtonStyle,
-              onPressed: onPressed,
+              style: (isEnable)
+                  ? flatButtonStyle
+                  : TextButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0)),
+                      // color: Theme.of(context).primaryColor,
+                    ),
+              onPressed: (isEnable) ? onPressed : null,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

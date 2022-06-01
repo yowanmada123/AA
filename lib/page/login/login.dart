@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
 import 'package:boilerplate_flutter/page/login/login_controller.dart';
+import 'package:boilerplate_flutter/page/profil/list_profil.dart';
 import 'package:boilerplate_flutter/widget/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/form.dart';
@@ -67,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 OButtonBar(
                   title: "LANJUT",
                   onPressed: () {
+                    // Get.offAll(ListProfil());
                     if (_key.currentState!.validate()) {
                       c.email = _emailController.text;
                       c.password = _passwordController.text;
