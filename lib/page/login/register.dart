@@ -65,9 +65,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: () {
                     // if (_key.currentState!.validate()) {
                     //   // submit();
-                    //   c.email = _emailController.text;
-                    //   c.password = _rePasswordController.text;
-                    //   c.signUpEmail();
+                      c.email = _emailController.text;
+                      c.password = _rePasswordController.text;
+                      
                     //   log("register");
                     // }
 

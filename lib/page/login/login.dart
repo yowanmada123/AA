@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 OButtonBar(
                   title: "LANJUT",
                   onPressed: () {
-                    Get.offAll(ListProfil());
+                    // Get.offAll(ListProfil());
                     if (_key.currentState!.validate()) {
                       c.email = _emailController.text;
                       c.password = _passwordController.text;
