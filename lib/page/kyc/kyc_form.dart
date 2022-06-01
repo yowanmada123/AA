@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form_controller.dart';
 import 'package:boilerplate_flutter/widget/alertx.dart';
@@ -16,6 +18,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import "package:http/http.dart" as HttpMultipartFile;
+import 'package:http_parser/http_parser.dart';
 
 class KYCFormPage extends StatefulWidget {
   const KYCFormPage({Key? key}) : super(key: key);
@@ -51,7 +55,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
   bool isButtonLoading = false;
 
   List<String> itemDropdown = ["PASSPORT", "KTP", "KK"];
-  String dropdownValue = "PASSPORT";
+  String jenisIdentitas = "PASSPORT";
 
   final ImagePicker _picker = ImagePicker();
 
@@ -94,16 +98,16 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   //             ));
                   //       },
                   //     )),
-                  Text("Dropdown :",
+                  Text("IDENTITAS :",
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.primary))
                       .titleText(),
                   ODropdown(
                     itemDropdown: itemDropdown,
-                    dropdownValue: dropdownValue,
+                    dropdownValue: jenisIdentitas,
                     onChanged: (val) {
                       setState(() {
-                        dropdownValue = val;
+                        jenisIdentitas = val;
                       });
                     },
                   ),
@@ -315,13 +319,13 @@ class _KYCFormPageState extends State<KYCFormPage> {
                           child: InkWell(
                             onTap: () {
                               setState(() {
-                                genderController = "Male";
+                                genderController = "L";
                               });
                             },
                             child: Container(
                               decoration: BoxDecoration(
                                   // color: Color(blueLight),
-                                  color: (genderController == "Male")
+                                  color: (genderController == "L")
                                       ? Theme.of(context).colorScheme.primary
                                       : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
@@ -333,7 +337,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
-                                    child: (genderController == "Male")
+                                    child: (genderController == "L")
                                         ? Text(
                                             "laki-Laki",
                                             // textAlign: TextAlign.center,
@@ -353,12 +357,12 @@ class _KYCFormPageState extends State<KYCFormPage> {
                           child: InkWell(
                             onTap: () {
                               setState(() {
-                                genderController = "Female";
+                                genderController = "P";
                               });
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: (genderController == "Female")
+                                  color: (genderController == "P")
                                       ? Theme.of(context).colorScheme.primary
                                       : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
@@ -370,7 +374,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
-                                    child: (genderController == "Female")
+                                    child: (genderController == "P")
                                         ? Text(
                                             "Perempuan",
                                             // textAlign: TextAlign.center,
@@ -409,22 +413,18 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   } else if (genderController == "") {
                     Alertx().error("Pilih Jenis Kelamin");
                   } else {
-                    // await SaveData();
+                    await SaveData();
                   }
-                  // log("valid");
-                  // // log("token =${gstate.token.value.toString()}");
-                  // log("identityNumberController.text =${identityNumberController.text}");
-                  // log("identityTypeController.text =${kycState.registerIdentitas.value.toString()}");
-
-                  // log("nameController.text =${nameController.text}");
-                  // log("genderController =$genderController");
-                  // log("nationalityController.text =${kycState.registerNegara.value.toString()}");
-                  // log("birthDateController.text =${birthDateController}");
-                  // log("birthPlaceController.text =${birthPlaceController.text}");
-                  // log("emailController.text =${emailController.text}");
-                  // log("phoneNumberController.text =${phoneNumberController.text}");
-                  // log("addressController.text =${addressController.text}");
-                  // log("addressController.text =${addressController.text}");
+                  log("valid");
+                  log("identityNumberController.text =${identityNumberController.text}");
+                  log("identityTypeController.text =${jenisIdentitas.toString()}");
+                  log("nameController.text =${nameController.text}");
+                  log("genderController =$genderController");
+                  log("birthDateController.text =${birthDateController}");
+                  log("birthPlaceController.text =${birthPlaceController.text}");
+                  log("emailController.text =${emailController.text}");
+                  log("phoneNumberController.text =${phoneNumberController.text}");
+                  log("addressController.text =${addressController.text}");
                 }
               },
               // color: Color(primaryDark),
@@ -434,6 +434,85 @@ class _KYCFormPageState extends State<KYCFormPage> {
         ),
       ),
     );
+  }
+
+  Future<void> SaveData() async {
+    var imageKtp = await fileIdCard!;
+    var imageProfil = await filePhoto!;
+
+    var b = await HttpMultipartFile.MultipartFile.fromPath(
+      'imageProfil',
+      imageProfil.path,
+      contentType: MediaType("image", "jpeg"),
+    );
+
+    var b2 = await HttpMultipartFile.MultipartFile.fromPath(
+      'imageProfil',
+      imageKtp.path,
+      contentType: MediaType("image", "jpeg"),
+    );
+
+    var identityType = jenisIdentitas.toString();
+    var gender = genderController;
+
+    String optionsPerson = '''
+      mutation {
+          createProfile(
+            input: {
+              address: "${addressController.text}"
+              dateOfBirth: "$birthDateController"
+              email: "${emailController.text.replaceAll(' ', '').trim()}"
+              fullname: "${nameController.text}"
+              gender: $gender
+              identityNumber: "${identityNumberController.text}"
+              identityType: $identityType
+              phone: ${phoneNumberController.text.replaceAll(' ', '').trim()}
+              placeOfBirth: "${birthPlaceController.text}"
+              profileType: PRIMARY
+            }
+            identityPhoto: \$identityPhoto
+            profilePhoto: \$profilePhoto
+          ) {
+            __typename
+            ... on Profile {
+              id
+            }
+            ... on Error {
+              message
+            }
+          }
+        }
+
+      ''';
+
+    Map<String, dynamic> variables = {"identityPhoto": b, "profilePhoto": b2};
+
+    try {
+      bool isSuccess = false;
+      // if (gstate.dataUser.value.name == '') {
+
+      Map<String, dynamic>? dataUser =
+          await GraphQLBase().mutate(optionsPerson, variables: variables);
+      log(dataUser.toString());
+      // if (dataUser!['addProfile']['__typename'] != 'Error') {
+      //   isSuccess = true;
+      // } else {
+      //   Alertx().error(dataUser['addProfile']['message']);
+      // }
+
+      // if (isSuccess) {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Data Berhasil Disimpan')),
+      // );
+      // Get.offAll(SuccesPage());
+      // Get.back();
+      // }
+
+      // }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
   }
 }
 
@@ -446,7 +525,7 @@ Widget foto(File? imageFile, GlobalController gstate) {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              color: Colors.black26,
+              color: Colors.black12,
               border: Border.all(
                 color: Colors.black38, // red as border color
               ),
@@ -464,7 +543,7 @@ Widget foto(File? imageFile, GlobalController gstate) {
                     Expanded(
                       flex: 1,
                       child: SvgPicture.asset(
-                        "assets/svg/ic_camera.svg",
+                        "assets/ic/ic_camera.svg",
                         fit: BoxFit.scaleDown,
                       ),
                     ),

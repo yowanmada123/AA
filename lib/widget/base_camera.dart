@@ -169,7 +169,7 @@ class _CameraOverlayState extends State<CameraOverlay> {
                     onPressed: () {
                       onTakePictureButtonPressed();
                     },
-                    icon: SvgPicture.asset("assets/svg/ic_capture_camera.svg"),
+                    icon: SvgPicture.asset("assets/ic/ic_capture_camera.svg"),
                     iconSize: 50,
                   ),
                   IconButton(
