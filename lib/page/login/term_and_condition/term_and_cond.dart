@@ -24,7 +24,7 @@ class _TandCPageState extends State<TandCPage> {
   Widget build(BuildContext context) {
     return GetBuilder<RegisterController>(
         init: RegisterController(),
-        initState: (_) {},
+        initState: (c) {},
         builder: (c) {
           return Column(
             children: [

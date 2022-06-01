@@ -7,7 +7,10 @@ import 'package:boilerplate_flutter/page/profil/list_profil.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  RegisterController();
+  RegisterController() {
+    init();
+  }
+  init() {}
 
   String email = '';
   String password = '';
