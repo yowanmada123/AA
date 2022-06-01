@@ -16,17 +16,15 @@ class GraphQLBase {
 
   Future<GraphQLClient> getGraphQLClient() async {
     log(gstate.token);
-    await checkToken();
+    // await checkToken();
     final Link _link = HttpLink(
       gstate.baseUrl,
       defaultHeaders: {
-        'Authorization': gstate.token,
+        'Authorization': 'Bearer ${gstate.token}',
       },
-      
     );
 
     return GraphQLClient(
-
       cache: GraphQLCache(),
       link: _link,
     );
@@ -65,8 +63,10 @@ class GraphQLBase {
   Future<Map<String, dynamic>?> query(String queryString,
       {Map<String, dynamic> variables = const {},
       bool showLoading = false}) async {
-    final QueryOptions options =
-        QueryOptions(document: gql(queryString), variables: variables);
+    final QueryOptions options = QueryOptions(
+      document: gql(queryString),
+      variables: variables,
+    );
     log('request query');
     // Show Loading
     if (showLoading) Alertx().loading();
@@ -88,6 +88,14 @@ class GraphQLBase {
       }
     } else {
       log(result.data.toString());
+      result.data!.forEach((key, value) {
+        if (value is List) {
+          String typename = value[0]['__typename'];
+          if (typename == 'InvalidInputError' || typename == 'Error') {
+            errorMessage = value[0]['message'] ?? 'Error';
+          }
+        }
+      });
     }
     // Dismisse Loading
     if (showLoading) if (Get.isDialogOpen ?? false) Get.back();
@@ -98,8 +106,10 @@ class GraphQLBase {
   Future<Map<String, dynamic>?> mutate(String queryString,
       {Map<String, dynamic> variables = const {},
       bool showLoading = true}) async {
-    final MutationOptions options =
-        MutationOptions(document: gql(queryString), variables: variables);
+    final MutationOptions options = MutationOptions(
+      document: gql(queryString),
+      variables: variables,
+    );
     log('request mutatation');
     // Show Loading
     if (showLoading) Alertx().loading();
@@ -115,7 +125,15 @@ class GraphQLBase {
       } catch (s) {}
     } else {
       log(result.data.toString());
-      log(result.toString());
+      result.data!.forEach((key, value) {
+        if (value is List) {
+          String typename = value[0]['__typename'];
+          if (typename == 'InvalidInputError' || typename == 'Error') {
+            errorMessage = value[0]['message'] ?? 'Error';
+          }
+        }
+      });
+      // log(result.data.);
     }
 
     // Dismisse Loading
