@@ -1,7 +1,6 @@
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'extention/ext_date.dart';
 
 class OdatePickerAndroid extends StatefulWidget {
   final String title;
@@ -29,9 +28,10 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
           Text(
             widget.title,
             style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.primary),
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           SizedBox(
             height: 6,
@@ -52,8 +52,8 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
                       }
                       return null;
                     },
-                    controller:
-                        TextEditingController(text: widget.date.toString()),
+                    controller: TextEditingController(
+                        text: widget.date?.toDateHuman() ?? ''),
                     decoration: InputDecoration(
                       // border: InputBorder.none,
                       hintText: 'Masukkan ${widget.title.capitalizeText()}',

@@ -192,11 +192,8 @@ class _AllScreenState extends State<AllScreen> {
               },
             ),
             Divider(),
-            Text("Dropdown :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
             ODropdown(
+              title: "Dropdown",
               itemDropdown: itemDropdown,
               dropdownValue: dropdownValue,
               onChanged: (val) {

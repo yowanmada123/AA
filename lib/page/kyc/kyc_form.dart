@@ -98,11 +98,8 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   //             ));
                   //       },
                   //     )),
-                  Text("IDENTITAS :",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary))
-                      .titleText(),
                   ODropdown(
+                    title: 'IDENTITAS',
                     itemDropdown: itemDropdown,
                     dropdownValue: jenisIdentitas,
                     onChanged: (val) {
@@ -284,7 +281,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                     controller: birthPlaceController,
                   ),
                   OdatePickerAndroid(
-                      title: "Tanggal Lahir", date: birthDateController),
+                      title: "TANGGAL LAHIR", date: birthDateController),
                   // BasePilihField(
                   //   title: "Tanggal Lahir",
                   //   isi: birthDateControllerDisplay,
@@ -310,7 +307,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   ),
                   Text(
                     "JENIS KELAMIN",
-                  ).titleText(),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -466,7 +467,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
               gender: $gender
               identityNumber: "${identityNumberController.text}"
               identityType: $identityType
-              phone: ${phoneNumberController.text.replaceAll(' ', '').trim()}
+              phone: "${phoneNumberController.text.replaceAll(' ', '').trim()}"
               placeOfBirth: "${birthPlaceController.text}"
               profileType: PRIMARY
             }

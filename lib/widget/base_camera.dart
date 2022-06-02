@@ -27,7 +27,8 @@ class _CameraOverlayState extends State<CameraOverlay> {
   initCamera() async {
     // List<CameraDescription> cameras;
     cameras = await availableCameras();
-    controller = CameraController(cameras[0], ResolutionPreset.max);
+    controller =
+        CameraController(cameras[0], ResolutionPreset.max, enableAudio: false);
     controller!.initialize().then((_) {
       if (!mounted) {
         return;
