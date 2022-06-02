@@ -457,7 +457,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
     var gender = genderController;
 
     String optionsPerson = '''
-      mutation {
+      mutation createProfile(\$identityPhoto:ImageFile!,\$profilePhoto:ImageFile!) {
           createProfile(
             input: {
               address: "${addressController.text}"

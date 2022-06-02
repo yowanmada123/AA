@@ -111,6 +111,7 @@ class GraphQLBase {
       variables: variables,
     );
     log('request mutatation');
+    // log(queryString);
     // Show Loading
     if (showLoading) Alertx().loading();
 
