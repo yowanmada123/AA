@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
+import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
 import 'package:boilerplate_flutter/widget/button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,12 @@ class _ListProfilState extends State<ListProfil> {
               onPressed: () {
                 Get.to(KYCFormPage());
               }),
-          OButton(title: "Tambah User", onPressed: () {}),
+          OButton(
+              title: "List Profil",
+              onPressed: () {
+                Get.to(KycList());
+              }),
+          // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
               child: ListView(
             children: [],
