@@ -11,6 +11,7 @@ class GlobalController extends GetxController {
   String token = '';
   String username = '';
   String profileImage = '';
+  String idEdit = "3f89794e-f10d-497d-bd80-f7ab15bdd406";
   bool isDev = false;
 
   double latitude = 0.0;

@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
 import 'package:boilerplate_flutter/widget/button.dart';
@@ -15,7 +16,6 @@ class ListProfil extends StatefulWidget {
 }
 
 class _ListProfilState extends State<ListProfil> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +26,11 @@ class _ListProfilState extends State<ListProfil> {
               title: "Lengkapi Profil",
               onPressed: () {
                 Get.to(KYCFormPage());
+              }),
+          OButton(
+              title: "Edit Profil",
+              onPressed: () {
+                Get.to(KYCEditFormPage());
               }),
           OButton(
               title: "List Profil",
@@ -39,7 +44,6 @@ class _ListProfilState extends State<ListProfil> {
           )),
         ],
       ),
-      
     );
   }
 }
