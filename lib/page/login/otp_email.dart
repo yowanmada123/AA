@@ -31,11 +31,11 @@ class _OtpEmailPageState extends State<OtpEmailPage> {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Kode OTP sudah dikirim via Email ke ',
+                      'Kode OTP sudah dikirim via Email ke',
                     ),
                     Text(
                       widget.email,
