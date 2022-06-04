@@ -7,11 +7,13 @@ class OCheckBox extends StatelessWidget {
   final Function(bool?)? fungsi;
   final bool accept;
   final String text;
-  const OCheckBox(
+  Widget? child;
+  OCheckBox(
       {Key? key,
       required this.fungsi,
       required this.accept,
-      required this.text})
+      required this.text,
+      this.child})
       : super(key: key);
 
   @override
@@ -20,9 +22,11 @@ class OCheckBox extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         checkColor: Theme.of(context).colorScheme.onPrimary,
         activeColor: Theme.of(context).colorScheme.primary,
-        title: Text(
-          text,
-        ).regularText(),
+        title: (child != null)
+            ? child
+            : Text(
+                text,
+              ).regularText(),
         value: accept,
         onChanged: fungsi);
   }

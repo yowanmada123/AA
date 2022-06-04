@@ -62,7 +62,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
-
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
@@ -93,8 +93,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             SafeArea(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: ListView(
                   children: [
                     Column(
@@ -151,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           color: Colors.white,
                         ),
                         OButton(
-                          title: "Button 1 - Nunito bold 14 ",
+                          title: "Login Google - Nunito bold 14 ",
                           onPressed: () {
                             _handleSignIn();
                           },
@@ -164,6 +163,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
             ),
           ],
+        ),
+        bottomNavigationBar: Container(
+          color: Colors.transparent,
+          child: OButton(
+              title: "Keluar dari google sign in",
+              onPressed: () {
+                _handleSignOut();
+              }),
         ),
       );
     });

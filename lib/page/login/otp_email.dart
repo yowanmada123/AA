@@ -124,7 +124,9 @@ class _OtpEmailPageState extends State<OtpEmailPage> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        c.signUpEmail();
+                      },
                     ),
                   ],
                 )

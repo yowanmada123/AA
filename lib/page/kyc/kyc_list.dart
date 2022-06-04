@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/widget/checkbox.dart';
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -82,7 +84,7 @@ query {
   }
 }
 
-class ItemNama extends StatelessWidget {
+class ItemNama extends StatefulWidget {
   final UserRes item;
   const ItemNama({
     Key? key,
@@ -90,19 +92,39 @@ class ItemNama extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ItemNama> createState() => _ItemNamaState();
+}
+
+class _ItemNamaState extends State<ItemNama> {
+  bool isCheck = false;
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              // Text(item.id),
-              Text(item.email),
-            ],
+      child: Column(
+        children: [
+          OCheckBox(
+            text: "",
+            accept: isCheck,
+            fungsi: (val) {
+              setState(() {
+                isCheck = !isCheck;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text(item.id),
+                  Text(widget.item.email).titleText(),
+                  // Text(widget.item.id).informationText(),
+                ],
+              ),
+            ),
           ),
-        ),
+          Divider()
+        ],
       ),
     );
   }
