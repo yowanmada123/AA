@@ -27,11 +27,11 @@ class _ListProfilState extends State<ListProfil> {
               onPressed: () {
                 Get.to(KYCFormPage());
               }),
-          OButton(
-              title: "Edit Profil",
-              onPressed: () {
-                Get.to(KYCEditFormPage());
-              }),
+          // OButton(
+          //     title: "Edit Profil",
+          //     onPressed: () {
+          //       Get.to(KYCEditFormPage());
+          //     }),
           OButton(
               title: "List Profil",
               onPressed: () {

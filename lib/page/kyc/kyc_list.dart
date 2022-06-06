@@ -1,12 +1,13 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/widget/checkbox.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../graphql_base.dart';
-import '../../model/user/user.dart';
+import 'kyc_edit_form.dart';
 
 class KycList extends StatefulWidget {
   KycList({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class KycList extends StatefulWidget {
 
 class _KycListState extends State<KycList> {
   final loading = true.obs;
-  final listProfile = <UserRes>[].obs;
+  final listProfile = <Profile>[].obs;
 
   @override
   void initState() {
@@ -30,15 +31,20 @@ class _KycListState extends State<KycList> {
 query {
   profiles(filter: {}, paging: { limit: 10 }, sorting: []) {
     nodes {
+      identityNumber
+      identityType
       address
       createdAt
       dateOfBirth
+      placeOfBirth
       email
       fullname
       gender
       id
       phone
       updatedAt
+      identityPhoto
+      profilePhoto
     }
     pageInfo {
       hasNextPage
@@ -50,7 +56,7 @@ query {
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(q);
     var list = data!['profiles']['nodes'] as List;
-    List<UserRes> newData = list.map((i) => UserRes.fromJson(i)).toList();
+    List<Profile> newData = list.map((i) => Profile.fromMap(i)).toList();
     log(newData.length.toString());
     listProfile.value = newData;
     log(newData.toString());
@@ -85,7 +91,7 @@ query {
 }
 
 class ItemNama extends StatefulWidget {
-  final UserRes item;
+  final Profile item;
   const ItemNama({
     Key? key,
     required this.item,
@@ -103,25 +109,36 @@ class _ItemNamaState extends State<ItemNama> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          OCheckBox(
-            text: "",
-            accept: isCheck,
-            fungsi: (val) {
-              setState(() {
-                isCheck = !isCheck;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Text(item.id),
-                  Text(widget.item.email).titleText(),
-                  // Text(widget.item.id).informationText(),
-                ],
+          Row(
+            children: [
+              Expanded(
+                child: OCheckBox(
+                  text: "",
+                  accept: isCheck,
+                  fungsi: (val) {
+                    setState(() {
+                      isCheck = !isCheck;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(item.id),
+                        Text(widget.item.email).titleText(),
+                        // Text(widget.item.id).informationText(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
+              GestureDetector(
+                  onTap: () => Get.to(KYCEditFormPage(
+                        profile: widget.item,
+                      )),
+                  child: Icon(Icons.arrow_right))
+            ],
           ),
           Divider()
         ],

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form_controller.dart';
 import 'package:boilerplate_flutter/widget/alertx.dart';
@@ -21,8 +22,11 @@ import 'package:image_picker/image_picker.dart';
 import "package:http/http.dart" as HttpMultipartFile;
 import 'package:http_parser/http_parser.dart';
 
+import '../../widget/image_utils.dart';
+
 class KYCEditFormPage extends StatefulWidget {
-  const KYCEditFormPage({Key? key}) : super(key: key);
+  final Profile profile;
+  const KYCEditFormPage({Key? key, required this.profile}) : super(key: key);
 
   @override
   State<KYCEditFormPage> createState() => _KYCEditFormPageState();
@@ -58,6 +62,36 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
   String jenisIdentitas = "PASSPORT";
 
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    setData();
+  }
+
+  Future<void> setData() async {
+    identityNumberController.text = widget.profile.identityNumber;
+    nameController.text = widget.profile.fullname;
+    birthPlaceController.text = widget.profile.placeOfBirth;
+    emailController.text = widget.profile.email;
+    phoneNumberController.text = widget.profile.phone;
+    addressController.text = widget.profile.address;
+    jenisIdentitas = widget.profile.identityType;
+    genderController = widget.profile.gender;
+
+    File fileIdCardNew = await ImageUtils().getFileFromUrl(
+        'http://103.186.0.33:3000/uploads/identity/' +
+            widget.profile.identityPhoto,
+        'a.jpg');
+    File filePhotoNew = await ImageUtils().getFileFromUrl(
+        'http://103.186.0.33:3000/uploads/profile/' +
+            widget.profile.profilePhoto,
+        'b.jpg');
+    setState(() {
+      fileIdCard = fileIdCardNew;
+      filePhoto = filePhotoNew;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -455,7 +489,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
 
     var identityType = jenisIdentitas.toString();
     var gender = genderController;
-    var idEdit = gstate.idEdit;
+    var idEdit = widget.profile.id;
     String optionsPerson = '''
       mutation updateProfile(\$identityPhoto:ImageFile!,\$profilePhoto:ImageFile!) {
           updateProfile(
