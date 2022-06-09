@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
@@ -36,6 +37,11 @@ class _ListProfilState extends State<ListProfil> {
               title: "List Profil",
               onPressed: () {
                 Get.to(KycList());
+              }),
+          OButton(
+              title: "Booking",
+              onPressed: () {
+                Get.to(BookingListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(

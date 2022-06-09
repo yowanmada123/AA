@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 //
-const Color m3BaseColor = Color.fromARGB(255, 5, 4, 4);
+const Color m3BaseColor = Color.fromARGB(255, 255, 0, 0);
 // const Color m3BaseColor = Color.fromARGB(255, 60, 0, 255);
 
 class _MyAppState extends State<MyApp> {
@@ -57,6 +57,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             //TODO : AUTO THEME
             colorSchemeSeed: m3BaseColor,
+            // appBarTheme: AppBarTheme(backgroundColor: m3BaseColor),
             useMaterial3: true,
             //TODO : CUSTOM THEME
             // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
