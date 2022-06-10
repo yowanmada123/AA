@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form_controller.dart';
+import 'package:boilerplate_flutter/repository/orc_ktp_repo.dart';
 import 'package:boilerplate_flutter/widget/alertx.dart';
 import 'package:boilerplate_flutter/widget/base_camera.dart';
 import 'package:boilerplate_flutter/widget/button_bar.dart';
@@ -20,6 +21,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import "package:http/http.dart" as HttpMultipartFile;
 import 'package:http_parser/http_parser.dart';
+
+import '../../model/ocr_res.dart';
 
 class KYCFormPage extends StatefulWidget {
   const KYCFormPage({Key? key}) : super(key: key);
@@ -166,6 +169,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                               setState(() {
                                                 fileIdCard = file;
                                               });
+                                              ocr(file);
                                             }
                                           },
                                           child: Padding(
@@ -186,6 +190,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                               setState(() {
                                                 fileIdCard = File(image.path);
                                               });
+                                              ocr(fileIdCard!);
                                             }
                                           },
                                           child: Padding(
@@ -435,6 +440,20 @@ class _KYCFormPageState extends State<KYCFormPage> {
         ),
       ),
     );
+  }
+
+  ocr(File file) async {
+    OcrRes? ocr = await OcrService().ktp(file);
+    if (ocr != null) {
+      setState(() {
+        nameController.text = ocr.name;
+        birthPlaceController.text = ocr.birthPlace;
+        addressController.text = ocr.address;
+        identityNumberController.text = ocr.identityNumber;
+        // birthDateController = DateTime.tryParse(ocr.birthDate)!;
+      });
+      log('ocr');
+    }
   }
 
   Future<void> SaveData() async {

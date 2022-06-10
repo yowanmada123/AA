@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/main.dart';
+import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/widget/appbar.dart';
 import 'package:boilerplate_flutter/widget/base_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class BookingListPage extends StatefulWidget {
   const BookingListPage({Key? key}) : super(key: key);
@@ -63,6 +65,7 @@ class _BookingListPageState extends State<BookingListPage> {
                       .informationText(),
                   Expanded(child: Container()),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -74,13 +77,18 @@ class _BookingListPageState extends State<BookingListPage> {
                       ),
                     ],
                   ),
-                  Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
+                  // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
                 ],
               ),
             )),
-            Image.asset(
-              "assets/sample/image_side.png",
-              fit: BoxFit.fill,
+            GestureDetector(
+              onTap: () {
+                Get.to(BookingInfo());
+              },
+              child: Image.asset(
+                "assets/sample/image_side.png",
+                fit: BoxFit.fill,
+              ),
             )
           ],
         ),
