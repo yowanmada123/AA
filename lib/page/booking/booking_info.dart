@@ -1,4 +1,6 @@
+import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../widget/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
@@ -64,7 +66,11 @@ class _BookingInfoState extends State<BookingInfo>
               ],
             ),
           ),
-          OButtonBar(title: "BOOK NOW", onPressed: () {})
+          OButtonBar(
+              title: "BOOK NOW",
+              onPressed: () {
+                Get.to(BookingDate());
+              })
           // TabBar(tabs: [
           //   Tab(
           //     text: 'About',
@@ -97,9 +103,21 @@ class OpeningHour extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text('Mon'),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+                child: Text(
+              'Mon',
+              style: TextStyle(color: Colors.white),
+            )),
+          ),
           Text('08.00 - 09.00'),
         ],
       ),
