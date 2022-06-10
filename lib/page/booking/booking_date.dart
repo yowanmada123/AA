@@ -1,3 +1,5 @@
+import 'package:boilerplate_flutter/page/payment/payment_option.dart';
+import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -54,6 +56,8 @@ class _BookingDateState extends State<BookingDate> {
           title: "BOOK NOW",
           onPressed: () {
             // Get.to(BookingDate());
+            bottomSheetWidget(
+                heightFactor: 0.9, context: context, child: PaymentOption());
           }),
     );
   }
