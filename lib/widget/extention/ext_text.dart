@@ -6,6 +6,8 @@ extension TextExtension on Text {
       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700));
   Text pageTitleText() => copyWith(
       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700));
+  Text regularBigText() => copyWith(
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400));
   Text fieldTitleText() => copyWith(
       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700));
   Text descriptionText() => copyWith(
@@ -21,6 +23,7 @@ extension TextExtension on Text {
   Text white() => copyWith(style: const TextStyle(color: Colors.white));
   Text black() => copyWith(style: const TextStyle(color: Colors.black));
   Text red() => copyWith(style: const TextStyle(color: Colors.red));
+  Text brown() => copyWith(style: const TextStyle(color: Colors.brown));
 
   Text copyWith(
       {Key? key,
