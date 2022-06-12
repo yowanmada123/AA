@@ -1,8 +1,10 @@
 import 'package:boilerplate_flutter/main.dart';
 import 'package:boilerplate_flutter/page/booking/booking_info.dart';
+import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/appbar.dart';
 import 'package:boilerplate_flutter/widget/base_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
+import 'package:boilerplate_flutter/widget/list_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,13 +23,44 @@ class _BookingListPageState extends State<BookingListPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Page Title - Nunito Bold 14",
-      body: ListView(
+      body: Column(
         children: [
-          item(),
-          item(),
-          item(),
-          item(),
-          item(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: OFilterList(
+                      title: "Top Navigation Button",
+                      icon: "assets/ic/ic_filter.svg",
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: OFilterList(
+                      title: "Nunito Bold 12 ",
+                      icon: "assets/ic/ic_sort.svg",
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: OFilterList(
+                      title: "Top Navigation Button",
+                      icon: "assets/ic/ic_nav.svg",
+                    )),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                item(),
+                item(),
+                item(),
+                item(),
+                item(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -61,7 +94,7 @@ class _BookingListPageState extends State<BookingListPage> {
                         TextStyle(color: Theme.of(context).colorScheme.primary),
                   ).titleText(),
                   Text("Information Text - Nunito Regular 12",
-                          style: TextStyle(color: Color(0xffB4A9A7)))
+                          style: TextStyle(color: OColorBrown))
                       .informationText(),
                   Expanded(child: Container()),
                   Row(
