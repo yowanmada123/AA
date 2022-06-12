@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>369613695680-875v8mom9l8abg21i8g38kles3esvf6l.apps.googleusercontent.com</string>
+	<string>369613695680-c3a9t18pq0nm75j25tdm8uep0fgnp823.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.369613695680-875v8mom9l8abg21i8g38kles3esvf6l</string>
+	<string>com.googleusercontent.apps.369613695680-c3a9t18pq0nm75j25tdm8uep0fgnp823</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>369613695680-43ro70o7d8diakmdakpjot8bpprrpkbe.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.boilerplateflutteriOS</string>
+	<string>com.farma.boilerplateflutter</string>
 	<key>PROJECT_ID</key>
 	<string>uploadstorageandroid</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:369613695680:ios:a8df642db31dfcd77cdb25</string>
+	<string>1:369613695680:ios:f055175342ef0fca7cdb25</string>
 	<key>DATABASE_URL</key>
 	<string>https://uploadstorageandroid.firebaseio.com</string>
 </dict>
