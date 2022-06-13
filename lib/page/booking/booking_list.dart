@@ -32,20 +32,27 @@ class _BookingListPageState extends State<BookingListPage> {
                 Expanded(
                     flex: 1,
                     child: OFilterList(
-                      title: "Top Navigation Button",
+                      title: "Filter",
+                      // "Top Navigation Button",
                       icon: "assets/ic/ic_filter.svg",
-                    )),
+                      // onPressed: ,
+                    ),
+                ),
                 Expanded(
                     flex: 1,
                     child: OFilterList(
-                      title: "Nunito Bold 12 ",
+                      title: "Sort By",
+                      // "Nunito Bold 12 ",
                       icon: "assets/ic/ic_sort.svg",
+                      // onPressed: ,
                     )),
                 Expanded(
                     flex: 1,
                     child: OFilterList(
-                      title: "Top Navigation Button",
+                      title: "Maps", 
+                      // "Top Navigation Button",
                       icon: "assets/ic/ic_nav.svg",
+                      // onPressed: ,
                     )),
               ],
             ),
