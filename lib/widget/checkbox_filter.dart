@@ -18,19 +18,19 @@ class FCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Checkbox(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0))),
             checkColor: Theme.of(context).colorScheme.onPrimary,
             activeColor: Theme.of(context).colorScheme.primary,
-          value: accept,
-          onChanged:fungsi
-        ),
-        Text(text, style:
-          TextStyle(color: Theme.of(context).colorScheme.primary),
+            value: accept,
+            onChanged: fungsi),
+        Text(
+          text,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
         ).titleText(),
       ],
     );

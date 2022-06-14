@@ -189,7 +189,6 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
   final List<Item> _data = generateItems(8);
   Widget _buildPanel() {
     return ExpansionPanelList(
-      
       expansionCallback: (int index, bool isExpanded) {
         setState(() {
           _data[index].isExpanded = !isExpanded;

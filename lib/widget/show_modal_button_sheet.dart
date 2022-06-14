@@ -7,10 +7,6 @@ class ShowModalButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return 
-    
-    throw UnimplementedError();
+    return throw UnimplementedError();
   }
-
 }
-

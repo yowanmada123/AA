@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/main.dart';
+import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/booking/booking_info.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/appbar.dart';
 import 'package:boilerplate_flutter/widget/base_scaffold.dart';
@@ -19,6 +24,47 @@ class BookingListPage extends StatefulWidget {
 }
 
 class _BookingListPageState extends State<BookingListPage> {
+  final loading = true.obs;
+  final listPlace = <Place>[].obs;
+  getData() async {
+    String options = '''
+      query {
+        places(filter: {}, paging: { limit: 100 }, sorting: []) {
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+          nodes {
+            address
+            city
+            id
+            images
+            latitude
+            longitude
+            name
+          }
+        }
+      }
+    ''';
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['places']['nodes'] as List;
+    List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
+    log(newData.length.toString());
+    listPlace.value = newData;
+    log(newData.toString());
+    log(listPlace.length.toString());
+    loading.value = false;
+  }
+
+  final gstate = Get.find<GlobalController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return OScaffold(
@@ -30,13 +76,13 @@ class _BookingListPageState extends State<BookingListPage> {
             child: Row(
               children: [
                 Expanded(
-                    flex: 1,
-                    child: OFilterList(
-                      title: "Filter",
-                      // "Top Navigation Button",
-                      icon: "assets/ic/ic_filter.svg",
-                      // onPressed: ,
-                    ),
+                  flex: 1,
+                  child: OFilterList(
+                    title: "Filter",
+                    // "Top Navigation Button",
+                    icon: "assets/ic/ic_filter.svg",
+                    // onPressed: ,
+                  ),
                 ),
                 Expanded(
                     flex: 1,
@@ -49,7 +95,7 @@ class _BookingListPageState extends State<BookingListPage> {
                 Expanded(
                     flex: 1,
                     child: OFilterList(
-                      title: "Maps", 
+                      title: "Maps",
                       // "Top Navigation Button",
                       icon: "assets/ic/ic_nav.svg",
                       // onPressed: ,
@@ -58,31 +104,46 @@ class _BookingListPageState extends State<BookingListPage> {
             ),
           ),
           Expanded(
-            child: ListView(
-              children: [
-                item(),
-                item(),
-                item(),
-                item(),
-                item(),
-              ],
+            child: Obx(
+              () => Container(
+                child: (loading.value)
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        itemCount: listPlace.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ItemPlace(
+                            item: listPlace[index],
+                            state: gstate,
+                            // onTap: () {
+                            //   // Get.to(ListHealtPage());
+                            // },
+                          );
+                        }),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  item() {
+class ItemPlace extends StatelessWidget {
+  final Place item;
+  final GlobalController state;
+  const ItemPlace({Key? key, required this.item, required this.state})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 150,
         decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(
-              color: Colors.white,
-            ),
             borderRadius: const BorderRadius.all(
               Radius.circular(9),
             )),
@@ -96,12 +157,11 @@ class _BookingListPageState extends State<BookingListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Object Title - Nunito Bold 14",
+                    item.name,
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary),
                   ).titleText(),
-                  Text("Information Text - Nunito Regular 12",
-                          style: TextStyle(color: OColorBrown))
+                  Text(item.city, style: TextStyle(color: OColorBrown))
                       .informationText(),
                   Expanded(child: Container()),
                   Row(
@@ -112,8 +172,7 @@ class _BookingListPageState extends State<BookingListPage> {
                         child: SvgPicture.asset("assets/ic/ic_location.svg"),
                       ),
                       Expanded(
-                        child: Text("Information Text - Nunito Regular 12")
-                            .informationText(),
+                        child: Text(item.address).informationText(),
                       ),
                     ],
                   ),
@@ -125,9 +184,15 @@ class _BookingListPageState extends State<BookingListPage> {
               onTap: () {
                 Get.to(BookingInfo());
               },
-              child: Image.asset(
-                "assets/sample/image_side.png",
-                fit: BoxFit.fill,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(9),
+                  bottomRight: Radius.circular(9),
+                ),
+                child: Image.network(
+                  state.baseFile + item.images.replaceAll("\"", ""),
+                  fit: BoxFit.fill,
+                ),
               ),
             )
           ],
