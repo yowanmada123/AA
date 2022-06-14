@@ -24,10 +24,16 @@ class _BookingDateState extends State<BookingDate> {
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: DateTime.now(),
+            headerVisible: true,
+            headerStyle:         
+            const HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true
+            ),          
           ),
-          Divider(),
+          const Divider(),
           Column(
-            children: [
+            children: const [
               BookingTimeButton(
                 title: 'Booked',
                 isBooked: true,
