@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class GlobalController extends GetxController {
   String baseUrl = 'http://103.186.0.33:3000/graphql';
+  String baseFile = 'http://103.186.0.33:3000/uploads/place/';
   String token = '';
   String username = '';
   String profileImage = '';
@@ -19,7 +20,7 @@ class GlobalController extends GetxController {
   double widthFactor = 1;
   double maxWidth = double.infinity;
   double minWidth = 100;
-  
+
   String addres = "";
 
   final box = GetStorage();
@@ -42,7 +43,6 @@ class GlobalController extends GetxController {
       maxWidth = 600;
       minWidth = 350;
       widthFactor = 0.4;
-      
     }
   }
 
