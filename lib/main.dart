@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
+import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';

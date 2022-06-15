@@ -1,13 +1,9 @@
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
+import 'package:boilerplate_flutter/widget/radio_filter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'checkbox.dart';
 import 'checkbox_filter.dart';
-import 'dropdown.dart';
 import 'dropdown_filter.dart';
 
 class OFilterList extends StatefulWidget {
@@ -28,7 +24,7 @@ class _OFilterListState extends State<OFilterList> {
 
   String dropdownValue = "Jakarta";
   bool accept = false;
-
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -72,7 +68,7 @@ class _OFilterListState extends State<OFilterList> {
           ),
         ),
       ),
-    );
+    ); 
   }
 
   Future<dynamic> ShowFilter(BuildContext context) {
@@ -247,7 +243,12 @@ class _OFilterListState extends State<OFilterList> {
     );
   }
 
-  Future<dynamic> SortBy(BuildContext context) {
+  Future<dynamic> SortBy(BuildContext context) {  
+    String? _groupValue;
+  
+    ValueChanged<String?> _valueChangedHandler() {
+      return (value) => setState(() => _groupValue = value!);
+    }
     return showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -256,75 +257,79 @@ class _OFilterListState extends State<OFilterList> {
           top: Radius.circular(25.0),
         ),
       ),
-      builder: (context) {
-        return Container(
-            height: 0.46 * MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset("assets/ic/ic_close.svg"),
-                        const Text(
-                          "Filter",
-                          style: TextStyle(color: Color(0xff19204E)),
-                        ).pageTitleText(),
-                        SvgPicture.asset("assets/ic/ic_tick.svg"),
+        
+            builder: (context){
+              return Container( 
+               height: 0.38 * MediaQuery.of(context).size.height,
+               child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                         GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: SvgPicture.asset("assets/ic/ic_close.svg")),
+                      const Text("Sort By", style: TextStyle(color: Color(0xff19204E)),).pageTitleText(),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: SvgPicture.asset("assets/ic/ic_tick.svg")),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 47
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:37.0),
+                      child: Column(children: [
+                        MyRadioOption<String>(
+                          value: 'A',
+                          groupValue: _groupValue,
+                          onChanged: _valueChangedHandler(),
+                          label: 'A',
+                          text: 'POPULARITY',
+                        ),
+                        MyRadioOption<String>(
+                          value: 'B',
+                          groupValue: _groupValue,
+                          onChanged: _valueChangedHandler(),
+                          label: 'B',
+                          text: 'CLOSEST DISTANCE',
+                        ),
+                        MyRadioOption<String>(
+                          value: 'C',
+                          groupValue: _groupValue,
+                          onChanged: _valueChangedHandler(),
+                          label: 'C',
+                          text: 'PRICE: HIGH TO LOW',
+                        ),
+                        MyRadioOption<String>(
+                          value: 'D',
+                          groupValue: _groupValue,
+                          onChanged: _valueChangedHandler(),
+                          label: 'D',
+                          text: 'PRICE: LOW TO HIGH',
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "LOCATION",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        FDropdown(
-                          itemDropdown: itemDropdown,
-                          dropdownValue: dropdownValue,
-                          onChanged: (val) {
-                            setState(() {
-                              dropdownValue = val;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 35),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "PRICE RANGE",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ));
-      },
-    );
+                    
+                  ],
+                 ),
+               )
+              );
+            },
+        );
   }
 }

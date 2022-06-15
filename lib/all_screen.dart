@@ -44,33 +44,33 @@ class _AllScreenState extends State<AllScreen> {
           children: [
             InkWell(
               onTap: () {
-                Get.to(OnboardingPage());
+                Get.to(const OnboardingPage());
               },
-              child: Text("Masuk ke Onboarding",
+              child: const Text("Masuk ke Onboarding",
                       style: TextStyle(color: Colors.blueAccent))
                   .titleText(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             InkWell(
               onTap: () {
-                Get.to(ChangePasswordPage());
+                Get.to(const ChangePasswordPage());
               },
-              child: Text("Ganti Password",
+              child: const Text("Ganti Password",
                       style: TextStyle(color: Colors.blueAccent))
                   .titleText(),
             ),
-            Divider(),
+            const Divider(),
             Text("Form :",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
                 .titleText(),
-            OFormText(
+            const OFormText(
               title: "Nama",
               // hintText: " Form",
             ),
-            OFormText(title: "Alamat", maxLines: 4, formType: FormType.multiLine
+            const OFormText(title: "Alamat", maxLines: 4, formType: FormType.multiLine
                 // hintText: " Form",
                 ),
             OdatePickerAndroid(
@@ -81,7 +81,7 @@ class _AllScreenState extends State<AllScreen> {
               title: "Tanggal Lahir iOS",
               date: selectedDate,
             ),
-            Divider(),
+            const Divider(),
             Text("Color :",
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary))
@@ -176,6 +176,7 @@ class _AllScreenState extends State<AllScreen> {
               groupValue: _isRadioSelected,
               onChanged: (bool newValue) {
                 setState(() {
+                  accept = !accept;
                   _isRadioSelected = newValue;
                 });
               },
@@ -191,6 +192,7 @@ class _AllScreenState extends State<AllScreen> {
                 });
               },
             ),
+           
             Divider(),
             ODropdown(
               title: "Dropdown",
