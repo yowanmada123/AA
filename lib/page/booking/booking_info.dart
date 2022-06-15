@@ -2,11 +2,13 @@ import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../../model/place/place_res.dart';
 import '../../widget/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {
-  const BookingInfo({Key? key}) : super(key: key);
+  final Place item;
+  const BookingInfo({Key? key, required this.item}) : super(key: key);
 
   @override
   State<BookingInfo> createState() => _BookingInfoState();
@@ -30,7 +32,8 @@ class _BookingInfoState extends State<BookingInfo>
           CustomScrollView(
             slivers: [
               SliverPersistentHeader(
-                delegate: MySliverAppBar(expandedHeight: 300),
+                delegate: MySliverAppBar(
+                    image: widget.item.getImageUrl(), expandedHeight: 300),
                 pinned: true,
               ),
               SliverList(
@@ -47,15 +50,13 @@ class _BookingInfoState extends State<BookingInfo>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text('Lapangan Tenis Senayan')
-                                            .titleText(),
+                                        Text(widget.item.name).titleText(),
                                         Text('0,1 Km')
                                       ],
                                     ),
                                     Text('Jakarta, Indonesia'),
                                     const SizedBox(height: 20),
-                                    Text(
-                                        'Kompleks Gelora Bung Karno Unit 4 (Jalan Asia Afrika) Jakarta, DKI Jakarta 10270, Indonesia'),
+                                    Text(widget.item.address),
                                   ],
                                 ),
                               ),
@@ -79,8 +80,7 @@ class _BookingInfoState extends State<BookingInfo>
                                       },
                                       tabs: [
                                         Tab(
-                                          text:
-                                              "Page Subtitle - Nunito Bold 12",
+                                          text: "About",
 
                                           // child:
                                           //     Text("Page Subtitle - Nunito Bold 12")
@@ -88,8 +88,7 @@ class _BookingInfoState extends State<BookingInfo>
                                           //         .black(),
                                         ),
                                         Tab(
-                                          text:
-                                              "Page Subtitle - Nunito Bold 12",
+                                          text: "Opening Hours",
                                           // child:
                                           //     Text("Page Subtitle - Nunito Bold 12")
                                           //         .fieldTitleText()
@@ -176,9 +175,13 @@ class _BookingInfoState extends State<BookingInfo>
 }
 
 class MySliverAppBar extends SliverPersistentHeaderDelegate {
+  final String image;
   final double expandedHeight;
 
-  MySliverAppBar({required this.expandedHeight});
+  MySliverAppBar({
+    required this.expandedHeight,
+    required this.image,
+  });
 
   @override
   Widget build(
@@ -187,8 +190,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       // overflow: Overflow.visible,
       children: [
-        Image.asset(
-          "assets/sample/image_main.png",
+        Image.network(
+          image,
           width: double.infinity,
           height: 100,
           fit: BoxFit.cover,

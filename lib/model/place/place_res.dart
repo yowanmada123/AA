@@ -25,13 +25,13 @@ class Place {
   }
 
   factory Place.fromMap(Map<String, dynamic> data) => Place(
-        address: data['address']  ?? '',
-        city: data['city']  ?? '',
-        id: data['id']  ?? '',
-        images: data['images']  ?? '',
-        latitude: data['latitude']  ?? '',
-        longitude: data['longitude']  ?? '',
-        name: data['name']  ?? '',
+        address: data['address'] ?? '',
+        city: data['city'] ?? '',
+        id: data['id'] ?? '',
+        images: data['images'] ?? '',
+        latitude: data['latitude'] ?? '',
+        longitude: data['longitude'] ?? '',
+        name: data['name'] ?? '',
       );
 
   Map<String, dynamic> toMap() => {
@@ -43,6 +43,10 @@ class Place {
         'longitude': longitude,
         'name': name,
       };
+
+  getImageUrl() {
+    return "http://103.186.0.33:3000/uploads/place/$images";
+  }
 
   /// `dart:convert`
   ///

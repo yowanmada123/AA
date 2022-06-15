@@ -182,7 +182,9 @@ class ItemPlace extends StatelessWidget {
             )),
             GestureDetector(
               onTap: () {
-                Get.to(BookingInfo());
+                Get.to(BookingInfo(
+                  item: item,
+                ));
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
