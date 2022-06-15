@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/product/product.dart';
+import 'package:boilerplate_flutter/model/product/schedule.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,9 +23,57 @@ class _BookingInfoState extends State<BookingInfo>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  final loading = true.obs;
+  final selectProduct = 0.obs;
+  final listProduct = <Product>[].obs;
+  final listSchedule = <Schedule>[].obs;
+  getData() async {
+    String options = '''
+      # Write your query or mutation here
+        query {
+          products(filter: {}, paging: { limit: 20 }, sorting: []) {
+            pageInfo {
+              hasNextPage
+              hasPreviousPage
+            }
+            nodes {
+              createdAt
+              description
+              id
+              location
+              name
+              price
+              schedules {
+                dayname
+                endTime
+                id
+                startTime
+                timePerSession
+              }
+              updatedAt
+            }
+          }
+        }
+
+    ''';
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['products']['nodes'] as List;
+    List<Product> newData = list.map((i) => Product.fromMap(i)).toList();
+    log(newData.length.toString());
+    listProduct.value = newData;
+    if (newData.isNotEmpty) {
+      listSchedule.value = listProduct.first.schedules ?? [];
+    }
+
+    log(newData.toString());
+    log(listProduct.length.toString());
+    loading.value = false;
+  }
+
   @override
   void initState() {
     super.initState();
+    getData();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -113,15 +166,89 @@ class _BookingInfoState extends State<BookingInfo>
                                               ItemInfo(),
                                             ],
                                           ),
-                                          ListView(
+                                          Column(
                                             children: [
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
+                                              Obx(
+                                                () => Container(
+                                                  child: (loading.value)
+                                                      ? Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        )
+                                                      : Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            height: 35,
+                                                            child: ListView
+                                                                .builder(
+                                                                    // shrinkWrap:
+                                                                    //     true,
+                                                                    scrollDirection:
+                                                                        Axis
+                                                                            .horizontal,
+                                                                    itemCount:
+                                                                        listProduct
+                                                                            .length,
+                                                                    itemBuilder:
+                                                                        (BuildContext
+                                                                                context,
+                                                                            int index) {
+                                                                      return Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left:
+                                                                                8,
+                                                                            right:
+                                                                                12),
+                                                                        child:
+                                                                            InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            listSchedule.value =
+                                                                                listProduct[index].schedules!;
+                                                                            selectProduct.value =
+                                                                                index;
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Colors.blue,
+                                                                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                                            ),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                                                                              child: Center(
+                                                                                child: Text(listProduct[index].name ?? "").fieldTitleText().white(),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }),
+                                                          ),
+                                                        ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  height: 200,
+                                                  child: Obx(
+                                                    () => ListView.builder(
+                                                        itemCount:
+                                                            listSchedule.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          return OpeningHour(
+                                                            schedule:
+                                                                listSchedule[
+                                                                    index],
+                                                          );
+                                                        }),
+                                                  )),
                                             ],
                                           )
                                         ],
@@ -251,31 +378,33 @@ class ItemInfo extends StatelessWidget {
 }
 
 class OpeningHour extends StatelessWidget {
+  final Schedule schedule;
   const OpeningHour({
     Key? key,
+    required this.schedule,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            width: 40,
-            height: 40,
+            // width: 40,
+            height: 70,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               shape: BoxShape.circle,
             ),
             child: Center(
                 child: Text(
-              'Mon',
+              schedule.dayname ?? "",
               style: TextStyle(color: Colors.white),
             )),
           ),
-          Text('08.00 - 09.00'),
+          Text('${schedule.startTime} - ${schedule.endTime}'),
         ],
       ),
     );
