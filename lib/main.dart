@@ -2,6 +2,7 @@ import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,7 +69,9 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
           ),
-          home: const AllScreen(),
+          home: 
+          const ChoseLocation(isFrom: 'Haha',)
+          // const AllScreen(),
         ));
   }
 }
