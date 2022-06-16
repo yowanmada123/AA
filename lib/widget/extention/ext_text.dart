@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:boilerplate_flutter/utils/colors.dart';
 
 extension TextExtension on Text {
   Text gray() => copyWith(style: const TextStyle(color: Color(0xff99A4AB)));
@@ -24,6 +25,13 @@ extension TextExtension on Text {
   Text black() => copyWith(style: const TextStyle(color: Colors.black));
   Text red() => copyWith(style: const TextStyle(color: Colors.red));
   Text brown() => copyWith(style: const TextStyle(color: Colors.brown));
+  Text title() => copyWith(
+          style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ));
+  Text formTitle() =>
+      copyWith(style: const TextStyle(color: Color(textPrimaryDarkColor)));
 
   Text copyWith(
       {Key? key,

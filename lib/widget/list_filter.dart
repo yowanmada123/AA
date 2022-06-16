@@ -1,8 +1,10 @@
+import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/radio_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'checkbox_filter.dart';
 import 'dropdown_filter.dart';
 
@@ -36,7 +38,9 @@ class _OFilterListState extends State<OFilterList> {
               ShowFilter(context);
             } else if (widget.title == "Sort By") {
               SortBy(context);
-            } else {}
+            } else {
+              Get.to(const ChoseLocation(isFrom: 'Haha',));
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -245,10 +249,11 @@ class _OFilterListState extends State<OFilterList> {
 
   Future<dynamic> SortBy(BuildContext context) {  
     String? _groupValue;
-  
-    ValueChanged<String?> _valueChangedHandler() {
-      return (value) => setState(() => _groupValue = value!);
-    }
+    
+    // void _valueChangedHandler(String value) {
+    //   setState(() => _groupValue = value);
+    // }
+
     return showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -257,7 +262,6 @@ class _OFilterListState extends State<OFilterList> {
           top: Radius.circular(25.0),
         ),
       ),
-        
             builder: (context){
               return Container( 
                height: 0.38 * MediaQuery.of(context).size.height,
@@ -296,28 +300,44 @@ class _OFilterListState extends State<OFilterList> {
                         MyRadioOption<String>(
                           value: 'A',
                           groupValue: _groupValue,
-                          onChanged: _valueChangedHandler(),
+                          onChanged: (value){
+                            setState(() {
+                              _groupValue=value;
+                            });
+                          },
                           label: 'A',
-                          text: 'POPULARITY',
+                          text: 'POPULARITY',                      
                         ),
                         MyRadioOption<String>(
                           value: 'B',
                           groupValue: _groupValue,
-                          onChanged: _valueChangedHandler(),
+                          onChanged: (value){
+                            setState(() {
+                              _groupValue=value;
+                            });
+                          },
                           label: 'B',
                           text: 'CLOSEST DISTANCE',
                         ),
                         MyRadioOption<String>(
                           value: 'C',
                           groupValue: _groupValue,
-                          onChanged: _valueChangedHandler(),
+                          onChanged: (value){
+                            setState(() {
+                              _groupValue=value;
+                            });
+                          },
                           label: 'C',
                           text: 'PRICE: HIGH TO LOW',
                         ),
                         MyRadioOption<String>(
                           value: 'D',
                           groupValue: _groupValue,
-                          onChanged: _valueChangedHandler(),
+                          onChanged: (value){
+                            setState(() {
+                              _groupValue=value;
+                            });
+                          },
                           label: 'D',
                           text: 'PRICE: LOW TO HIGH',
                         ),

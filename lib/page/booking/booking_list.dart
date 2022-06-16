@@ -137,9 +137,9 @@ class ItemPlace extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 150,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.all(
+            borderRadius: BorderRadius.all(
               Radius.circular(9),
             )),
         child: Row(
@@ -182,7 +182,7 @@ class ItemPlace extends StatelessWidget {
                 ));
               },
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(9),
                   bottomRight: Radius.circular(9),
                 ),
