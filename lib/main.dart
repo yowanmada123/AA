@@ -69,9 +69,9 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
           ),
-          home: 
-          const ChoseLocation(isFrom: 'Haha',)
-          // const AllScreen(),
+          home:
+              // const ChoseLocation(isFrom: 'Haha',)
+              const AllScreen(),
         ));
   }
 }
