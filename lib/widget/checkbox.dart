@@ -8,13 +8,7 @@ class OCheckBox extends StatelessWidget {
   final bool accept;
   final String text;
   Widget? child;
-  OCheckBox(
-      {Key? key,
-      required this.fungsi,
-      required this.accept,
-      required this.text,
-      this.child})
-      : super(key: key);
+  OCheckBox({Key? key, required this.fungsi, required this.accept, required this.text, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +20,9 @@ class OCheckBox extends StatelessWidget {
             ? child
             : Text(
                 text,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
               ).regularText(),
         value: accept,
         onChanged: fungsi);

@@ -5,8 +5,9 @@ import 'extention/ext_date.dart';
 class OdatePickerAndroid extends StatefulWidget {
   final String title;
   DateTime? date;
-  OdatePickerAndroid({Key? key, required this.title, required this.date})
-      : super(key: key);
+  final Function(DateTime) onChanged;
+
+  OdatePickerAndroid({Key? key, required this.title, required this.date, required this.onChanged}) : super(key: key);
 
   @override
   State<OdatePickerAndroid> createState() => _OdatePickerAndroidState();
@@ -52,10 +53,13 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
                       }
                       return null;
                     },
-                    controller: TextEditingController(
-                        text: widget.date?.toDateHuman() ?? ''),
+                    controller: TextEditingController(text: widget.date?.toDateHuman() ?? ''),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                     decoration: InputDecoration(
                       // border: InputBorder.none,
+
                       hintText: 'Masukkan ${widget.title.capitalizeText()}',
                     ),
                   ),
@@ -73,15 +77,12 @@ class _OdatePickerAndroidState extends State<OdatePickerAndroid> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: widget.date ?? DateTime.now(),
-        firstDate: DateTime(1980, 8),
-        lastDate: DateTime(2101));
+    final DateTime? picked = await showDatePicker(context: context, initialDate: widget.date ?? DateTime.now(), firstDate: DateTime(1980, 8), lastDate: DateTime(2101));
     if (picked != null && picked != widget.date) {
       setState(() {
         widget.date = picked;
       });
+      widget.onChanged(picked);
     }
   }
 }

@@ -27,10 +27,7 @@ class _ODropdownState extends State<ODropdown> {
       children: [
         Text(
           widget.title,
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).colorScheme.primary),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -39,7 +36,9 @@ class _ODropdownState extends State<ODropdown> {
             value: widget.dropdownValue,
             icon: const Icon(Icons.keyboard_arrow_down_outlined),
             elevation: 16,
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
             underline: Container(
               height: 2,
               color: Theme.of(context).colorScheme.primary,
@@ -47,8 +46,7 @@ class _ODropdownState extends State<ODropdown> {
             onChanged: (String? newValue) {
               widget.onChanged(newValue!);
             },
-            items: widget.itemDropdown
-                .map<DropdownMenuItem<String>>((String value) {
+            items: widget.itemDropdown.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),

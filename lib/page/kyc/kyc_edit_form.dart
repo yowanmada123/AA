@@ -79,14 +79,8 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
     jenisIdentitas = widget.profile.identityType;
     genderController = widget.profile.gender;
 
-    File fileIdCardNew = await ImageUtils().getFileFromUrl(
-        'http://103.186.0.33:3000/uploads/identity/' +
-            widget.profile.identityPhoto,
-        'a.jpg');
-    File filePhotoNew = await ImageUtils().getFileFromUrl(
-        'http://103.186.0.33:3000/uploads/profile/' +
-            widget.profile.profilePhoto,
-        'b.jpg');
+    File fileIdCardNew = await ImageUtils().getFileFromUrl('http://103.186.0.33:3000/uploads/identity/' + widget.profile.identityPhoto, 'a.jpg');
+    File filePhotoNew = await ImageUtils().getFileFromUrl('http://103.186.0.33:3000/uploads/profile/' + widget.profile.profilePhoto, 'b.jpg');
     setState(() {
       fileIdCard = fileIdCardNew;
       filePhoto = filePhotoNew;
@@ -111,8 +105,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                   SizedBox(
                     height: 12,
                   ),
-                  Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas")
-                      .descriptionText(),
+                  Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas").descriptionText(),
                   SizedBox(
                     height: 6,
                   ),
@@ -154,8 +147,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                   //         );
                   //       },
                   //     )),
-                  Text("Upload foto identitas beserta foto diri harus terlihat jelas")
-                      .descriptionText(),
+                  Text("Upload foto identitas beserta foto diri harus terlihat jelas").descriptionText(),
                   SizedBox(
                     height: 20,
                   ),
@@ -186,16 +178,13 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                                     height: 80,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(() =>
-                                                CameraOverlay('identitas'));
+                                            File? file = await Get.to(() => CameraOverlay('identitas'));
                                             if (file != null) {
                                               setState(() {
                                                 fileIdCard = file;
@@ -212,10 +201,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
+                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
                                             if (image != null) {
                                               setState(() {
                                                 fileIdCard = File(image.path);
@@ -251,16 +237,13 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                                     height: 80,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(
-                                                () => CameraOverlay('profil'));
+                                            File? file = await Get.to(() => CameraOverlay('profil'));
                                             if (file != null) {
                                               setState(() {
                                                 filePhoto = file;
@@ -277,10 +260,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
+                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
                                             if (image != null) {
                                               setState(() {
                                                 filePhoto = File(image.path);
@@ -315,7 +295,12 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                     controller: birthPlaceController,
                   ),
                   OdatePickerAndroid(
-                      title: "TANGGAL LAHIR", date: birthDateController),
+                    title: "TANGGAL LAHIR",
+                    date: birthDateController,
+                    onChanged: (val) {
+                      birthDateController = val;
+                    },
+                  ),
                   // BasePilihField(
                   //   title: "Tanggal Lahir",
                   //   isi: birthDateControllerDisplay,
@@ -341,10 +326,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                   ),
                   Text(
                     "JENIS KELAMIN",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).colorScheme.primary),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
                   ),
                   Row(
                     children: [
@@ -360,9 +342,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                             child: Container(
                               decoration: BoxDecoration(
                                   // color: Color(blueLight),
-                                  color: (genderController == "L")
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.onPrimary,
+                                  color: (genderController == "L") ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
                                     color: Colors.grey, // red as border color
                                   ),
@@ -397,9 +377,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: (genderController == "P")
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.onPrimary,
+                                  color: (genderController == "P") ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
                                     color: Colors.grey, // red as border color
                                   ),
@@ -491,7 +469,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
     var gender = genderController;
     var idEdit = widget.profile.id;
     String optionsPerson = '''
-      mutation updateProfile(\$identityPhoto:ImageFile!,\$profilePhoto:ImageFile!) {
+      mutation updateProfile(\$identityPhoto:ImageFile,\$profilePhoto:ImageFile) {
           updateProfile(
             input: {
               id:"$idEdit"
@@ -522,13 +500,13 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
       ''';
 
     Map<String, dynamic> variables = {"identityPhoto": b, "profilePhoto": b2};
+    // Map<String, dynamic> variables = {"identityPhoto": null, "profilePhoto": null};
 
     try {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
 
-      Map<String, dynamic>? dataUser =
-          await GraphQLBase().mutate(optionsPerson, variables: variables);
+      Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
       log(dataUser.toString());
       // if (dataUser!['addProfile']['__typename'] != 'Error') {
       //   isSuccess = true;

@@ -1,7 +1,7 @@
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 
-class ORadio extends StatelessWidget {
+class ORadio<T> extends StatelessWidget {
   const ORadio({
     Key? key,
     required this.label,
@@ -13,9 +13,9 @@ class ORadio extends StatelessWidget {
 
   final String label;
   final EdgeInsets padding;
-  final bool groupValue;
-  final bool value;
-  final ValueChanged<bool> onChanged;
+  final T groupValue;
+  final T value;
+  final ValueChanged<T> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +29,18 @@ class ORadio extends StatelessWidget {
         padding: padding,
         child: Row(
           children: <Widget>[
-            Radio<bool>(
+            Radio<T>(
               groupValue: groupValue,
               activeColor: Theme.of(context).colorScheme.primary,
               value: value,
-              onChanged: (bool? newValue) {
+              onChanged: (T? newValue) {
                 onChanged(newValue!);
               },
             ),
-            Text(label).informationText(),
+            Text(
+              label,
+              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+            ).informationText(),
           ],
         ),
       ),

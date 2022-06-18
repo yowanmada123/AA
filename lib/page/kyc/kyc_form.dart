@@ -80,8 +80,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   SizedBox(
                     height: 12,
                   ),
-                  Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas")
-                      .descriptionText(),
+                  Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas").descriptionText(),
                   SizedBox(
                     height: 6,
                   ),
@@ -123,8 +122,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   //         );
                   //       },
                   //     )),
-                  Text("Upload foto identitas beserta foto diri harus terlihat jelas")
-                      .descriptionText(),
+                  Text("Upload foto identitas beserta foto diri harus terlihat jelas").descriptionText(),
                   SizedBox(
                     height: 20,
                   ),
@@ -155,16 +153,13 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                     height: 80,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(() =>
-                                                CameraOverlay('identitas'));
+                                            File? file = await Get.to(() => CameraOverlay('identitas'));
                                             if (file != null) {
                                               setState(() {
                                                 fileIdCard = file;
@@ -182,10 +177,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
+                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
                                             if (image != null) {
                                               setState(() {
                                                 fileIdCard = File(image.path);
@@ -222,16 +214,13 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                     height: 80,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(
-                                                () => CameraOverlay('profil'));
+                                            File? file = await Get.to(() => CameraOverlay('profil'));
                                             if (file != null) {
                                               setState(() {
                                                 filePhoto = file;
@@ -248,10 +237,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
+                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
                                             if (image != null) {
                                               setState(() {
                                                 filePhoto = File(image.path);
@@ -286,7 +272,12 @@ class _KYCFormPageState extends State<KYCFormPage> {
                     controller: birthPlaceController,
                   ),
                   OdatePickerAndroid(
-                      title: "TANGGAL LAHIR", date: birthDateController),
+                    title: "TANGGAL LAHIR",
+                    date: birthDateController,
+                    onChanged: (val) {
+                      birthDateController = val;
+                    },
+                  ),
                   // BasePilihField(
                   //   title: "Tanggal Lahir",
                   //   isi: birthDateControllerDisplay,
@@ -312,10 +303,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   ),
                   Text(
                     "JENIS KELAMIN",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).colorScheme.primary),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
                   ),
                   Row(
                     children: [
@@ -331,9 +319,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                             child: Container(
                               decoration: BoxDecoration(
                                   // color: Color(blueLight),
-                                  color: (genderController == "L")
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.onPrimary,
+                                  color: (genderController == "L") ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
                                     color: Colors.grey, // red as border color
                                   ),
@@ -368,9 +354,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: (genderController == "P")
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.onPrimary,
+                                  color: (genderController == "P") ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                                   border: Border.all(
                                     color: Colors.grey, // red as border color
                                   ),
@@ -511,8 +495,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
 
-      Map<String, dynamic>? dataUser =
-          await GraphQLBase().mutate(optionsPerson, variables: variables);
+      Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
       log(dataUser.toString());
       // if (dataUser!['addProfile']['__typename'] != 'Error') {
       //   isSuccess = true;
