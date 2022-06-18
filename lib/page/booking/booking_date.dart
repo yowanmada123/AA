@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,12 +25,13 @@ class _BookingDateState extends State<BookingDate> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  getData() async {
+  getData(DateTime tmpDate) async {
+    String dateString = tmpDate.toyyyyMMdd();
     String options = '''
      
         mutation {
           getSchedule(
-            date: "2022-06-18"
+            date: "$dateString"
             scheduleID:"56599a21-fd69-4661-9856-ac512fb8a965"
           ) {
             ... on SearchScheduleResponseRows {
@@ -49,13 +51,18 @@ class _BookingDateState extends State<BookingDate> {
         }
 
     ''';
-    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    log(options.toString());
+    Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
     var list = data!['getSchedule'][0]['nodes'] as List;
-    List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
-    log(newData.length.toString());
-    listScheduleTime.value = newData;
+    if (list.isNotEmpty) {
+      List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
+      log(newData.length.toString());
+      listScheduleTime.value = newData;
+      log(newData.toString());
+    } else {
+      listScheduleTime.value = [];
+    }
 
-    log(newData.toString());
     log(listScheduleTime.length.toString());
     loading.value = false;
   }
@@ -64,7 +71,7 @@ class _BookingDateState extends State<BookingDate> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    getData(_selectedDay);
   }
 
   @override
@@ -88,11 +95,11 @@ class _BookingDateState extends State<BookingDate> {
             headerVisible: true,
             headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
             onDaySelected: (selectedDay, focusedDay) {
-              getData();
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
+              getData(selectedDay);
             },
           ),
           const Divider(),
