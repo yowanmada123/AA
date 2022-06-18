@@ -1,70 +1,71 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:boilerplate_flutter/model/place/place_res.dart';
 
 import 'schedule.dart';
 
 class Product {
-  DateTime? createdAt;
-  String? description;
-  String? id;
-  String? location;
-  String? name;
-  int? price;
-  List<Schedule>? schedules;
-  DateTime? updatedAt;
-
+  final String createdAt;
+  final String description;
+  final String id;
+  final Place place;
+  final String name;
+  final int price;
+  final List<Schedule> schedules;
+  final String updatedAt;
   Product({
-    this.createdAt,
-    this.description,
-    this.id,
-    this.location,
-    this.name,
-    this.price,
-    this.schedules,
-    this.updatedAt,
+    required this.createdAt,
+    required this.description,
+    required this.id,
+    required this.place,
+    required this.name,
+    required this.price,
+    required this.schedules,
+    required this.updatedAt,
   });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'createdAt': createdAt,
+      'description': description,
+      'id': id,
+      'place': place.toMap(),
+      'name': name,
+      'price': price,
+      'schedules': schedules.map((x) => x.toMap()).toList(),
+      'updatedAt': updatedAt,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      createdAt: map['createdAt'] as String,
+      description: map['description'] as String,
+      id: map['id'] as String,
+      place: Place.fromMap(map['place'] as Map<String, dynamic>),
+      name: map['name'] as String,
+      price: map['price'].toInt() as int,
+      schedules: List<Schedule>.from(
+        (map['schedules'] as List<dynamic>).map<Schedule>(
+          (x) => Schedule.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      updatedAt: map['updatedAt'] as String,
+    );
+  }
 
   @override
   String toString() {
-    return 'Product(createdAt: $createdAt, description: $description, id: $id, location: $location, name: $name, price: $price, schedules: $schedules, updatedAt: $updatedAt)';
+    return 'Product(createdAt: $createdAt, description: $description, id: $id, place: $place, name: $name, price: $price, schedules: $schedules, updatedAt: $updatedAt)';
   }
 
-  factory Product.fromMap(Map<String, dynamic> data) => Product(
-        createdAt: data['createdAt'] == null
-            ? null
-            : DateTime.parse(data['createdAt'] as String),
-        description: data['description'] as String?,
-        id: data['id'] as String?,
-        location: data['location'] as String?,
-        name: data['name'] as String?,
-        price: data['price'] as int?,
-        schedules: (data['schedules'] as List<dynamic>?)
-            ?.map((e) => Schedule.fromMap(e as Map<String, dynamic>))
-            .toList(),
-        updatedAt: data['updatedAt'] == null
-            ? null
-            : DateTime.parse(data['updatedAt'] as String),
-      );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  Map<String, dynamic> toMap() => {
-        'createdAt': createdAt?.toIso8601String(),
-        'description': description,
-        'id': id,
-        'location': location,
-        'name': name,
-        'price': price,
-        'schedules': schedules?.map((e) => e.toMap()).toList(),
-        'updatedAt': updatedAt?.toIso8601String(),
-      };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [Product].
-  factory Product.fromJson(String data) {
-    return Product.fromMap(json.decode(data) as Map<String, dynamic>);
+    return other is Product && other.createdAt == createdAt && other.description == description && other.id == id && other.place == place && other.name == name && other.price == price && listEquals(other.schedules, schedules) && other.updatedAt == updatedAt;
   }
-
-  /// `dart:convert`
-  ///
-  /// Converts [Product] to a JSON string.
-  String toJson() => json.encode(toMap());
 }

@@ -35,8 +35,12 @@ class _BookingListPageState extends State<BookingListPage> {
             hasPreviousPage
           }
           nodes {
-            address
-            city
+           address
+           region{
+              id
+              name
+              type
+            }
             id
             images
             latitude
@@ -76,12 +80,11 @@ class _BookingListPageState extends State<BookingListPage> {
             child: Row(
               children: [
                 Expanded(
-                    flex: 1,
-                    child: OFilterList(
-                      title: "Filter",
-                      icon: "assets/ic/ic_filter.svg",
-                    ),
-
+                  flex: 1,
+                  child: OFilterList(
+                    title: "Filter",
+                    icon: "assets/ic/ic_filter.svg",
+                  ),
                 ),
                 Expanded(
                     flex: 1,
@@ -128,8 +131,7 @@ class _BookingListPageState extends State<BookingListPage> {
 class ItemPlace extends StatelessWidget {
   final Place item;
   final GlobalController state;
-  const ItemPlace({Key? key, required this.item, required this.state})
-      : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +155,9 @@ class ItemPlace extends StatelessWidget {
                 children: [
                   Text(
                     item.name,
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ).titleText(),
-                  Text(item.city, style: TextStyle(color: OColorBrown))
-                      .informationText(),
+                  Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
                   Expanded(child: Container()),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

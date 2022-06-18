@@ -13,6 +13,29 @@ class BookingDate extends StatefulWidget {
   State<BookingDate> createState() => _BookingDateState();
 }
 
+// get{
+//   mutation {
+//   getSchedule(
+//     date: "2022-06-18"
+//     scheduleID:"56599a21-fd69-4661-9856-ac512fb8a965"
+//   ) {
+//     ... on SearchScheduleResponseRows {
+//      nodes{
+//       booking
+//       schedule
+//       timePerSession
+//     }
+//       __typename
+//     }
+//     ... on Error{
+//       message
+//     }
+   
+//     __typename
+//   }
+// }
+// }
+
 class _BookingDateState extends State<BookingDate> {
   @override
   Widget build(BuildContext context) {

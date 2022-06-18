@@ -19,8 +19,7 @@ class BookingInfo extends StatefulWidget {
   State<BookingInfo> createState() => _BookingInfoState();
 }
 
-class _BookingInfoState extends State<BookingInfo>
-    with SingleTickerProviderStateMixin {
+class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   final loading = true.obs;
@@ -29,7 +28,7 @@ class _BookingInfoState extends State<BookingInfo>
   final listSchedule = <Schedule>[].obs;
   getData() async {
     String options = '''
-      # Write your query or mutation here
+     
         query {
           products(filter: {}, paging: { limit: 20 }, sorting: []) {
             pageInfo {
@@ -40,7 +39,19 @@ class _BookingInfoState extends State<BookingInfo>
               createdAt
               description
               id
-              location
+              place {
+                address
+                region {
+                  id
+                  name
+                  type
+                }
+                id
+                images
+                latitude
+                longitude
+                name
+              }
               name
               price
               schedules {
@@ -85,8 +96,7 @@ class _BookingInfoState extends State<BookingInfo>
           CustomScrollView(
             slivers: [
               SliverPersistentHeader(
-                delegate: MySliverAppBar(
-                    image: widget.item.getImageUrl(), expandedHeight: 300),
+                delegate: MySliverAppBar(image: widget.item.getImageUrl(), expandedHeight: 300),
                 pinned: true,
               ),
               SliverList(
@@ -100,14 +110,10 @@ class _BookingInfoState extends State<BookingInfo>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(widget.item.name).titleText(),
-                                        Text('0,1 Km')
-                                      ],
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [Text(widget.item.name).titleText(), Text('0,1 Km')],
                                     ),
-                                    Text('Jakarta, Indonesia'),
+                                    Text(widget.item.region.name),
                                     const SizedBox(height: 20),
                                     Text(widget.item.address),
                                   ],
@@ -119,44 +125,30 @@ class _BookingInfoState extends State<BookingInfo>
                                   children: [
                                     TabBar(
                                       labelColor: Colors.black,
-                                      labelStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700),
-                                      unselectedLabelStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
+                                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                                      unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                                       isScrollable: true,
-                                      indicatorColor:
-                                          Theme.of(context).colorScheme.primary,
+                                      indicatorColor: Theme.of(context).colorScheme.primary,
                                       onTap: (index) {
                                         // Tab index when user select it, it start from zero
                                       },
-                                      tabs: [
+                                      tabs: const [
                                         Tab(
                                           text: "About",
-
-                                          // child:
-                                          //     Text("Page Subtitle - Nunito Bold 12")
-                                          //         .fieldTitleText()
-                                          //         .black(),
                                         ),
                                         Tab(
                                           text: "Opening Hours",
-                                          // child:
-                                          //     Text("Page Subtitle - Nunito Bold 12")
-                                          //         .fieldTitleText()
-                                          //         .black(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 400,
+                                    Container(
+                                      height: 550,
                                       child: TabBarView(
                                         children: [
-                                          ListView(
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text("Page Subtitle - Nunito Bold 12")
-                                                  .fieldTitleText(),
+                                              Text("Page Subtitle - Nunito Bold 12").fieldTitleText(),
                                               SizedBox(
                                                 height: 12,
                                               ),
@@ -172,83 +164,59 @@ class _BookingInfoState extends State<BookingInfo>
                                                 () => Container(
                                                   child: (loading.value)
                                                       ? Center(
-                                                          child:
-                                                              CircularProgressIndicator(),
+                                                          child: CircularProgressIndicator(),
                                                         )
                                                       : Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
+                                                          padding: const EdgeInsets.all(8.0),
                                                           child: SizedBox(
                                                             height: 35,
-                                                            child: ListView
-                                                                .builder(
-                                                                    // shrinkWrap:
-                                                                    //     true,
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .horizontal,
-                                                                    itemCount:
-                                                                        listProduct
-                                                                            .length,
-                                                                    itemBuilder:
-                                                                        (BuildContext
-                                                                                context,
-                                                                            int index) {
-                                                                      return Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left:
-                                                                                8,
-                                                                            right:
-                                                                                12),
-                                                                        child:
-                                                                            InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            listSchedule.value =
-                                                                                listProduct[index].schedules!;
-                                                                            selectProduct.value =
-                                                                                index;
-                                                                          },
-                                                                          child:
-                                                                              Container(
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Colors.blue,
-                                                                              borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                                            ),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                                                                              child: Center(
-                                                                                child: Text(listProduct[index].name ?? "").fieldTitleText().white(),
-                                                                              ),
+                                                            child: ListView.builder(
+                                                                // shrinkWrap:
+                                                                //     true,
+                                                                scrollDirection: Axis.horizontal,
+                                                                itemCount: listProduct.length,
+                                                                itemBuilder: (BuildContext context, int index) {
+                                                                  return Padding(
+                                                                    padding: const EdgeInsets.only(left: 8, right: 12),
+                                                                    child: InkWell(
+                                                                      onTap: () {
+                                                                        listSchedule.value = listProduct[index].schedules!;
+                                                                        selectProduct.value = index;
+                                                                      },
+                                                                      child: Obx(
+                                                                        () => Container(
+                                                                          decoration: BoxDecoration(
+                                                                            color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
+                                                                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                                                                            child: Center(
+                                                                              child: Text(listProduct[index].name ?? "").fieldTitleText().white(),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      );
-                                                                    }),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }),
                                                           ),
                                                         ),
                                                 ),
                                               ),
                                               SizedBox(
-                                                  height: 200,
+                                                  // height: 200,
                                                   child: Obx(
-                                                    () => ListView.builder(
-                                                        itemCount:
-                                                            listSchedule.length,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          return OpeningHour(
-                                                            schedule:
-                                                                listSchedule[
-                                                                    index],
-                                                          );
-                                                        }),
-                                                  )),
+                                                () => ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: NeverScrollableScrollPhysics(),
+                                                    itemCount: listSchedule.length,
+                                                    itemBuilder: (BuildContext context, int index) {
+                                                      return OpeningHour(
+                                                        schedule: listSchedule[index],
+                                                      );
+                                                    }),
+                                              )),
                                             ],
                                           )
                                         ],
@@ -311,8 +279,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Stack(
       fit: StackFit.expand,
       // overflow: Overflow.visible,
@@ -386,26 +353,36 @@ class OpeningHour extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String name = schedule.dayname ?? "";
+    String dayName = '';
+    if (name.length > 3) {
+      dayName = name[0];
+      dayName += name[1];
+      dayName += name[2];
+    }
     return Padding(
       padding: const EdgeInsets.all(0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            // width: 40,
-            height: 70,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: BoxShape.circle,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                  child: Text(
+                dayName,
+                style: TextStyle(color: Colors.white),
+              )),
             ),
-            child: Center(
-                child: Text(
-              schedule.dayname ?? "",
-              style: TextStyle(color: Colors.white),
-            )),
-          ),
-          Text('${schedule.startTime} - ${schedule.endTime}'),
-        ],
+            Text('${schedule.startTime} - ${schedule.endTime}'),
+          ],
+        ),
       ),
     );
   }

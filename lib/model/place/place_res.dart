@@ -1,8 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:boilerplate_flutter/page/global_controller.dart';
+
+import 'region_res.dart';
 
 class Place {
   String address;
-  String city;
+  Region region;
   String id;
   String images;
   String latitude;
@@ -11,7 +16,7 @@ class Place {
 
   Place({
     required this.address,
-    required this.city,
+    required this.region,
     required this.id,
     required this.images,
     required this.latitude,
@@ -19,64 +24,43 @@ class Place {
     required this.name,
   });
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'address': address,
+      'region': region.toMap(),
+      'id': id,
+      'images': images,
+      'latitude': latitude,
+      'longitude': longitude,
+      'name': name,
+    };
+  }
+
+  factory Place.fromMap(Map<String, dynamic> map) {
+    return Place(
+      address: map['address'] as String,
+      region: Region.fromMap(map['region'] as Map<String, dynamic>),
+      id: map['id'] as String,
+      images: map['images'] as String,
+      latitude: map['latitude'] as String,
+      longitude: map['longitude'] as String,
+      name: map['name'] as String,
+    );
+  }
+
   @override
   String toString() {
-    return 'Place(address: $address, city: $city, id: $id, images: $images, latitude: $latitude, longitude: $longitude, name: $name)';
+    return 'Place(address: $address, region: $region, id: $id, images: $images, latitude: $latitude, longitude: $longitude, name: $name)';
   }
 
-  factory Place.fromMap(Map<String, dynamic> data) => Place(
-        address: data['address'] ?? '',
-        city: data['city'] ?? '',
-        id: data['id'] ?? '',
-        images: data['images'] ?? '',
-        latitude: data['latitude'] ?? '',
-        longitude: data['longitude'] ?? '',
-        name: data['name'] ?? '',
-      );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  Map<String, dynamic> toMap() => {
-        'address': address,
-        'city': city,
-        'id': id,
-        'images': images,
-        'latitude': latitude,
-        'longitude': longitude,
-        'name': name,
-      };
+    return other is Place && other.address == address && other.region == region && other.id == id && other.images == images && other.latitude == latitude && other.longitude == longitude && other.name == name;
+  }
 
   getImageUrl() {
-    return "http://103.186.0.33:3000/uploads/place/$images";
-  }
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [Place].
-  factory Place.fromJson(String data) {
-    return Place.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  ///
-  /// Converts [Place] to a JSON string.
-  String toJson() => json.encode(toMap());
-
-  Place copyWith({
-    String? address,
-    String? city,
-    String? id,
-    String? images,
-    String? latitude,
-    String? longitude,
-    String? name,
-  }) {
-    return Place(
-      address: address ?? this.address,
-      city: city ?? this.city,
-      id: id ?? this.id,
-      images: images ?? this.images,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      name: name ?? this.name,
-    );
+    return "$mainbaseFile/$images";
   }
 }
