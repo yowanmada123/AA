@@ -70,8 +70,8 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           home: 
-          const ChoseLocation(isFrom: 'Haha',)
-          // const AllScreen(),
+          const AllScreen(),
+          // const BookingListPage(),
         ));
   }
 }
