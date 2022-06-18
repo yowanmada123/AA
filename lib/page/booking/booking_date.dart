@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../widget/base_scaffold.dart';
@@ -13,30 +18,55 @@ class BookingDate extends StatefulWidget {
   State<BookingDate> createState() => _BookingDateState();
 }
 
-// get{
-//   mutation {
-//   getSchedule(
-//     date: "2022-06-18"
-//     scheduleID:"56599a21-fd69-4661-9856-ac512fb8a965"
-//   ) {
-//     ... on SearchScheduleResponseRows {
-//      nodes{
-//       booking
-//       schedule
-//       timePerSession
-//     }
-//       __typename
-//     }
-//     ... on Error{
-//       message
-//     }
-   
-//     __typename
-//   }
-// }
-// }
-
 class _BookingDateState extends State<BookingDate> {
+  final listScheduleTime = <ScheduleTime>[].obs;
+  final loading = true.obs;
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+
+  getData() async {
+    String options = '''
+     
+        mutation {
+          getSchedule(
+            date: "2022-06-18"
+            scheduleID:"56599a21-fd69-4661-9856-ac512fb8a965"
+          ) {
+            ... on SearchScheduleResponseRows {
+            nodes{
+              booking
+              schedule
+              timePerSession
+            }
+              __typename
+            }
+            ... on Error{
+              message
+            }
+
+            __typename
+          }
+        }
+
+    ''';
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['getSchedule'][0]['nodes'] as List;
+    List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
+    log(newData.length.toString());
+    listScheduleTime.value = newData;
+
+    log(newData.toString());
+    log(listScheduleTime.length.toString());
+    loading.value = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return OScaffold(
@@ -46,38 +76,37 @@ class _BookingDateState extends State<BookingDate> {
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: DateTime.now(),
+            focusedDay: _focusedDay,
+            selectedDayPredicate: (day) {
+              // Use `selectedDayPredicate` to determine which day is currently selected.
+              // If this returns true, then `day` will be marked as selected.
+
+              // Using `isSameDay` is recommended to disregard
+              // the time-part of compared DateTime objects.
+              return isSameDay(_selectedDay, day);
+            },
             headerVisible: true,
-            headerStyle:         
-            const HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true
-            ),          
+            headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+            onDaySelected: (selectedDay, focusedDay) {
+              getData();
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            },
           ),
           const Divider(),
-          Column(
-            children: const [
-              BookingTimeButton(
-                title: 'Booked',
-                isBooked: true,
-              ),
-              BookingTimeButton(
-                title: '10.00 - 11.00',
-                isBooked: false,
-              ),
-              BookingTimeButton(
-                title: '10.00 - 11.00',
-                isBooked: false,
-              ),
-              BookingTimeButton(
-                title: '10.00 - 11.00',
-                isBooked: false,
-              ),
-              BookingTimeButton(
-                title: '10.00 - 11.00',
-                isBooked: false,
-              ),
-            ],
+          Obx(
+            () => ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: listScheduleTime.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return BookingTimeButton(
+                    title: listScheduleTime[index].schedule,
+                    isBooked: listScheduleTime[index].booking,
+                  );
+                }),
           ),
         ],
       ),
@@ -85,8 +114,7 @@ class _BookingDateState extends State<BookingDate> {
           title: "BOOK NOW",
           onPressed: () {
             // Get.to(BookingDate());
-            bottomSheetWidget(
-                heightFactor: 0.9, context: context, child: PaymentOption());
+            bottomSheetWidget(heightFactor: 0.9, context: context, child: PaymentOption());
           }),
     );
   }
@@ -107,9 +135,7 @@ class BookingTimeButton extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: (isBooked)
-            ? Colors.grey[100]
-            : Theme.of(context).colorScheme.primary,
+        color: (isBooked) ? Colors.grey[100] : Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(

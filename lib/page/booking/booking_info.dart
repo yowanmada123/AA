@@ -73,7 +73,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
     log(newData.length.toString());
     listProduct.value = newData;
     if (newData.isNotEmpty) {
-      listSchedule.value = listProduct.first.schedules ?? [];
+      listSchedule.value = listProduct.first.schedules;
     }
 
     log(newData.toString());
@@ -180,19 +180,19 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                     padding: const EdgeInsets.only(left: 8, right: 12),
                                                                     child: InkWell(
                                                                       onTap: () {
-                                                                        listSchedule.value = listProduct[index].schedules!;
+                                                                        listSchedule.value = listProduct[index].schedules;
                                                                         selectProduct.value = index;
                                                                       },
                                                                       child: Obx(
                                                                         () => Container(
                                                                           decoration: BoxDecoration(
                                                                             color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
-                                                                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                                            borderRadius: const BorderRadius.all(Radius.circular(30)),
                                                                           ),
                                                                           child: Padding(
                                                                             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
                                                                             child: Center(
-                                                                              child: Text(listProduct[index].name ?? "").fieldTitleText().white(),
+                                                                              child: Text(listProduct[index].name).fieldTitleText().white(),
                                                                             ),
                                                                           ),
                                                                         ),
