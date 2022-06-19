@@ -36,6 +36,7 @@ class GlobalController extends GetxController {
   final selectPlace = <Place>[].obs;
   final selectProduct = <Product>[].obs;
   final selectPaymentMethods = <PaymentMethods>[].obs;
+  final selectScheduleDate = "".obs;
   final selectScheduleTime = <ScheduleTime>[].obs;
 
   void setPhoneNumber(String val) {

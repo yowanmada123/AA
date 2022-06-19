@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/payment/payment_list.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/title_form.dart';
@@ -59,6 +60,8 @@ class _PaymentOptionState extends State<PaymentOption> {
     loading.value = false;
   }
 
+  final cGlobal = Get.find<GlobalController>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -92,8 +95,16 @@ class _PaymentOptionState extends State<PaymentOption> {
                       : ListView.builder(
                           itemCount: listPaymentMethods.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ItemPayment(
-                              data: listPaymentMethods[index],
+                            return InkWell(
+                              onTap: () {
+                                log("tap pay");
+                                cGlobal.selectPaymentMethods.clear();
+                                cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
+                                Get.offAll(PaymentDetailPage());
+                              },
+                              child: ItemPayment(
+                                data: listPaymentMethods[index],
+                              ),
                             );
                           }),
                 ),
@@ -112,29 +123,25 @@ class ItemPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Get.offAll(PaymentDetailPage());
-      },
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  "assets/sample/bca.png",
-                  // width: 40,
-                  height: 25,
-                ),
+    // 
+    return Column(
+      children: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                "assets/sample/bca.png",
+                // width: 40,
+                height: 25,
               ),
-              Expanded(child: Text(data.name).regularText()),
-              Icon(Icons.arrow_right)
-            ],
-          ),
-          Divider()
-        ],
-      ),
+            ),
+            Expanded(child: Text(data.name).regularText()),
+            Icon(Icons.arrow_right)
+          ],
+        ),
+        Divider()
+      ],
     );
   }
 }
