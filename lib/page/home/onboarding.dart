@@ -181,14 +181,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ],
         ),
-        bottomNavigationBar: Container(
-          color: Colors.transparent,
-          child: OButton(
-              title: "Keluar dari google sign in",
-              onPressed: () {
-                _handleSignOut();
-              }),
-        ),
+        // bottomNavigationBar: Container(
+        //   color: Colors.transparent,
+        //   child: OButton(
+        //       title: "Keluar dari google sign in",
+        //       onPressed: () {
+        //         _handleSignOut();
+        //       }),
+        // ),
       );
     });
   }

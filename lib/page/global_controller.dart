@@ -58,6 +58,12 @@ class GlobalController extends GetxController {
     token = val;
   }
 
+  String getToken() {
+    final box = GetStorage();
+    token = box.read('token');
+    return token;
+  }
+
   void setUsername(String val) {
     final box = GetStorage();
     box.write('username', val);
