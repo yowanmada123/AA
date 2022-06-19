@@ -13,7 +13,7 @@ class PaymentOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleHeader(
+        const TitleHeader(
           title: "Page Title - Nunito Bold 14",
         ),
         Expanded(
@@ -22,7 +22,7 @@ class PaymentOption extends StatelessWidget {
           child: ListView(
             children: [
               Text("FIELD TITLE - NUNITO BOLD 12").fieldTitleText(),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               ItemPayment(),
