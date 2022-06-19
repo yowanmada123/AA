@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -13,7 +14,8 @@ import '../../widget/base_scaffold.dart';
 import '../../widget/button_bar.dart';
 
 class BookingDate extends StatefulWidget {
-  BookingDate({Key? key}) : super(key: key);
+  final Product product;
+  BookingDate({Key? key, required this.product}) : super(key: key);
 
   @override
   State<BookingDate> createState() => _BookingDateState();
@@ -32,7 +34,7 @@ class _BookingDateState extends State<BookingDate> {
         query {
           getSchedule(
             date: "$dateString"
-            productId:"51057b3e-66fa-46db-8e36-7ec8a0a8e3af"
+            productId:"${widget.product.id}"
           ) {
             ... on SearchScheduleResponseRows {
             nodes{

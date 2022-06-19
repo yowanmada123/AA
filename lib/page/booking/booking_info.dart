@@ -263,7 +263,9 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
       bottomNavigationBar: OButtonBar(
           title: "BOOK NOW",
           onPressed: () {
-            Get.to(BookingDate());
+            Get.to(BookingDate(
+              product: listProduct[selectProduct.value],
+            ));
           }),
     );
   }
