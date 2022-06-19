@@ -116,7 +116,7 @@ lib/generated_plugin_registrant.dart
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
+
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -271,3 +271,4 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter,androidstudio,visualstudiocode
+.vscode/settings.json

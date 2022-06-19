@@ -44,8 +44,7 @@ class _OFormTextState extends State<OFormText> {
       }
     }
     if (widget.formType == FormType.email) {
-      String pattern =
-          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+      String pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
           r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
           r"{0,253}[a-zA-Z0-9])?)*$";
       RegExp regex = RegExp(pattern);
@@ -90,10 +89,7 @@ class _OFormTextState extends State<OFormText> {
           ),
           Text(
             widget.title,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
           ),
           TextFormField(
             readOnly: widget.readOnly,
@@ -101,17 +97,17 @@ class _OFormTextState extends State<OFormText> {
             validator: (value) => checkValidation(value!),
             controller: widget.controller,
             keyboardType: textInputType(widget.formType),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
             // inputFormatters: maskFormat(formType),
             decoration: InputDecoration(
               // border: InputBorder.none,
-              hintText: widget.hintText ??
-                  'Masukkan ${widget.title.capitalizeText()}',
+              hintText: widget.hintText ?? 'Masukkan ${widget.title.capitalizeText()}',
               // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
               suffixIcon: (widget.formType == FormType.password)
                   ? InkWell(
-                      child: Icon((obscureText)
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
+                      child: Icon((obscureText) ? Icons.visibility_outlined : Icons.visibility_off_outlined),
                       onTap: () {
                         setState(() {
                           obscureText = !obscureText;

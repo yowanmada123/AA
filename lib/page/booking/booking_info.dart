@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/product/product.dart';
+import 'package:boilerplate_flutter/model/product/schedule.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,13 +19,72 @@ class BookingInfo extends StatefulWidget {
   State<BookingInfo> createState() => _BookingInfoState();
 }
 
-class _BookingInfoState extends State<BookingInfo>
-    with SingleTickerProviderStateMixin {
+class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  final loading = true.obs;
+  final selectProduct = 0.obs;
+  final listProduct = <Product>[].obs;
+  final listSchedule = <Schedule>[].obs;
+  getData() async {
+    String options = '''
+     
+        query {
+          products(filter: {}, paging: { limit: 20 }, sorting: []) {
+            pageInfo {
+              hasNextPage
+              hasPreviousPage
+            }
+            nodes {
+              createdAt
+              description
+              id
+              place {
+                address
+                region {
+                  id
+                  name
+                  type
+                }
+                id
+                images
+                latitude
+                longitude
+                name
+              }
+              name
+              price
+              schedules {
+                dayname
+                endTime
+                id
+                startTime
+                timePerSession
+              }
+              updatedAt
+            }
+          }
+        }
+
+    ''';
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['products']['nodes'] as List;
+    List<Product> newData = list.map((i) => Product.fromMap(i)).toList();
+    log(newData.length.toString());
+    listProduct.value = newData;
+    if (newData.isNotEmpty) {
+      listSchedule.value = listProduct.first.schedules;
+    }
+
+    log(newData.toString());
+    log(listProduct.length.toString());
+    loading.value = false;
+  }
 
   @override
   void initState() {
     super.initState();
+    getData();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -32,8 +96,7 @@ class _BookingInfoState extends State<BookingInfo>
           CustomScrollView(
             slivers: [
               SliverPersistentHeader(
-                delegate: MySliverAppBar(
-                    image: widget.item.getImageUrl(), expandedHeight: 300),
+                delegate: MySliverAppBar(image: widget.item.getImageUrl(), expandedHeight: 300),
                 pinned: true,
               ),
               SliverList(
@@ -47,14 +110,10 @@ class _BookingInfoState extends State<BookingInfo>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(widget.item.name).titleText(),
-                                        Text('0,1 Km')
-                                      ],
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [Text(widget.item.name).titleText(), Text('0,1 Km')],
                                     ),
-                                    Text('Jakarta, Indonesia'),
+                                    Text(widget.item.region.name),
                                     const SizedBox(height: 20),
                                     Text(widget.item.address),
                                   ],
@@ -66,44 +125,30 @@ class _BookingInfoState extends State<BookingInfo>
                                   children: [
                                     TabBar(
                                       labelColor: Colors.black,
-                                      labelStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700),
-                                      unselectedLabelStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
+                                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                                      unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                                       isScrollable: true,
-                                      indicatorColor:
-                                          Theme.of(context).colorScheme.primary,
+                                      indicatorColor: Theme.of(context).colorScheme.primary,
                                       onTap: (index) {
                                         // Tab index when user select it, it start from zero
                                       },
-                                      tabs: [
+                                      tabs: const [
                                         Tab(
                                           text: "About",
-
-                                          // child:
-                                          //     Text("Page Subtitle - Nunito Bold 12")
-                                          //         .fieldTitleText()
-                                          //         .black(),
                                         ),
                                         Tab(
                                           text: "Opening Hours",
-                                          // child:
-                                          //     Text("Page Subtitle - Nunito Bold 12")
-                                          //         .fieldTitleText()
-                                          //         .black(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 400,
+                                    Container(
+                                      height: 550,
                                       child: TabBarView(
                                         children: [
-                                          ListView(
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text("Page Subtitle - Nunito Bold 12")
-                                                  .fieldTitleText(),
+                                              Text("Page Subtitle - Nunito Bold 12").fieldTitleText(),
                                               SizedBox(
                                                 height: 12,
                                               ),
@@ -113,15 +158,65 @@ class _BookingInfoState extends State<BookingInfo>
                                               ItemInfo(),
                                             ],
                                           ),
-                                          ListView(
+                                          Column(
                                             children: [
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
-                                              OpeningHour(),
+                                              Obx(
+                                                () => Container(
+                                                  child: (loading.value)
+                                                      ? Center(
+                                                          child: CircularProgressIndicator(),
+                                                        )
+                                                      : Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: SizedBox(
+                                                            height: 35,
+                                                            child: ListView.builder(
+                                                                // shrinkWrap:
+                                                                //     true,
+                                                                scrollDirection: Axis.horizontal,
+                                                                itemCount: listProduct.length,
+                                                                itemBuilder: (BuildContext context, int index) {
+                                                                  return Padding(
+                                                                    padding: const EdgeInsets.only(left: 8, right: 12),
+                                                                    child: InkWell(
+                                                                      onTap: () {
+                                                                        listSchedule.value = listProduct[index].schedules;
+                                                                        selectProduct.value = index;
+                                                                      },
+                                                                      child: Obx(
+                                                                        () => Container(
+                                                                          decoration: BoxDecoration(
+                                                                            color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
+                                                                            borderRadius: const BorderRadius.all(Radius.circular(30)),
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                                                                            child: Center(
+                                                                              child: Text(listProduct[index].name).fieldTitleText().white(),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }),
+                                                          ),
+                                                        ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  // height: 200,
+                                                  child: Obx(
+                                                () => ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics: NeverScrollableScrollPhysics(),
+                                                    itemCount: listSchedule.length,
+                                                    itemBuilder: (BuildContext context, int index) {
+                                                      return OpeningHour(
+                                                        schedule: listSchedule[index],
+                                                      );
+                                                    }),
+                                              )),
                                             ],
                                           )
                                         ],
@@ -168,7 +263,9 @@ class _BookingInfoState extends State<BookingInfo>
       bottomNavigationBar: OButtonBar(
           title: "BOOK NOW",
           onPressed: () {
-            Get.to(BookingDate());
+            Get.to(BookingDate(
+              product: listProduct[selectProduct.value],
+            ));
           }),
     );
   }
@@ -184,8 +281,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Stack(
       fit: StackFit.expand,
       // overflow: Overflow.visible,
@@ -251,32 +347,44 @@ class ItemInfo extends StatelessWidget {
 }
 
 class OpeningHour extends StatelessWidget {
+  final Schedule schedule;
   const OpeningHour({
     Key? key,
+    required this.schedule,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String name = schedule.dayname ?? "";
+    String dayName = '';
+    if (name.length > 3) {
+      dayName = name[0];
+      dayName += name[1];
+      dayName += name[2];
+    }
     return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: BoxShape.circle,
+      padding: const EdgeInsets.all(0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                  child: Text(
+                dayName,
+                style: TextStyle(color: Colors.white),
+              )),
             ),
-            child: Center(
-                child: Text(
-              'Mon',
-              style: TextStyle(color: Colors.white),
-            )),
-          ),
-          Text('08.00 - 09.00'),
-        ],
+            Text('${schedule.startTime} - ${schedule.endTime}'),
+          ],
+        ),
       ),
     );
   }

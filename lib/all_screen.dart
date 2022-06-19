@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boilerplate_flutter/global_service.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
@@ -26,7 +28,7 @@ class AllScreen extends StatefulWidget {
 class _AllScreenState extends State<AllScreen> {
   DateTime selectedDate = DateTime.now();
   bool accept = false;
-  bool _isRadioSelected = false;
+  String radioSelected = '';
 
   List<String> itemDropdown = ["Satu", "Dua", "Tiga"];
   String dropdownValue = "Satu";
@@ -46,9 +48,7 @@ class _AllScreenState extends State<AllScreen> {
               onTap: () {
                 Get.to(const OnboardingPage());
               },
-              child: const Text("Masuk ke Onboarding",
-                      style: TextStyle(color: Colors.blueAccent))
-                  .titleText(),
+              child: const Text("Masuk ke Onboarding", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
             const SizedBox(
               height: 10,
@@ -57,15 +57,10 @@ class _AllScreenState extends State<AllScreen> {
               onTap: () {
                 Get.to(const ChangePasswordPage());
               },
-              child: const Text("Ganti Password",
-                      style: TextStyle(color: Colors.blueAccent))
-                  .titleText(),
+              child: const Text("Ganti Password", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
             const Divider(),
-            Text("Form :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
+            Text("Form :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             const OFormText(
               title: "Nama",
               // hintText: " Form",
@@ -76,45 +71,26 @@ class _AllScreenState extends State<AllScreen> {
             OdatePickerAndroid(
               title: "Tanggal Lahir Android",
               date: selectedDate,
+              onChanged: (val) => log(val.toString()),
             ),
             OdatePickeriOS(
               title: "Tanggal Lahir iOS",
               date: selectedDate,
+              onChanged: (val) => log(val.toString()),
             ),
             const Divider(),
-            Text("Color :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
+            Text("Color :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             Row(
               children: [
-                Container(
-                    width: 30,
-                    height: 30,
-                    color: Theme.of(context).colorScheme.primary),
-                Container(
-                    width: 30,
-                    height: 30,
-                    color: Theme.of(context).colorScheme.onPrimary),
-                Container(
-                    width: 30,
-                    height: 30,
-                    color: Theme.of(context).colorScheme.primaryContainer),
-                Container(
-                    width: 30,
-                    height: 30,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer),
-                Container(
-                    width: 30,
-                    height: 30,
-                    color: Theme.of(context).colorScheme.secondary),
+                Container(width: 30, height: 30, color: Theme.of(context).colorScheme.primary),
+                Container(width: 30, height: 30, color: Theme.of(context).colorScheme.onPrimary),
+                Container(width: 30, height: 30, color: Theme.of(context).colorScheme.primaryContainer),
+                Container(width: 30, height: 30, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                Container(width: 30, height: 30, color: Theme.of(context).colorScheme.secondary),
               ],
             ),
             Divider(),
-            Text("Text :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
+            Text("Text :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             Text(
               "Description Title - Nunito Bold 16",
             ).titleText(),
@@ -134,10 +110,7 @@ class _AllScreenState extends State<AllScreen> {
               "Information Text - Nunito Regular 12",
             ).informationText(),
             Divider(),
-            Text("Button :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
+            Text("Button :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             OButton(
               title: "Button 1 - Nunito bold 14 ",
               onPressed: () {},
@@ -150,13 +123,9 @@ class _AllScreenState extends State<AllScreen> {
               onPressed: () {},
             ),
             Divider(),
-            Text("CheckBox :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
+            Text("CheckBox :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             OCheckBox(
-                text:
-                    "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
+                text: "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
                 accept: accept,
                 fungsi: (val) {
                   setState(() {
@@ -165,34 +134,43 @@ class _AllScreenState extends State<AllScreen> {
                   });
                 }),
             Divider(),
-            Text("Radio :",
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary))
-                .titleText(),
-            ORadio(
+            Text("Radio :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            ORadio<String>(
               label: 'This is the first label text',
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              value: true,
-              groupValue: _isRadioSelected,
-              onChanged: (bool newValue) {
+              value: '1',
+              groupValue: radioSelected,
+              onChanged: (val) {
                 setState(() {
-                  accept = !accept;
-                  _isRadioSelected = newValue;
+                  radioSelected = val;
                 });
+                log(val);
               },
             ),
-            ORadio(
+            ORadio<String>(
               label: 'This is the second label text',
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              value: false,
-              groupValue: _isRadioSelected,
-              onChanged: (bool newValue) {
+              value: '2',
+              groupValue: radioSelected,
+              onChanged: (val) {
                 setState(() {
-                  _isRadioSelected = newValue;
+                  radioSelected = val;
                 });
+                log(val);
               },
             ),
-           
+            ORadio<String>(
+              label: 'This is the third label text',
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              value: '3',
+              groupValue: radioSelected,
+              onChanged: (val) {
+                setState(() {
+                  radioSelected = val;
+                });
+                log(val);
+              },
+            ),
             Divider(),
             ODropdown(
               title: "Dropdown",
@@ -202,6 +180,7 @@ class _AllScreenState extends State<AllScreen> {
                 setState(() {
                   dropdownValue = val;
                 });
+                log(val);
               },
             )
           ],
@@ -209,8 +188,7 @@ class _AllScreenState extends State<AllScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => GlobalService.to.switchTheme(),
-        child: Obx(() =>
-            Icon(GlobalService.to.isDark ? Icons.dark_mode : Icons.light_mode)),
+        child: Obx(() => Icon(GlobalService.to.isDark ? Icons.dark_mode : Icons.light_mode)),
       ),
     );
   }

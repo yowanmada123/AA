@@ -69,9 +69,7 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
           ),
-          home: 
-          const AllScreen(),
-          // const BookingListPage(),
+          home: const AllScreen(),
         ));
   }
 }

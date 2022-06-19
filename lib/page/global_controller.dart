@@ -6,10 +6,12 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
+const String mainbaseFile = 'http://103.186.0.33:3000/uploads/place/';
+
 class GlobalController extends GetxController {
-  
-  String baseUrl = 'http://103.186.0.33:3000/graphql';
-  String baseFile = 'http://103.186.0.33:3000/uploads/place/';
+  String baseUrl = mainBaseUrl;
+  String baseFile = mainbaseFile;
   String token = '';
   String username = '';
   String profileImage = '';
