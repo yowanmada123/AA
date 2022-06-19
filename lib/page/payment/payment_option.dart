@@ -70,7 +70,7 @@ class _PaymentOptionState extends State<PaymentOption> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleHeader(
+        const TitleHeader(
           title: "Page Title - Nunito Bold 14",
         ),
         Expanded(

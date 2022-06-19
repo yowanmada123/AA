@@ -2,6 +2,7 @@ import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
+import 'package:boilerplate_flutter/page/transaction/transaction_list.dart';
 import 'package:boilerplate_flutter/widget/button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,12 @@ class _ListProfilState extends State<ListProfil> {
           OButton(
               title: "Booking",
               onPressed: () {
-                Get.to(BookingListPage());
+                Get.to(const BookingListPage());
+              }),
+          OButton(
+              title: "List Transaction",
+              onPressed: () {
+                Get.to(const TransactionListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
