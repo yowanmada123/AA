@@ -29,10 +29,10 @@ class _BookingDateState extends State<BookingDate> {
     String dateString = tmpDate.toyyyyMMdd();
     String options = '''
      
-        mutation {
+        query {
           getSchedule(
             date: "$dateString"
-            scheduleID:"56599a21-fd69-4661-9856-ac512fb8a965"
+            productId:"51057b3e-66fa-46db-8e36-7ec8a0a8e3af"
           ) {
             ... on SearchScheduleResponseRows {
             nodes{
@@ -53,17 +53,22 @@ class _BookingDateState extends State<BookingDate> {
     ''';
     log(options.toString());
     Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
-    var list = data!['getSchedule'][0]['nodes'] as List;
-    if (list.isNotEmpty) {
-      List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
-      log(newData.length.toString());
-      listScheduleTime.value = newData;
-      log(newData.toString());
+    if (data!['getSchedule'][0]['__typename'] != 'Error') {
+      log(data.toString());
+      var list = data!['getSchedule'][0]['nodes'] as List;
+      if (list.isNotEmpty) {
+        List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
+        log(newData.length.toString());
+        listScheduleTime.value = newData;
+        log(newData.toString());
+      } else {
+        listScheduleTime.value = [];
+      }
+
+      log(listScheduleTime.length.toString());
     } else {
       listScheduleTime.value = [];
     }
-
-    log(listScheduleTime.length.toString());
     loading.value = false;
   }
 
