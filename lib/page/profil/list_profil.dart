@@ -10,6 +10,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
+import '../region/region_list.dart';
+
 class ListProfil extends StatefulWidget {
   const ListProfil({Key? key}) : super(key: key);
 
@@ -48,6 +50,11 @@ class _ListProfilState extends State<ListProfil> {
               title: "List Transaction",
               onPressed: () {
                 Get.to(const TransactionListPage());
+              }),
+          OButton(
+              title: "List Region",
+              onPressed: () {
+                Get.to(const RegionListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
