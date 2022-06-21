@@ -436,11 +436,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
         birthPlaceController.text = ocr.placeOfBirth;
         addressController.text = ocr.address;
         identityNumberController.text = ocr.identityNumber;
-        // birthDateController = DateTime.tryParse(ocr.birthDate)!;
-        log('ocr');
-        log(ocr.dateOfBirth.toString());
-        log(ocr.gender);
-        var mdyString = '04/23/99';
+
         try {
           var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
           birthDateControllerDisplay = dateTime2.toDateHuman();
@@ -456,8 +452,6 @@ class _KYCFormPageState extends State<KYCFormPage> {
             genderController = "P";
           }
         } catch (e) {}
-
-        log('ocr genderController = $genderController');
       });
       log('ocr');
     }
