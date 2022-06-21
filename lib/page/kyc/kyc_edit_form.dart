@@ -468,13 +468,14 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
     var identityType = jenisIdentitas.toString();
     var gender = genderController;
     var idEdit = widget.profile.id;
+    var dateOfBirth = birthDateController.toyyyyMMdd();
     String optionsPerson = '''
       mutation updateProfile(\$identityPhoto:ImageFile,\$profilePhoto:ImageFile) {
           updateProfile(
             input: {
               id:"$idEdit"
               address: "${addressController.text}"
-              dateOfBirth: "$birthDateController"
+              dateOfBirth: "$dateOfBirth"
               email: "${emailController.text.replaceAll(' ', '').trim()}"
               fullname: "${nameController.text}"
               gender: $gender
@@ -498,7 +499,7 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
         }
 
       ''';
-
+    log(optionsPerson);
     Map<String, dynamic> variables = {"identityPhoto": b, "profilePhoto": b2};
     // Map<String, dynamic> variables = {"identityPhoto": null, "profilePhoto": null};
 
@@ -506,8 +507,10 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
 
-      Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
-      log(dataUser.toString());
+      //todo : disable sementara
+      // Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
+      // log(dataUser.toString());
+      //todo : end disable sementara
       // if (dataUser!['addProfile']['__typename'] != 'Error') {
       //   isSuccess = true;
       // } else {

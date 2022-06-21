@@ -21,6 +21,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import "package:http/http.dart" as HttpMultipartFile;
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 
 import '../../model/ocr_res.dart';
 import '../../model/user/profile.dart';
@@ -432,10 +433,31 @@ class _KYCFormPageState extends State<KYCFormPage> {
     if (ocr != null) {
       setState(() {
         nameController.text = ocr.fullname;
-        birthPlaceController.text = ocr.dateOfBirth;
+        birthPlaceController.text = ocr.placeOfBirth;
         addressController.text = ocr.address;
         identityNumberController.text = ocr.identityNumber;
         // birthDateController = DateTime.tryParse(ocr.birthDate)!;
+        log('ocr');
+        log(ocr.dateOfBirth.toString());
+        log(ocr.gender);
+        var mdyString = '04/23/99';
+        try {
+          var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
+          birthDateControllerDisplay = dateTime2.toDateHuman();
+          birthDateController = dateTime2;
+          if (ocr.gender.toLowerCase() == "male") {
+            genderController = "L";
+          } else if (ocr.gender.toLowerCase() == "female") {
+            genderController = "P";
+          }
+          if (ocr.gender.toLowerCase() == "laki - laki") {
+            genderController = "L";
+          } else if (ocr.gender.toLowerCase() == "perempuan") {
+            genderController = "P";
+          }
+        } catch (e) {}
+
+        log('ocr genderController = $genderController');
       });
       log('ocr');
     }

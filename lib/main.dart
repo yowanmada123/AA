@@ -50,25 +50,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Boilerplate Flutter',
-          theme: ThemeData(
-            //TODO : AUTO THEME
-            colorSchemeSeed: m3BaseColor,
-            // appBarTheme: AppBarTheme(backgroundColor: m3BaseColor),
-            useMaterial3: true,
-            //TODO : CUSTOM THEME
-            // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
-            brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light,
-            textTheme: GoogleFonts.nunitoTextTheme(
-              Theme.of(context).textTheme,
-            ),
+    return Obx(
+      () => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Boilerplate Flutter',
+        theme: ThemeData(
+          //TODO : AUTO THEME
+          colorSchemeSeed: m3BaseColor,
+          // appBarTheme: AppBarTheme(backgroundColor: m3BaseColor),
+          useMaterial3: true,
+          //TODO : CUSTOM THEME
+          // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
+          brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light,
+          textTheme: GoogleFonts.nunitoTextTheme(
+            Theme.of(context).textTheme,
           ),
-          home: 
-          const AllScreen(),
-    ),
+        ),
+        home: const LoadingScreen(),
+      ),
     );
-
   }
 }
