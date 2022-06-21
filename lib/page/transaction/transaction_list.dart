@@ -119,61 +119,112 @@ class ItemTransaction extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 150,
+        width: 150,
         decoration: const BoxDecoration(
-            color: Colors.white,
+            color: Colors.black,
             borderRadius: BorderRadius.all(
               Radius.circular(9),
             )),
-        child: Row(
+
+        child: 
+        Row(
           children: [
             Expanded(
-                // flex: 1,
+              flex: 1,
+              child: 
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(9),
+                      )),
+
+                // child: Image(image: item.images),
+            ),
+              )),
+            Expanded(
+                flex: 2,
+              child: Padding(
+              padding: const EdgeInsets.only(top:8.0, bottom: 8.0, right: 8.0),
+              child: Container(
+                height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(9),
+                      )),
                 child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.payment_id,
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary),
-                  ).titleText(),
-                  Text(item.status, style: TextStyle(color: OColorBrown))
-                      .informationText(),
-                  Expanded(child: Container()),
-                  Row(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2),
-                        child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                      Text(
+                        // "item.name",
+                        item.payment_method,
+                        style:
+                            TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ).titleText(),
+                      const Text(
+                        "item.id",
+                        // item.id,
+                        style:
+                            TextStyle(color: Colors.blue),
+                      ).titleText(),
+                       Text(
+                        // "item.address",
+                        item.phone_number,
+                        style:
+                            TextStyle(color: Colors.amberAccent),
+                      ).titleText(),
+                      Text(
+                        // "item.address",
+                        item.amount.toString(),
+                        style:
+                            TextStyle(color: Colors.amberAccent),
+                      ).titleText(),
+                      Text(
+                        // "item.latitude",
+                        item.scheduled_date, 
+                        style: TextStyle(color: OColorBrown))
+                          .informationText(),
+                      // Expanded(child: Container()),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                          ),
+                          Expanded(
+                            child: Text(
+                              // "item.longtitude",
+                              item.scheduled_time
+                              ).informationText(),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Text(item.phone_number).informationText(),
-                      ),
+                       Text(
+                        // "item.latitude",
+                        item.status, 
+                        style: TextStyle(color: OColorBrown))
+                          .informationText(),
+                         Text(
+                        // "item.latitude",
+                        item.createdAt, 
+                        style: TextStyle(color: OColorBrown))
+                          .informationText(),
+                      // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
                     ],
                   ),
-                  // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
-                ],
+                ),
               ),
             )),
-            // GestureDetector(
-            //   onTap: () {
-            //     Get.to(BookingInfo(
-            //       item: item,
-            //     ));
-            //   },
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.only(
-            //       topRight: Radius.circular(9),
-            //       bottomRight: Radius.circular(9),
-            //     ),
-            //     child: Image.network(
-            //       state.baseFile + item.images.replaceAll("\"", ""),
-            //       fit: BoxFit.fill,
-            //     ),
-            //   ),
-            // )
+
           ],
         ),
       ),
