@@ -11,14 +11,15 @@ class PaymentController extends GetxController {
   final product_id = "".obs;
   final scheduled_date = "".obs;
   final scheduled_time = "".obs;
+  final cGlobal = Get.find<GlobalController>();
+
   PaymentController() {
-    final cGlobal = Get.find<GlobalController>();
     log(cGlobal.selectPlace.toString());
     log(cGlobal.selectProduct.toString());
     log(cGlobal.selectScheduleTime.toString());
     log(cGlobal.selectPaymentMethods.toString());
     log(cGlobal.token.toString());
-    payment_method.value = cGlobal.selectPaymentMethods.first.id;
+    // payment_method.value = cGlobal.selectPaymentMethods.first.id;
     phone_number.value = "";
     product_id.value = cGlobal.selectProduct.first.id;
     scheduled_date.value = cGlobal.selectScheduleDate.value;
@@ -26,6 +27,8 @@ class PaymentController extends GetxController {
   }
 
   Future<String?> createpayment() async {
+    payment_method.value = cGlobal.selectPaymentMethods.first.id;
+
     String data = '''
               mutation {
                 createTransaction(
