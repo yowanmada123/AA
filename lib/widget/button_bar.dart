@@ -23,8 +23,8 @@ class OButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      backgroundColor: color ?? Theme.of(context).primaryColor,
+    ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      backgroundColor: color ?? Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       // color: Theme.of(context).primaryColor,
     );
@@ -44,8 +44,7 @@ class OButtonBar extends StatelessWidget {
                   ? flatButtonStyle
                   : TextButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                       // color: Theme.of(context).primaryColor,
                     ),
               onPressed: (isEnable) ? onPressed : null,
