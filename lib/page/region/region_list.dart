@@ -32,14 +32,11 @@ class _RegionListPageState extends State<RegionListPage> {
   getData() async {
     String options = '''
       query listRegion{
-        places(filter: {}, paging: { limit: 10 }, sorting: []) {
+        regions(filter: {}, paging: { limit: 10 }, sorting: []) {
           nodes {
-            address
-            id
-            images
-            latitude
-            longitude
-            name
+             id
+             name
+             type
           }
           pageInfo {
             hasNextPage
@@ -49,7 +46,7 @@ class _RegionListPageState extends State<RegionListPage> {
       }
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(options);
-    var list = data!['places']['nodes'] as List;
+    var list = data!['regions']['nodes'] as List;
     List<Region> newData = list.map((i) => Region.fromMap(i)).toList();
     log(newData.length.toString());
     listRegion.value = newData;
@@ -113,97 +110,41 @@ class ItemRegion extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
-        width: 150,
+        height: 40,
         decoration: const BoxDecoration(
-            color: Colors.black,
+            color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(9),
-            )),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                // spreadRadius: 1,
+                blurRadius: 1,
+                offset: Offset(0, 1), // changes position of shadow
+              )
+            ],
+        ),
 
         child: 
         Row(
           children: [
             Expanded(
-              flex: 1,
-              child: 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(9),
-                      )),
-
-                // child: Image(image: item.images),
-            ),
-              )),
-            Expanded(
-                flex: 2,
+                // flex: 2,
               child: Padding(
-              padding: const EdgeInsets.only(top:8.0, bottom: 8.0, right: 8.0),
-              child: Container(
-                height: double.infinity,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(9),
-                      )),
-                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        // "item.name",
                         item.name,
                         style:
-                            TextStyle(color: Theme.of(context).colorScheme.primary),
+                            TextStyle(color: Colors.black87),
                       ).titleText(),
-                      const Text(
-                        "item.id",
-                        // item.id,
-                        style:
-                            TextStyle(color: Colors.blue),
-                      ).titleText(),
-                       Text(
-                        // "item.address",
-                        item.address,
-                        style:
-                            TextStyle(color: Colors.amberAccent),
-                      ).titleText(),
-                      Text(
-                        // "item.latitude",
-                        item.latitude, 
-                        style: TextStyle(color: OColorBrown))
-                          .informationText(),
-                      // Expanded(child: Container()),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                          ),
-                          Expanded(
-                            child: Text(
-                              // "item.longtitude",
-                              item.longitude
-                              ).informationText(),
-                          ),
-                        ],
-                      ),
-                      // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
                     ],
                   ),
                 ),
               ),
-            )),
-
           ],
         ),
       ),

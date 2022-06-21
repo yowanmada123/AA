@@ -12,6 +12,7 @@ import 'package:boilerplate_flutter/widget/base_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/list_filter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
@@ -78,6 +79,8 @@ class _TransactionListPageState extends State<TransactionListPage> {
       title: "List Transaction",
       body: Column(
         children: [
+          // Container(child: ItemTransaction(),)
+
           Expanded(
             child: Obx(
               () => Container(
@@ -118,13 +121,22 @@ class ItemTransaction extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
-        width: 150,
+        height: 110,
+        // width: 150,
         decoration: const BoxDecoration(
-            color: Colors.black,
+            color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(9),
-            )),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                // spreadRadius: 1,
+                blurRadius: 0.1,
+                offset: Offset(0, 1), // changes position of shadow
+              )
+            ],
+        ),
 
         child: 
         Row(
@@ -133,7 +145,7 @@ class ItemTransaction extends StatelessWidget {
               flex: 1,
               child: 
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Container(
                   height: double.infinity,
                   width: double.infinity,
@@ -141,7 +153,16 @@ class ItemTransaction extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.all(
                         Radius.circular(9),
-                      )),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          // spreadRadius: 1,
+                          blurRadius: 0.1,
+                          offset: Offset(0, 1), // changes position of shadow
+                        )
+                      ],
+                  ),
 
                 // child: Image(image: item.images),
             ),
@@ -163,62 +184,31 @@ class ItemTransaction extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        // "item.name",
-                        item.payment_method,
-                        style:
-                            TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ).titleText(),
                       const Text(
-                        "item.id",
-                        // item.id,
+                        "Transaction Name",
+                        // item.name,
                         style:
-                            TextStyle(color: Colors.blue),
+                            TextStyle(color: Colors.black87),
                       ).titleText(),
-                       Text(
-                        // "item.address",
-                        item.phone_number,
-                        style:
-                            TextStyle(color: Colors.amberAccent),
-                      ).titleText(),
-                      Text(
-                        // "item.address",
-                        item.amount.toString(),
-                        style:
-                            TextStyle(color: Colors.amberAccent),
-                      ).titleText(),
-                      Text(
-                        // "item.latitude",
-                        item.scheduled_date, 
-                        style: TextStyle(color: OColorBrown))
-                          .informationText(),
-                      // Expanded(child: Container()),
+                      const SizedBox(height: 5,),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                          ),
-                          Expanded(
-                            child: Text(
-                              // "item.longtitude",
-                              item.scheduled_time
-                              ).informationText(),
-                          ),
+                          SvgPicture.asset("assets/ic/ic_location.svg"),
+                          const Text(
+                            "Transaction Address",
+                            // item.address,
+                            style:
+                                TextStyle(color: Colors.blue),
+                          ).regularText(),
                         ],
                       ),
-                       Text(
-                        // "item.latitude",
-                        item.status, 
-                        style: TextStyle(color: OColorBrown))
-                          .informationText(),
-                         Text(
-                        // "item.latitude",
-                        item.createdAt, 
-                        style: TextStyle(color: OColorBrown))
-                          .informationText(),
-                      // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
+                      const SizedBox(height: 15,),
+                       const Text(
+                        "Transaction Price",
+                        // item.price,
+                        style:
+                            TextStyle(color: Colors.redAccent),
+                      ).informationText(),
                     ],
                   ),
                 ),
