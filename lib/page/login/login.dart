@@ -31,38 +31,39 @@ class _LoginPageState extends State<LoginPage> {
           init: LoginController(),
           initState: (_) {},
           builder: (c) {
-            return ListView(
+            return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Wrap(
-                    children: [
-                      TitleHeader(
-                        title: "Masuk",
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        children: [
+                          TitleHeader(
+                            title: "Masuk",
+                          ),
+                          OFormText(
+                            title: "EMAIL",
+                            controller: _emailController,
+                            formType: FormType.email,
+                          ),
+                          OFormText(
+                            title: "PASSWORD",
+                            controller: _passwordController,
+                            formType: FormType.password,
+                          ),
+                          Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: InkWell(
+                                onTap: () {
+                                  bottomSheetWidget(heightFactor: 0.8, context: context, child: ForgotPassPage());
+                                },
+                                child: Text("Lupa Password ?").linkText()),
+                          ))
+                        ],
                       ),
-                      OFormText(
-                        title: "EMAIL",
-                        controller: _emailController,
-                        formType: FormType.email,
-                      ),
-                      OFormText(
-                        title: "PASSWORD",
-                        controller: _passwordController,
-                        formType: FormType.password,
-                      ),
-                      Center(
-                          child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: InkWell(
-                            onTap: () {
-                              bottomSheetWidget(
-                                  heightFactor: 0.8,
-                                  context: context,
-                                  child: ForgotPassPage());
-                            },
-                            child: Text("Lupa Password ?").linkText()),
-                      ))
-                    ],
+                    ),
                   ),
                 ),
                 OButtonBar(

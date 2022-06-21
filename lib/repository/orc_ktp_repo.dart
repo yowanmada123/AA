@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:boilerplate_flutter/model/user/profile.dart';
 import "package:http/http.dart";
 import 'package:http_parser/http_parser.dart';
 
@@ -7,7 +8,7 @@ import '../graphql_base.dart';
 import '../model/ocr_res.dart';
 
 class OcrService {
-  Future<OcrRes?> ktp(File file) async {
+  Future<Profile?> ktp(File file) async {
     String query = '''
       mutation uploadKTP(\$file: ImageFile!) {
         uploadKTP(file: \$file){
@@ -17,10 +18,10 @@ class OcrService {
             message
           }
           ... on  UploadKTPResponse{
-            name
+            fullname
             address
-            birthDate
-            birthPlace
+            dateOfBirth
+            placeOfBirth
             gender
             identityNumber
           }
@@ -37,9 +38,8 @@ class OcrService {
     };
 
     try {
-      Map<String, dynamic>? data =
-          await GraphQLBase().mutate(query, variables: variables);
-      OcrRes item = OcrRes.fromMap(data!['uploadKTP'][0]);
+      Map<String, dynamic>? data = await GraphQLBase().mutate(query, variables: variables);
+      Profile item = Profile.fromMap(data!['uploadKTP'][0]);
       return item;
       log(data.toString());
     } on Error catch (e, s) {

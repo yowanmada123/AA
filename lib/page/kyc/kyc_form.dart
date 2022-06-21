@@ -23,6 +23,7 @@ import "package:http/http.dart" as HttpMultipartFile;
 import 'package:http_parser/http_parser.dart';
 
 import '../../model/ocr_res.dart';
+import '../../model/user/profile.dart';
 
 class KYCFormPage extends StatefulWidget {
   const KYCFormPage({Key? key}) : super(key: key);
@@ -427,11 +428,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
   }
 
   ocr(File file) async {
-    OcrRes? ocr = await OcrService().ktp(file);
+    Profile? ocr = await OcrService().ktp(file);
     if (ocr != null) {
       setState(() {
-        nameController.text = ocr.name;
-        birthPlaceController.text = ocr.birthPlace;
+        nameController.text = ocr.fullname;
+        birthPlaceController.text = ocr.dateOfBirth;
         addressController.text = ocr.address;
         identityNumberController.text = ocr.identityNumber;
         // birthDateController = DateTime.tryParse(ocr.birthDate)!;

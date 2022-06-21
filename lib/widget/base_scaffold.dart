@@ -11,21 +11,14 @@ class OScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final List<Widget>? actions;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
-  const OScaffold(
-      {this.title,
-      required this.body,
-      this.floatingActionButton,
-      this.floatingActionButtonLocation,
-      this.backgroundColor = Colors.white,
-      this.bottomNavigationBar,
-      this.actions});
+  const OScaffold({this.title, required this.body, this.floatingActionButton, this.floatingActionButtonLocation, this.backgroundColor = Colors.white, this.bottomNavigationBar, this.actions});
 
   @override
   Widget build(BuildContext context) {
     // final gstate = Get.find<GlobalController>();
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         // Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,

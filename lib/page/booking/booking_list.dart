@@ -74,6 +74,7 @@ class _BookingListPageState extends State<BookingListPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "List Place",
+      backgroundColor: Color(redBooked),
       body: Column(
         children: [
           Padding(
