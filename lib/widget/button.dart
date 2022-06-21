@@ -21,8 +21,8 @@ class OButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      backgroundColor: color ?? Theme.of(context).primaryColor,
+    ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      backgroundColor: color ?? Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       // color: Theme.of(context).primaryColor,
     );

@@ -2,6 +2,7 @@ import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/loading_screen.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +45,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   ThemeData updateThemes(bool useLightMode) {
-    return ThemeData(
-        colorSchemeSeed: m3BaseColor,
-        useMaterial3: true,
-        brightness:
-            GlobalService.to.isDark ? Brightness.dark : Brightness.light);
+    return ThemeData(colorSchemeSeed: m3BaseColor, useMaterial3: true, brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light);
   }
 
   @override
@@ -63,8 +60,7 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
             //TODO : CUSTOM THEME
             // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
-            brightness:
-                GlobalService.to.isDark ? Brightness.dark : Brightness.light,
+            brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light,
             textTheme: GoogleFonts.nunitoTextTheme(
               Theme.of(context).textTheme,
             ),
@@ -73,5 +69,6 @@ class _MyAppState extends State<MyApp> {
           const AllScreen(),
     ),
     );
+
   }
 }

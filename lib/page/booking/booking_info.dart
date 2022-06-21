@@ -4,6 +4,7 @@ import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class BookingInfo extends StatefulWidget {
 
 class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final cGlobal = Get.find<GlobalController>();
 
   final loading = true.obs;
   final selectProduct = 0.obs;
@@ -91,183 +93,192 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          CustomScrollView(
-            slivers: [
-              SliverPersistentHeader(
-                delegate: MySliverAppBar(image: widget.item.getImageUrl(), expandedHeight: 300),
-                pinned: true,
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (_, index) => Container(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [Text(widget.item.name).titleText(), Text('0,1 Km')],
-                                    ),
-                                    Text(widget.item.region.name),
-                                    const SizedBox(height: 20),
-                                    Text(widget.item.address),
-                                  ],
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: MySliverAppBar(image: widget.item.getImageUrl(), expandedHeight: 300),
+                  pinned: true,
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (_, index) => Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [Text(widget.item.name).titleText(), Text('0,1 Km')],
+                                      ),
+                                      Text(widget.item.region.name),
+                                      Obx(
+                                        () => Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                          const SizedBox(height: 20),
+                                          (cGlobal.selectProduct.isNotEmpty) ? Text(cGlobal.selectProduct.value.first.price.toCurrency()).pageTitleText() : Container(),
+                                        ]),
+                                      ),
+                                      Text(widget.item.address),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              DefaultTabController(
-                                length: 2,
-                                child: Column(
-                                  children: [
-                                    TabBar(
-                                      labelColor: Colors.black,
-                                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-                                      unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                                      isScrollable: true,
-                                      indicatorColor: Theme.of(context).colorScheme.primary,
-                                      onTap: (index) {
-                                        // Tab index when user select it, it start from zero
-                                      },
-                                      tabs: const [
-                                        Tab(
-                                          text: "About",
-                                        ),
-                                        Tab(
-                                          text: "Opening Hours",
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      height: 550,
-                                      child: TabBarView(
-                                        children: [
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text("Page Subtitle - Nunito Bold 12").fieldTitleText(),
-                                              SizedBox(
-                                                height: 12,
-                                              ),
-                                              ItemInfo(),
-                                              ItemInfo(),
-                                              ItemInfo(),
-                                              ItemInfo(),
-                                            ],
+                                DefaultTabController(
+                                  length: 2,
+                                  child: Column(
+                                    children: [
+                                      TabBar(
+                                        labelColor: Colors.black,
+                                        labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                                        unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                        isScrollable: true,
+                                        indicatorColor: Theme.of(context).colorScheme.primary,
+                                        onTap: (index) {
+                                          // Tab index when user select it, it start from zero
+                                        },
+                                        tabs: const [
+                                          Tab(
+                                            text: "About",
                                           ),
-                                          Column(
-                                            children: [
-                                              Obx(
-                                                () => Container(
-                                                  child: (loading.value)
-                                                      ? Center(
-                                                          child: CircularProgressIndicator(),
-                                                        )
-                                                      : Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: SizedBox(
-                                                            height: 35,
-                                                            child: ListView.builder(
-                                                                // shrinkWrap:
-                                                                //     true,
-                                                                scrollDirection: Axis.horizontal,
-                                                                itemCount: listProduct.length,
-                                                                itemBuilder: (BuildContext context, int index) {
-                                                                  return Padding(
-                                                                    padding: const EdgeInsets.only(left: 8, right: 12),
-                                                                    child: InkWell(
-                                                                      onTap: () {
-                                                                        listSchedule.value = listProduct[index].schedules;
-                                                                        selectProduct.value = index;
-                                                                      },
-                                                                      child: Obx(
-                                                                        () => Container(
-                                                                          decoration: BoxDecoration(
-                                                                            color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
-                                                                            borderRadius: const BorderRadius.all(Radius.circular(30)),
-                                                                          ),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-                                                                            child: Center(
-                                                                              child: Text(listProduct[index].name).fieldTitleText().white(),
+                                          Tab(
+                                            text: "Opening Hours",
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        height: 550,
+                                        child: TabBarView(
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text("Page Subtitle - Nunito Bold 12").fieldTitleText(),
+                                                SizedBox(
+                                                  height: 12,
+                                                ),
+                                                ItemInfo(),
+                                                ItemInfo(),
+                                                ItemInfo(),
+                                                ItemInfo(),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Obx(
+                                                  () => Container(
+                                                    child: (loading.value)
+                                                        ? Center(
+                                                            child: CircularProgressIndicator(),
+                                                          )
+                                                        : Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: SizedBox(
+                                                              height: 35,
+                                                              child: ListView.builder(
+                                                                  // shrinkWrap:
+                                                                  //     true,
+                                                                  scrollDirection: Axis.horizontal,
+                                                                  itemCount: listProduct.length,
+                                                                  itemBuilder: (BuildContext context, int index) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(left: 8, right: 12),
+                                                                      child: InkWell(
+                                                                        onTap: () {
+                                                                          listSchedule.value = listProduct[index].schedules;
+                                                                          selectProduct.value = index;
+                                                                          cGlobal.selectProduct.clear();
+                                                                          cGlobal.selectProduct.add(listProduct[index]);
+                                                                        },
+                                                                        child: Obx(
+                                                                          () => Container(
+                                                                            decoration: BoxDecoration(
+                                                                              color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
+                                                                              borderRadius: const BorderRadius.all(Radius.circular(30)),
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                                                                              child: Center(
+                                                                                child: Text(listProduct[index].name).fieldTitleText().white(),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  );
-                                                                }),
+                                                                    );
+                                                                  }),
+                                                            ),
                                                           ),
-                                                        ),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                  // height: 200,
-                                                  child: Obx(
-                                                () => ListView.builder(
-                                                    shrinkWrap: true,
-                                                    physics: NeverScrollableScrollPhysics(),
-                                                    itemCount: listSchedule.length,
-                                                    itemBuilder: (BuildContext context, int index) {
-                                                      return OpeningHour(
-                                                        schedule: listSchedule[index],
-                                                      );
-                                                    }),
-                                              )),
-                                            ],
-                                          )
-                                        ],
+                                                SizedBox(
+                                                    // height: 200,
+                                                    child: Obx(
+                                                  () => ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics: NeverScrollableScrollPhysics(),
+                                                      itemCount: listSchedule.length,
+                                                      itemBuilder: (BuildContext context, int index) {
+                                                        return OpeningHour(
+                                                          schedule: listSchedule[index],
+                                                        );
+                                                      }),
+                                                )),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ),
+                      childCount: 1),
+                ),
+              ],
+            ),
+            Positioned(
+                top: 0,
+                child: SafeArea(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset("assets/ic/ic_back.svg"),
                           ),
                         ),
-                    childCount: 1),
-              ),
-            ],
-          ),
-          Positioned(
-              top: 0,
-              child: SafeArea(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Padding(
+                        // Expanded(child: Container()),
+                        Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset("assets/ic/ic_back.svg"),
+                          child: SvgPicture.asset("assets/ic/ic_bookmark.svg"),
                         ),
-                      ),
-                      // Expanded(child: Container()),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SvgPicture.asset("assets/ic/ic_bookmark.svg"),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              )),
-        ],
-      ),
-      bottomNavigationBar: OButtonBar(
-          title: "BOOK NOW",
-          onPressed: () {
-            Get.to(BookingDate(
-              product: listProduct[selectProduct.value],
-            ));
-          }),
-    );
+                )),
+          ],
+        ),
+        bottomNavigationBar: Obx(
+          () => OButtonBar(
+              title: "BOOK NOW",
+              isEnable: (cGlobal.selectProduct.isNotEmpty),
+              onPressed: () {
+                Get.to(BookingDate(
+                  product: listProduct[selectProduct.value],
+                ));
+              }),
+        ));
   }
 }
 

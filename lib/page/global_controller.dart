@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/model/payment/payment_list.dart';
+import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/model/product/product.dart';
+import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,13 +32,12 @@ class GlobalController extends GetxController {
 
   final box = GetStorage();
 
-  // var dataUser = User(
-  //     id: 0,
-  //     name: '',
-  //     passwordInput: '',
-  //     emailInput: '',
-  //     error: '',
-  //     otp_histories: []).obs;
+  //todo : select data transaksi
+  final selectPlace = <Place>[].obs;
+  final selectProduct = <Product>[].obs;
+  final selectPaymentMethods = <PaymentMethods>[].obs;
+  final selectScheduleDate = "".obs;
+  final selectScheduleTime = <ScheduleTime>[].obs;
 
   void setPhoneNumber(String val) {
     box.write('PhoneNumber', val);
@@ -53,6 +56,12 @@ class GlobalController extends GetxController {
     final box = GetStorage();
     box.write('token', val);
     token = val;
+  }
+
+  String getToken() {
+    final box = GetStorage();
+    token = box.read('token');
+    return token;
   }
 
   void setUsername(String val) {

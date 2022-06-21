@@ -136,6 +136,7 @@ class ItemPlace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cGlobal = Get.find<GlobalController>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -178,6 +179,12 @@ class ItemPlace extends StatelessWidget {
             )),
             GestureDetector(
               onTap: () {
+                cGlobal.selectPlace.clear();
+                cGlobal.selectPlace.add(item);
+                cGlobal.selectPlace.clear();
+                cGlobal.selectProduct.clear();
+                cGlobal.selectPaymentMethods.clear();
+                cGlobal.selectScheduleTime.clear();
                 Get.to(BookingInfo(
                   item: item,
                 ));
