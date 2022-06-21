@@ -14,6 +14,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../region/region_list.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -71,6 +73,11 @@ class _HomePageState extends State<HomePage> {
               title: "List Transaction",
               onPressed: () {
                 Get.to(const TransactionListPage());
+              }),
+          OButton(
+              title: "List Region",
+              onPressed: () {
+                Get.to(const RegionListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
