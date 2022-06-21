@@ -28,8 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     String token = await cGlobal.getToken();
     log(token);
     if (token.isNotEmpty) {
-      
-      Get.offAll(ListProfil());
+      Get.offAll(HomePage());
     } else {
       Get.offAll(const AllScreen());
     }

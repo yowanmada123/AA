@@ -14,14 +14,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class ListProfil extends StatefulWidget {
-  const ListProfil({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<ListProfil> createState() => _ListProfilState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ListProfilState extends State<ListProfil> {
+class _HomePageState extends State<HomePage> {
   final cGlobal = Get.find<GlobalController>();
   GoogleSignInAccount? _currentUser;
   GoogleSignInAuthentication? googleAuth;

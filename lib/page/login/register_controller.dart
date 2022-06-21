@@ -85,7 +85,7 @@ class RegisterController extends GetxController {
         final token = res['activateUserByOtp'][0]['token'];
         log(token);
         cGlobal.setToken(token);
-        Get.offAll(ListProfil());
+        Get.offAll(HomePage());
       }
     } on Error catch (e, s) {
       print(e);

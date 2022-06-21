@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/payment/payment_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/title_form.dart';
@@ -10,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+
+import '../profil/list_profil.dart';
+import 'payment_controller.dart';
 
 class PaymentOption extends StatefulWidget {
   const PaymentOption({Key? key}) : super(key: key);
@@ -61,6 +65,7 @@ class _PaymentOptionState extends State<PaymentOption> {
   }
 
   final cGlobal = Get.find<GlobalController>();
+  final cPayment = Get.put(PaymentController());
 
   @override
   void initState() {
@@ -96,11 +101,17 @@ class _PaymentOptionState extends State<PaymentOption> {
                           itemCount: listPaymentMethods.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 log("tap pay");
                                 cGlobal.selectPaymentMethods.clear();
                                 cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
-                                Get.offAll(PaymentDetailPage());
+                                String? transactioId = await cPayment.createpayment();
+                                if (transactioId != null) {
+                                  Get.offAll(HomePage());
+                                  Get.to(PaymentDetailPage(
+                                    transactionId: transactioId,
+                                  ));
+                                }
                               },
                               child: ItemPayment(
                                 data: listPaymentMethods[index],
@@ -123,7 +134,7 @@ class ItemPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 
+    //
     return Column(
       children: [
         Row(

@@ -33,7 +33,7 @@ class OnboardingController extends GetxController {
         final token = res['loginBySocialProvider'][0]['token'];
         log("token from login google $token");
         cGlobal.setToken(token);
-        Get.offAll(ListProfil());
+        Get.offAll(HomePage());
       }
     } on Error catch (e, s) {
       print(e);
