@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form_controller.dart';
+import 'package:boilerplate_flutter/repository/ocr_passport_repo.dart';
 import 'package:boilerplate_flutter/repository/orc_ktp_repo.dart';
 import 'package:boilerplate_flutter/widget/alertx.dart';
 import 'package:boilerplate_flutter/widget/base_camera.dart';
@@ -78,12 +79,12 @@ class _KYCFormPageState extends State<KYCFormPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Masukkan Detail Informasi Anda Sendiri").titleText(),
-                  SizedBox(
+                  const Text("Masukkan Detail Informasi Anda Sendiri").titleText(),
+                  const SizedBox(
                     height: 12,
                   ),
-                  Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas").descriptionText(),
-                  SizedBox(
+                  const Text("Pastikan Anda sudah memasukkan semua data untuk dapat melanjutkan proses verifikasi serta data yang Anda masukkan sesuai dengan yang tertulis di kartu identitas").descriptionText(),
+                  const SizedBox(
                     height: 6,
                   ),
                   OFormText(
@@ -124,17 +125,17 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   //         );
                   //       },
                   //     )),
-                  Text("Upload foto identitas beserta foto diri harus terlihat jelas").descriptionText(),
-                  SizedBox(
+                  const Text("Upload foto identitas beserta foto diri harus terlihat jelas").descriptionText(),
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
+                      const Text(
                         "FOTO IDENTITAS",
                       ).titleText(),
-                      Text(
+                      const Text(
                         "FOTO PROFIL",
                       ).titleText(),
                     ],
@@ -161,16 +162,22 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(() => CameraOverlay('identitas'));
+                                            File? file = await Get.to(() => const CameraOverlay('identitas'));
                                             if (file != null) {
                                               setState(() {
                                                 fileIdCard = file;
                                               });
-                                              ocr(file);
+                                              if (jenisIdentitas == "KTP") {
+                                                print("KTP KTP KTP");
+                                                ocr(file);
+                                              } else {
+                                                ocrPassport(file);
+                                                print("PASSPORT PASSPORT PASSPORT");
+                                              }
                                             }
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text(
                                               "Kamera",
                                             ),
@@ -183,12 +190,18 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                             if (image != null) {
                                               setState(() {
                                                 fileIdCard = File(image.path);
-                                              });
-                                              ocr(fileIdCard!);
+                                              });                                  
+                                              if (jenisIdentitas == "KTP") {
+                                                print("KTP KTP KTP");
+                                                ocr(fileIdCard!);
+                                              } else {
+                                                ocrPassport(fileIdCard!);
+                                                print("PASSPORT PASSPORT PASSPORT");
+                                              }
                                             }
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text("Galeri"),
                                           ),
                                         )
@@ -229,8 +242,8 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                               });
                                             }
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text(
                                               "Kamera",
                                             ),
@@ -246,8 +259,8 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                               });
                                             }
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text("Galeri"),
                                           ),
                                         )
@@ -300,7 +313,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   //     });
                   //   },
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Text(
@@ -332,11 +345,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
                                     child: (genderController == "L")
-                                        ? Text(
+                                        ? const Text(
                                             "laki-Laki",
                                             // textAlign: TextAlign.center,
                                           ).descriptionText().white()
-                                        : Text(
+                                        : const Text(
                                             "laki-Laki",
                                             // textAlign: TextAlign.center,
                                           ).descriptionText().black()),
@@ -367,11 +380,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
                                     child: (genderController == "P")
-                                        ? Text(
+                                        ? const Text(
                                             "Perempuan",
                                             // textAlign: TextAlign.center,
                                           ).descriptionText().white()
-                                        : Text(
+                                        : const Text(
                                             "Perempuan",
                                             // textAlign: TextAlign.center,
                                           ).descriptionText().black()),
@@ -436,11 +449,45 @@ class _KYCFormPageState extends State<KYCFormPage> {
         birthPlaceController.text = ocr.placeOfBirth;
         addressController.text = ocr.address;
         identityNumberController.text = ocr.identityNumber;
+        try {
+          try{
+            var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
+            birthDateControllerDisplay = dateTime2.toDateHuman();
+            birthDateController = dateTime2;
+          }catch (e) {}
+          
+          if (ocr.gender.toLowerCase() == "male") {
+            genderController = "L";
+          } else if (ocr.gender.toLowerCase() == "female") {
+            genderController = "P";
+          }
+          if (ocr.gender.toLowerCase() == "laki - laki") {
+            genderController = "L";
+          } else if (ocr.gender.toLowerCase() == "perempuan") {
+            genderController = "P";
+          }
+        } catch (e) {}
+      });
+      log('ocr');
+    }
+  }
+
+  ocrPassport(File file) async {
+    Profile? ocr = await OcrPassportService().passport(file);
+    if (ocr != null) {
+      setState(() {
+        nameController.text = ocr.fullname;
+        birthPlaceController.text = ocr.placeOfBirth;
+        addressController.text = ocr.address;
+        identityNumberController.text = ocr.identityNumber;
 
         try {
-          var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
-          birthDateControllerDisplay = dateTime2.toDateHuman();
-          birthDateController = dateTime2;
+          try{
+            var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
+            birthDateControllerDisplay = dateTime2.toDateHuman();
+            birthDateController = dateTime2;
+          }catch (e) {}
+
           if (ocr.gender.toLowerCase() == "male") {
             genderController = "L";
           } else if (ocr.gender.toLowerCase() == "female") {

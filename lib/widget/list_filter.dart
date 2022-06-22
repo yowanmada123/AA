@@ -1,4 +1,5 @@
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/radio_filter.dart';
@@ -26,20 +27,22 @@ class _OFilterListState extends State<OFilterList> {
 
   String dropdownValue = "Jakarta";
   bool accept = false;
-  
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: GestureDetector(
-          onTap: () {
+          onTap: () async{
             if (widget.title == "Filter") {
               ShowFilter(context);
             } else if (widget.title == "Sort By") {
               SortBy(context);
             } else {
-              Get.to(const ChoseLocation(isFrom: 'Haha',));
+              Get.to(const ChoseLocation(
+                isFrom: 'Haha',
+              ));
             }
           },
           child: Container(
@@ -72,7 +75,7 @@ class _OFilterListState extends State<OFilterList> {
           ),
         ),
       ),
-    ); 
+    );
   }
 
   Future<dynamic> ShowFilter(BuildContext context) {
@@ -94,8 +97,7 @@ class _OFilterListState extends State<OFilterList> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 18.0, right: 18.0, left: 18.0),
+                    padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,8 +129,7 @@ class _OFilterListState extends State<OFilterList> {
                           children: [
                             Text(
                               "LOCATION",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
                             ).titleText(),
                           ],
                         ),
@@ -136,10 +137,10 @@ class _OFilterListState extends State<OFilterList> {
                         FDropdown(
                           itemDropdown: itemDropdown,
                           dropdownValue: dropdownValue,
-                          onChanged: (val) {
-                            setState(() {
-                              dropdownValue = val;
-                            });
+                          onChanged: (val) {                          
+                            // setState(() {
+                            //   dropdownValue = val;
+                            // });
                           },
                         ),
                         const SizedBox(height: 35),
@@ -148,8 +149,7 @@ class _OFilterListState extends State<OFilterList> {
                           children: [
                             Text(
                               "PRICE RANGE",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
                             ).titleText(),
                           ],
                         ),
@@ -162,10 +162,7 @@ class _OFilterListState extends State<OFilterList> {
                               height: 24,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                    width: 0.5),
+                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -178,10 +175,7 @@ class _OFilterListState extends State<OFilterList> {
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
                                     fillColor: Colors.white,
                                     contentPadding: EdgeInsets.zero,
                                   ),
@@ -196,10 +190,7 @@ class _OFilterListState extends State<OFilterList> {
                               height: 24,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                    width: 0.5),
+                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -212,10 +203,7 @@ class _OFilterListState extends State<OFilterList> {
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
                                     fillColor: Colors.white,
                                     contentPadding: EdgeInsets.zero,
                                   ),
@@ -247,9 +235,9 @@ class _OFilterListState extends State<OFilterList> {
     );
   }
 
-  Future<dynamic> SortBy(BuildContext context) {  
+  Future<dynamic> SortBy(BuildContext context) {
     String? _groupValue;
-    
+
     // void _valueChangedHandler(String value) {
     //   setState(() => _groupValue = value);
     // }
@@ -262,58 +250,60 @@ class _OFilterListState extends State<OFilterList> {
           top: Radius.circular(25.0),
         ),
       ),
-            builder: (context){
-              return Container( 
-               height: 0.38 * MediaQuery.of(context).size.height,
-               child: Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                         GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset("assets/ic/ic_close.svg")),
-                      const Text("Sort By", style: TextStyle(color: Color(0xff19204E)),).pageTitleText(),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset("assets/ic/ic_tick.svg")),
-                        ],
-                      ),
+      builder: (context) {
+        return Container(
+            height: 0.38 * MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: SvgPicture.asset("assets/ic/ic_close.svg")),
+                        const Text(
+                          "Sort By",
+                          style: TextStyle(color: Color(0xff19204E)),
+                        ).pageTitleText(),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: SvgPicture.asset("assets/ic/ic_tick.svg")),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 47
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:37.0),
-                      child: Column(children: [
+                  ),
+                  const SizedBox(height: 47),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 37.0),
+                    child: Column(
+                      children: [
                         MyRadioOption<String>(
                           value: 'A',
                           groupValue: _groupValue,
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
-                              _groupValue=value;
+                              _groupValue = value;
                             });
                           },
                           label: 'A',
-                          text: 'POPULARITY',                      
+                          text: 'POPULARITY',
                         ),
                         MyRadioOption<String>(
                           value: 'B',
                           groupValue: _groupValue,
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
-                              _groupValue=value;
+                              _groupValue = value;
                             });
                           },
                           label: 'B',
@@ -322,9 +312,9 @@ class _OFilterListState extends State<OFilterList> {
                         MyRadioOption<String>(
                           value: 'C',
                           groupValue: _groupValue,
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
-                              _groupValue=value;
+                              _groupValue = value;
                             });
                           },
                           label: 'C',
@@ -333,9 +323,9 @@ class _OFilterListState extends State<OFilterList> {
                         MyRadioOption<String>(
                           value: 'D',
                           groupValue: _groupValue,
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
-                              _groupValue=value;
+                              _groupValue = value;
                             });
                           },
                           label: 'D',
@@ -344,12 +334,10 @@ class _OFilterListState extends State<OFilterList> {
                       ],
                     ),
                   ),
-                    
-                  ],
-                 ),
-               )
-              );
-            },
-        );
+                ],
+              ),
+            ));
+      },
+    );
   }
 }
