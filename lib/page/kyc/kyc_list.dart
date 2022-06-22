@@ -28,30 +28,30 @@ class _KycListState extends State<KycList> {
 
   getData() async {
     String q = '''
-query {
-  profiles(filter: {}, paging: { limit: 10 }, sorting: []) {
-    nodes {
-      identityNumber
-      identityType
-      address
-      createdAt
-      dateOfBirth
-      placeOfBirth
-      email
-      fullname
-      gender
-      id
-      phone
-      updatedAt
-      identityPhoto
-      profilePhoto
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
+  query {
+    profiles(filter: {}, paging: { limit: 10 }, sorting: []) {
+      nodes {
+        identityNumber
+        identityType
+        address
+        createdAt
+        dateOfBirth
+        placeOfBirth
+        email
+        fullname
+        gender
+        id
+        phone
+        updatedAt
+        identityPhoto
+        profilePhoto
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
     }
   }
-}
 
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(q);
@@ -71,7 +71,7 @@ query {
       body: Obx(
         () => Container(
           child: (loading.value)
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : ListView.builder(
