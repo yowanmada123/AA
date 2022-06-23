@@ -17,9 +17,12 @@ import 'package:get/get.dart';
 
 import '../../model/region/region_res.dart';
 
-
 class RegionListPage extends StatefulWidget {
-  const RegionListPage({Key? key}) : super(key: key);
+  // final ValueChanged<String> onChanged;
+  // const RegionListPage({
+  //   Key? key,
+  //   required this.onChanged,
+  // }) : super(key: key);
 
   @override
   State<RegionListPage> createState() => _RegionListPageState();
@@ -81,6 +84,7 @@ class _RegionListPageState extends State<RegionListPage> {
                         itemCount: listRegion.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ItemRegion(
+                            // onChanged: (value) {},
                             item: listRegion[index],
                             // state: gstate,
                             // onTap: () {
@@ -96,22 +100,34 @@ class _RegionListPageState extends State<RegionListPage> {
     );
   }
 }
+
 // ItemTransaction
 class ItemRegion extends StatelessWidget {
   final Region item;
+  // final ValueChanged<String> onChanged;
+  // final Region name;
   // final GlobalController state;
-  const ItemRegion({Key? key, required this.item, 
-  // required this.state
-  })
-      : super(key: key);
+  const ItemRegion({
+    Key? key,
+    required this.item,
+    // required this.onChanged,
+    // required this.name,
+    // required this.state
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 40,
-        decoration: const BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        // onChanged(item.name);
+        // print(item.name);
+        Navigator.pop(context, item.name);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 40,
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(9),
@@ -124,28 +140,26 @@ class ItemRegion extends StatelessWidget {
                 offset: Offset(0, 1), // changes position of shadow
               )
             ],
-        ),
-
-        child: 
-        Row(
-          children: [
-            Expanded(
+          ),
+          child: Row(
+            children: [
+              Expanded(
                 // flex: 2,
-              child: Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         item.name,
-                        style:
-                            TextStyle(color: Colors.black87),
+                        style: TextStyle(color: Colors.black87),
                       ).titleText(),
                     ],
                   ),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
