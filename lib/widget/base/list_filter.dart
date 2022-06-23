@@ -1,9 +1,9 @@
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
-import 'package:boilerplate_flutter/widget/choose_place_button.dart';
+import 'package:boilerplate_flutter/widget/base/choose_place_button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/radio_filter.dart';
+import 'package:boilerplate_flutter/widget/base/radio_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

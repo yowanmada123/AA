@@ -4,19 +4,18 @@ import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 // import 'package:boilerplate_flutter/pages/booking/list_user_page.dart';
 
-import 'package:boilerplate_flutter/widget/base/alertx.dart';
-import 'package:boilerplate_flutter/widget/base/base_map.dart';
-import 'package:boilerplate_flutter/widget/base/base_map_openstreet.dart';
-import 'package:boilerplate_flutter/widget/base/base_scaffold.dart';
+
+import 'package:boilerplate_flutter/widget/base/map.dart';
+import 'package:boilerplate_flutter/widget/base/map_openstreet.dart';
 import 'package:boilerplate_flutter/widget/base/square_button.dart';
-import 'package:boilerplate_flutter/widget/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
 import 'package:boilerplate_flutter/widget/form/form_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../widget/base_scaffold.dart';
+import '../../widget/base/scaffold.dart';
 
 class ChoseLocation extends StatefulWidget {
   final String isFrom;

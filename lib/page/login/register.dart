@@ -2,11 +2,12 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
 import 'package:boilerplate_flutter/page/login/term_and_condition/term_and_cond.dart';
-import 'package:boilerplate_flutter/widget/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
+import 'package:boilerplate_flutter/widget/base/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/base/form.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
-import 'package:boilerplate_flutter/widget/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -67,11 +68,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       //   // submit();
                       c.email = _emailController.text;
                       c.password = _rePasswordController.text;
-                      bottomSheetWidget(
-                          heightFactor: 0.9,
-                          context: context,
-                          child: TandCPage());
-                      //   log("register");
+                      if (_rePasswordController.text == _passwordController.text) {
+                        bottomSheetWidget(heightFactor: 0.9, context: context, child: TandCPage());
+                        //   log("register");
+                      } else {
+                        Alertx().error("Password tidak sama");
+                      }
                     }
                   },
                   // color: Color(primaryDark),

@@ -1,8 +1,8 @@
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
-import 'package:boilerplate_flutter/widget/button_bar.dart';
-import 'package:boilerplate_flutter/widget/checkbox.dart';
+import 'package:boilerplate_flutter/widget/base/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/checkbox.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';

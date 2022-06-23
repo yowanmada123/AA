@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
 import 'package:boilerplate_flutter/page/login/login_controller.dart';
 import 'package:boilerplate_flutter/page/profil/list_profil.dart';
-import 'package:boilerplate_flutter/widget/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/base/form.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
-import 'package:boilerplate_flutter/widget/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

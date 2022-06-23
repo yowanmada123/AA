@@ -5,14 +5,13 @@ import 'dart:typed_data';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/kyc/kyc_form_controller.dart';
-import 'package:boilerplate_flutter/widget/alertx.dart';
-import 'package:boilerplate_flutter/widget/base_camera.dart';
-import 'package:boilerplate_flutter/widget/button_bar.dart';
-import 'package:boilerplate_flutter/widget/date_picker.dart';
-import 'package:boilerplate_flutter/widget/dropdown.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
+import 'package:boilerplate_flutter/widget/base/camera.dart';
+import 'package:boilerplate_flutter/widget/base/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/date_picker.dart';
+import 'package:boilerplate_flutter/widget/base/dropdown.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/base/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -43,7 +42,6 @@ class _KYCEditFormPageState extends State<KYCEditFormPage> {
   bool isHaveImageID = false;
 
   final gstate = Get.put(GlobalController());
-  final kycState = Get.put(KycFormController());
 
   TextEditingController identityNumberController = TextEditingController();
   TextEditingController nameController = TextEditingController();

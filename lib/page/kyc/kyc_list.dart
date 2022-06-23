@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
-import 'package:boilerplate_flutter/widget/checkbox.dart';
+import 'package:boilerplate_flutter/widget/base/checkbox.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

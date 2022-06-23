@@ -1,6 +1,6 @@
-import 'package:boilerplate_flutter/widget/button.dart';
+import 'package:boilerplate_flutter/widget/base/button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/form.dart';
+import 'package:boilerplate_flutter/widget/base/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';

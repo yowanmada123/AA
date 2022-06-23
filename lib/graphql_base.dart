@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/widget/alertx.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
