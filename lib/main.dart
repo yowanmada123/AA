@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'global_service.dart';
+
 
 void main() {
   appInit();
@@ -18,9 +18,8 @@ void main() {
 
 appInit() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put<GlobalService>(GlobalService());
+  Get.put<GlobalController>(GlobalController());
   await GetStorage.init();
-  final gstate = Get.put(GlobalController());
   runApp(const MyApp());
 }
 
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   ThemeData updateThemes(bool useLightMode) {
-    return ThemeData(colorSchemeSeed: m3BaseColor, useMaterial3: true, brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light);
+    return ThemeData(colorSchemeSeed: m3BaseColor, useMaterial3: true, brightness: GlobalController.to.isDark ? Brightness.dark : Brightness.light);
   }
 
   @override
@@ -60,8 +59,8 @@ class _MyAppState extends State<MyApp> {
           // appBarTheme: AppBarTheme(backgroundColor: m3BaseColor),
           useMaterial3: true,
           //TODO : CUSTOM THEME
-          // colorScheme: GlobalService.to.isDark ? darkColorScheme: lightColorScheme,
-          brightness: GlobalService.to.isDark ? Brightness.dark : Brightness.light,
+          // colorScheme: GlobalController.to.isDark ? darkColorScheme: lightColorScheme,
+          brightness: GlobalController.to.isDark ? Brightness.dark : Brightness.light,
           textTheme: GoogleFonts.nunitoTextTheme(
             Theme.of(context).textTheme,
           ),

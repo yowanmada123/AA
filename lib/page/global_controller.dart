@@ -14,6 +14,24 @@ const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
 const String mainbaseFile = 'http://103.186.0.33:3000/uploads/place/';
 
 class GlobalController extends GetxController {
+
+  Future<GlobalController> init() async {
+    return this;
+  }
+
+  static GlobalController get to => Get.find();
+
+  final box = GetStorage();
+  final _isDark = false.obs;
+  get isDark => _isDark.value;
+  void switchTheme() {
+    _isDark.value = !_isDark.value;
+    log(_isDark.value.toString());
+    // Get.changeTheme(_isDark.value == true ? AppTheme.dark : AppTheme.light);
+    // Get.changeTheme(AppTheme.dark);
+    box.write('darkmode', !isDark);
+  }
+
   String baseUrl = mainBaseUrl;
   String baseFile = mainbaseFile;
   String token = '';
@@ -24,13 +42,8 @@ class GlobalController extends GetxController {
 
   double latitude = 0.0;
   double longitude = 0.0;
-  double widthFactor = 1;
-  double maxWidth = double.infinity;
-  double minWidth = 100;
 
   String addres = "";
-
-  final box = GetStorage();
 
   //todo : select data transaksi
   final selectPlace = <Place>[].obs;
@@ -41,15 +54,6 @@ class GlobalController extends GetxController {
 
   void setPhoneNumber(String val) {
     box.write('PhoneNumber', val);
-  }
-
-  void checkISWeb() async {
-    if (kIsWeb) {
-      log("It's web");
-      maxWidth = 600;
-      minWidth = 350;
-      widthFactor = 0.4;
-    }
   }
 
   void setToken(String val) {
@@ -75,27 +79,6 @@ class GlobalController extends GetxController {
     box.write('profileImage', val);
     profileImage = val;
   }
-
-  // void setData(UserLogin data) {
-  //   final box = GetStorage();
-  //   box.write('profileData', jsonEncode(data));
-  // }
-
-  // UserLogin getData() {
-  //   final box = GetStorage();
-  //   final UserLogin data =
-  //       UserLogin.fromJson(jsonDecode(box.read('profileData')));
-  //   log('profileData${box.read('profileData')}');
-  //   return data;
-  // }
-
-  // Future<UserLogin> getDataEdit() async {
-  //   final box = GetStorage();
-  //   final UserLogin data =
-  //       UserLogin.fromJson(jsonDecode(box.read('profileData')));
-  //   log('profileData${box.read('profileData')}');
-  //   return data;
-  // }
 
   String getUsername() {
     final box = GetStorage();

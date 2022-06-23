@@ -60,7 +60,7 @@ class Alertx {
       ),
       child: Container(
         height: 200,
-        width: gstate.maxWidth,
+        width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(

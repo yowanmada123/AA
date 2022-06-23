@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/global_service.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
 import 'package:boilerplate_flutter/widget/base/button.dart';
@@ -187,8 +187,8 @@ class _AllScreenState extends State<AllScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => GlobalService.to.switchTheme(),
-        child: Obx(() => Icon(GlobalService.to.isDark ? Icons.dark_mode : Icons.light_mode)),
+        onPressed: () => GlobalController.to.switchTheme(),
+        child: Obx(() => Icon(GlobalController.to.isDark ? Icons.dark_mode : Icons.light_mode)),
       ),
     );
   }
