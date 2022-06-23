@@ -51,12 +51,6 @@ dependencies:
   sign_in_with_apple: ^4.0.0
   table_calendar: ^3.0.6
   intl: ^0.17.0
-
-
-
-  #base model
-  json_annotation: ^4.5.0
-  freezed_annotation: ^2.0.3
   dart_date: ^1.1.1
   flutter_map: ^1.0.0
   geocoding: ^2.0.4
@@ -73,11 +67,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  # Code Generator
-  build_runner: ^2.1.11 #fvm flutter pub run build_runner build --delete-conflicting-outputs
-  # Data Structure
-  freezed: ^2.0.3+1
-  json_serializable: ^6.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

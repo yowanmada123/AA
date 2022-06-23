@@ -1,26 +1,34 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-part 'user.g.dart';
-part 'user.freezed.dart';
+class UserRes {
+  final String id;
+  final String nama;
+  UserRes({
+    required this.id,
+    required this.nama,
+  });
 
-@freezed
-class UserRes with _$UserRes {
-  const UserRes._();
-  @JsonSerializable(
-      anyMap: true, explicitToJson: true, checked: true, includeIfNull: false)
-  const factory UserRes({
-    @JsonKey(
-      name: 'id',
-      defaultValue: "",
-    )
-        required String id,
-    @JsonKey(
-      name: 'email',
-      defaultValue: "",
-    )
-        required String email,
-  }) = _UserRes;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'nama': nama,
+    };
+  }
 
-  factory UserRes.fromJson(Map<String, dynamic> json) =>
-      _$UserResFromJson(json);
+  factory UserRes.fromMap(Map<String, dynamic> map) {
+    return UserRes(
+      id: map['id'] as String,
+      nama: map['nama'] as String,
+    );
+  }
+
+  @override
+  String toString() => 'UserRes(id: $id, nama: $nama)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is UserRes && other.id == id && other.nama == nama;
+  }
 }
