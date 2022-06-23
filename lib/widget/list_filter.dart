@@ -1,13 +1,13 @@
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/choose_place_button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/radio_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'checkbox_filter.dart';
-import 'dropdown_filter.dart';
 
 class OFilterList extends StatefulWidget {
   final String title;
@@ -23,9 +23,6 @@ class OFilterList extends StatefulWidget {
 }
 
 class _OFilterListState extends State<OFilterList> {
-  List<String> itemDropdown = ["Jakarta", "Surabaya", "Bandung"];
-
-  String dropdownValue = "Jakarta";
   bool accept = false;
 
   @override
@@ -34,7 +31,7 @@ class _OFilterListState extends State<OFilterList> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: GestureDetector(
-          onTap: () async{
+          onTap: () async {
             if (widget.title == "Filter") {
               ShowFilter(context);
             } else if (widget.title == "Sort By") {
@@ -134,15 +131,7 @@ class _OFilterListState extends State<OFilterList> {
                           ],
                         ),
                         const SizedBox(height: 4),
-                        FDropdown(
-                          itemDropdown: itemDropdown,
-                          dropdownValue: dropdownValue,
-                          onChanged: (val) {                          
-                            // setState(() {
-                            //   dropdownValue = val;
-                            // });
-                          },
-                        ),
+                        ChoosePlaceButton(),
                         const SizedBox(height: 35),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,

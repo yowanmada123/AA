@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
           OButton(
               title: "List Region",
               onPressed: () {
-                Get.to(const RegionListPage());
+                Get.to(RegionListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
