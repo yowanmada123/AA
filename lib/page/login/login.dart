@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
-import 'package:boilerplate_flutter/page/login/login_controller.dart';
+import 'package:boilerplate_flutter/page/login/register_controller.dart';
 import 'package:boilerplate_flutter/page/profil/list_profil.dart';
 import 'package:boilerplate_flutter/widget/base/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Form(
       key: _key,
-      child: GetBuilder<LoginController>(
-          init: LoginController(),
+      child: GetBuilder<RegisterController>(
+          init: RegisterController(),
           initState: (_) {},
           builder: (c) {
             return Column(

@@ -6,28 +6,14 @@ import 'package:get/get.dart';
 import '../../graphql_base.dart';
 
 class PaymentController extends GetxController {
-  final payment_method = "".obs;
-  final phone_number = "".obs;
-  final product_id = "".obs;
-  final scheduled_date = "".obs;
-  final scheduled_time = "".obs;
   final cGlobal = Get.find<GlobalController>();
 
-  PaymentController() {
-    log(cGlobal.selectPlace.toString());
-    log(cGlobal.selectProduct.toString());
-    log(cGlobal.selectScheduleTime.toString());
-    log(cGlobal.selectPaymentMethods.toString());
-    log(cGlobal.token.toString());
-    // payment_method.value = cGlobal.selectPaymentMethods.first.id;
-    phone_number.value = "";
-    product_id.value = cGlobal.selectProduct.first.id;
-    scheduled_date.value = cGlobal.selectScheduleDate.value;
-    scheduled_time.value = cGlobal.selectScheduleTime.first.schedule;
-  }
-
   Future<String?> createpayment() async {
-    payment_method.value = cGlobal.selectPaymentMethods.first.id;
+    String payment_method = cGlobal.selectPaymentMethods.first.id;
+    String phone_number = "";
+    String product_id = cGlobal.selectProduct.first.id;
+    String scheduled_date = cGlobal.selectScheduleDate.value;
+    String scheduled_time = cGlobal.selectScheduleTime.first.schedule;
 
     String data = '''
               mutation {

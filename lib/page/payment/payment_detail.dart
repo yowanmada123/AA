@@ -1,5 +1,4 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/payment/payment_controller.dart';
 import 'package:boilerplate_flutter/widget/base/scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
@@ -21,164 +20,158 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
     final cGlobal = Get.find<GlobalController>();
 
     return OScaffold(
-      title: "Detail Pembayaran",
-      body: GetBuilder<PaymentController>(
-          init: PaymentController(),
-          initState: (_) {},
-          builder: (c) {
-            return Container(
-                color: Colors.white,
-                child: ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.brown,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(12),
-                                )),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.info_rounded),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Information Text - Nunito Regular 12").regularText(),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          children: [Text("Highlighted Text - ").titleText(), Expanded(child: Text("Nunito Bold 14 ").titleText().red())],
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
+        title: "Detail Pembayaran",
+        body: Container(
+            color: Colors.white,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.brown,
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text("Pembayaran").fieldTitleText().brown(),
-                          Text(cGlobal.selectPaymentMethods.first.name).regularBigText(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(12),
+                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Image.asset(
-                                  "assets/sample/bca.png",
-                                  // width: 40,
-                                  height: 25,
-                                ),
+                                child: Icon(Icons.info_rounded),
                               ),
-                              Expanded(flex: 1, child: Text(c.phone_number.value).titleText()),
                               Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    "INTERACTIVE TEXT - Nunito Bold 12",
-                                    textAlign: TextAlign.end,
-                                  ).fieldTitleText())
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Information Text - Nunito Regular 12").regularText(),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [Text("Highlighted Text - ").titleText(), Expanded(child: Text("Nunito Bold 14 ").titleText().red())],
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Pembayaran").fieldTitleText().brown(),
+                      Text(cGlobal.selectPaymentMethods.first.name).regularBigText(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              "assets/sample/bca.png",
+                              // width: 40,
+                              height: 25,
+                            ),
                           ),
-                          Text("Venue Booking").fieldTitleText().brown(),
-                          Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        cGlobal.selectProduct.first.name,
-                                      ).titleText(),
-                                      // Text(
-                                      //   cGlobal.selectProduct.first.name,
-                                      // ).regularBigText()
-                                    ],
-                                  )),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    cGlobal.selectProduct.first.price.toCurrency(),
-                                    textAlign: TextAlign.end,
-                                  ).regularBigText()),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    "Processing Fee",
-                                  ).regularBigText()),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    "-",
-                                    textAlign: TextAlign.end,
-                                  ).regularBigText()),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Divider(),
-                          Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    "Total",
-                                  ).regularBigText()),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    cGlobal.selectProduct.first.price.toCurrency(),
-                                    textAlign: TextAlign.end,
-                                  ).titleText()),
-                            ],
-                          ),
+                          Expanded(flex: 1, child: Text(cGlobal.phone).titleText()),
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                "INTERACTIVE TEXT - Nunito Bold 12",
+                                textAlign: TextAlign.end,
+                              ).fieldTitleText())
                         ],
                       ),
-                    ),
-                    Divider(
-                      thickness: 12,
-                      color: Colors.grey[300],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
+                      SizedBox(
+                        height: 20,
                       ),
-                    )
-                  ],
-                ));
-          }),
-    );
+                      Text("Venue Booking").fieldTitleText().brown(),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cGlobal.selectProduct.first.name,
+                                  ).titleText(),
+                                  // Text(
+                                  //   cGlobal.selectProduct.first.name,
+                                  // ).regularBigText()
+                                ],
+                              )),
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                cGlobal.selectProduct.first.price.toCurrency(),
+                                textAlign: TextAlign.end,
+                              ).regularBigText()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Processing Fee",
+                              ).regularBigText()),
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                "-",
+                                textAlign: TextAlign.end,
+                              ).regularBigText()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Divider(),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Total",
+                              ).regularBigText()),
+                          Expanded(
+                              flex: 1,
+                              child: Text(
+                                cGlobal.selectProduct.first.price.toCurrency(),
+                                textAlign: TextAlign.end,
+                              ).titleText()),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 12,
+                  color: Colors.grey[300],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
+                  ),
+                )
+              ],
+            )));
   }
 
   final List<Item> _data = generateItems(8);

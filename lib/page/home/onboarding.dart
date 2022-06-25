@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/page/home/onboarding_controller.dart';
 import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/register.dart';
+import 'package:boilerplate_flutter/page/login/register_controller.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button.dart';
 import 'package:boilerplate_flutter/widget/dummy/logo.dart';
@@ -26,7 +26,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   GoogleSignInAccount? _currentUser;
   GoogleSignInAuthentication? googleAuth;
-  final cOnboarding = Get.put(OnboardingController());
+  final cOnboarding = Get.put(RegisterController());
 
   @override
   void initState() {

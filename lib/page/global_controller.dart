@@ -14,7 +14,6 @@ const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
 const String mainbaseFile = 'http://103.186.0.33:3000/uploads/place/';
 
 class GlobalController extends GetxController {
-
   Future<GlobalController> init() async {
     return this;
   }
@@ -36,6 +35,7 @@ class GlobalController extends GetxController {
   String baseFile = mainbaseFile;
   String token = '';
   String username = '';
+  String phone = '';
   String profileImage = '';
   String idEdit = "3f89794e-f10d-497d-bd80-f7ab15bdd406";
   bool isDev = false;
@@ -52,14 +52,22 @@ class GlobalController extends GetxController {
   final selectScheduleDate = "".obs;
   final selectScheduleTime = <ScheduleTime>[].obs;
 
-  void setPhoneNumber(String val) {
-    box.write('PhoneNumber', val);
-  }
-
   void setToken(String val) {
     final box = GetStorage();
     box.write('token', val);
     token = val;
+  }
+
+  void setPhone(String val) {
+    final box = GetStorage();
+    box.write('phone', val);
+    phone = val;
+  }
+
+  String getPhone() {
+    final box = GetStorage();
+    phone = box.read('phone') ?? "";
+    return token;
   }
 
   String getToken() {

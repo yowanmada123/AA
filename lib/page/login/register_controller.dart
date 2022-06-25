@@ -120,4 +120,87 @@ class RegisterController extends GetxController {
       print(s);
     }
   }
+
+  Future<void> loginByEmail() async {
+    String q = '''
+     mutation {
+  loginByEmail(
+    input: {        
+      email: "$email"
+      password: "$password"
+    }
+  ) {
+    ... on AuthUserResponse {
+      token
+      user {
+          id
+        
+          email
+        __typename
+      }
+      __typename
+    }
+    ... on AuthUserResponse {
+        user{
+          id
+          email
+        }
+      token
+        
+    }
+   
+    __typename
+  }
+}
+    ''';
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(q);
+      if (res != null) {
+        log(res.toString());
+        final token = res['loginByEmail'][0]['token'];
+        log(token);
+        cGlobal.setToken(token);
+        // if (res['loginByEmail'][0]['user']['profiles'].lenght > 0) {
+        //   cGlobal.setPhone(res['loginByEmail'][0]['user']['profiles'][0]['phone']);
+        // }
+        Get.offAll(HomePage());
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  Future<void> loginByGoogle(String token) async {
+    String q = '''
+    mutation{
+        loginBySocialProvider(
+          input:{
+            accessToken:"$token"
+            provider:GOOGLE
+          }
+          
+        ){
+          __typename
+          ... on AuthUserResponse{
+            token
+          }
+          
+        }
+      }
+    ''';
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(q);
+      if (res != null) {
+        log(res.toString());
+        final token = res['loginBySocialProvider'][0]['token'];
+        log("token from login google $token");
+        cGlobal.setToken(token);
+        Get.offAll(HomePage());
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
 }
