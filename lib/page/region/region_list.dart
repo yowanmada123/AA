@@ -1,36 +1,25 @@
+
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/model/transaction/transaction_res.dart';
-import 'package:boilerplate_flutter/page/booking/booking_info.dart';
-import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/utils/colors.dart';
-import 'package:boilerplate_flutter/widget/base/appbar.dart';
 import 'package:boilerplate_flutter/widget/base/scaffold.dart';
+import 'package:boilerplate_flutter/widget/base/search_widget.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/list_filter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../model/region/region_res.dart';
 
 class RegionListPage extends StatefulWidget {
-  // final ValueChanged<String> onChanged;
-  // const RegionListPage({
-  //   Key? key,
-  //   required this.onChanged,
-  // }) : super(key: key);
-
   @override
   State<RegionListPage> createState() => _RegionListPageState();
 }
 
 class _RegionListPageState extends State<RegionListPage> {
   final loading = true.obs;
-  final listRegion = <Region>[].obs;
+  var listRegion = <Region>[].obs;
+  late List<Region> regions;
+  String query = '';
 
   getData() async {
     String options = '''
@@ -58,13 +47,12 @@ class _RegionListPageState extends State<RegionListPage> {
     loading.value = false;
   }
 
-  // final gstate = Get.find<GlobalController>();
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    regions = listRegion;
   }
 
   @override
@@ -73,6 +61,7 @@ class _RegionListPageState extends State<RegionListPage> {
       title: "List Region",
       body: Column(
         children: [
+          buildSearch(),
           Expanded(
             child: Obx(
               () => Container(
@@ -81,15 +70,11 @@ class _RegionListPageState extends State<RegionListPage> {
                         child: CircularProgressIndicator(),
                       )
                     : ListView.builder(
-                        itemCount: listRegion.length,
+                        itemCount: regions.length,
                         itemBuilder: (BuildContext context, int index) {
+                          final region = regions[index];
                           return ItemRegion(
-                            // onChanged: (value) {},
-                            item: listRegion[index],
-                            // state: gstate,
-                            // onTap: () {
-                            //   // Get.to(ListHealtPage());
-                            // },
+                            item: region,
                           );
                         }),
               ),
@@ -99,28 +84,40 @@ class _RegionListPageState extends State<RegionListPage> {
       ),
     );
   }
+
+  Widget buildSearch() => SearchWidget(
+        text: query,
+        hintText: 'Region Name',
+        onChanged: searchRegion,
+      );
+
+  void searchRegion(String query) {
+    final regions = listRegion.where((region) {
+      final titleLower = region.name.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return titleLower.contains(searchLower);
+    }).toList();
+
+    setState(() {
+      this.query = query;
+      this.regions = regions;
+    });
+  }
 }
 
-// ItemTransaction
 class ItemRegion extends StatelessWidget {
   final Region item;
-  // final ValueChanged<String> onChanged;
-  // final Region name;
-  // final GlobalController state;
+
   const ItemRegion({
     Key? key,
     required this.item,
-    // required this.onChanged,
-    // required this.name,
-    // required this.state
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // onChanged(item.name);
-        // print(item.name);
         Navigator.pop(context, item.name);
       },
       child: Padding(

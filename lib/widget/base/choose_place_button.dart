@@ -12,7 +12,7 @@ class ChoosePlaceButton extends StatefulWidget {
 }
 
 class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
-  late String placeValue = "Samarinda";
+  late String placeValue = "Jakarta";
 
   @override
   Widget build(BuildContext context) {
