@@ -70,9 +70,9 @@ class GlobalController extends GetxController {
     return token;
   }
 
-  String getToken() {
+  String? getToken() {
     final box = GetStorage();
-    token = box.read('token');
+    String? token = box.read('token');
     return token;
   }
 

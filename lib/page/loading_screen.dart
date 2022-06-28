@@ -26,11 +26,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   init() async {
     //todo load from box;
-    String token = await cGlobal.getToken();
+    String? token = await cGlobal.getToken();
     cGlobal.getPhone();
     cGlobal.getProfileImage();
-    log(token);
-    if (token.isNotEmpty) {
+
+    if (token != null) {
       Get.offAll(HomePage());
     } else {
       Get.offAll(const AllScreen());

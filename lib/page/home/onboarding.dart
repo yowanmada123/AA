@@ -33,8 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     // TODO: implement initState
     super.initState();
 
-    _googleSignIn.onCurrentUserChanged
-        .listen((GoogleSignInAccount? account) async {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
       setState(() {
         _currentUser = account;
         // Alertx().error(account!.authentication);
@@ -129,10 +128,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         OButton(
                             title: "Login",
                             onPressed: () {
-                              bottomSheetWidget(
-                                  heightFactor: 0.8,
-                                  context: context,
-                                  child: LoginPage());
+                              bottomSheetWidget(heightFactor: 0.8, context: context, child: LoginPage());
                             }),
                         SizedBox(
                           height: 18,
@@ -142,10 +138,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             textColor: Theme.of(context).colorScheme.primary,
                             title: "Button 1 - Nunito bold 14 Register ",
                             onPressed: () {
-                              bottomSheetWidget(
-                                  heightFactor: 0.8,
-                                  context: context,
-                                  child: RegisterPage());
+                              bottomSheetWidget(heightFactor: 0.8, context: context, child: RegisterPage());
                             }),
                         Divider(
                           color: Colors.white,
@@ -159,8 +152,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ),
                         SignInWithAppleButton(
                           onPressed: () async {
-                            final credential =
-                                await SignInWithApple.getAppleIDCredential(
+                            final credential = await SignInWithApple.getAppleIDCredential(
                               scopes: [
                                 AppleIDAuthorizationScopes.email,
                                 AppleIDAuthorizationScopes.fullName,
@@ -168,6 +160,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             );
 
                             log(credential.toString());
+                            log(credential.identityToken.toString());
 
                             // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
                             // after they have been validated with Apple (see `Integration` section for more information on how to do this)
