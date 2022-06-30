@@ -159,9 +159,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               ],
                             );
 
-                            log(credential.toString());
                             log(credential.identityToken.toString());
-
+                            log(credential.authorizationCode);
+                            cOnboarding.loginByApple(identityToken: credential.identityToken.toString(), authorizationCode: credential.authorizationCode);
                             // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
                             // after they have been validated with Apple (see `Integration` section for more information on how to do this)
                           },
