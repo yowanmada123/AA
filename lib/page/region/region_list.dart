@@ -24,7 +24,7 @@ class _RegionListPageState extends State<RegionListPage> {
   getData() async {
     String options = '''
       query listRegion{
-        regions(filter: {}, paging: { limit: 10 }, sorting: []) {
+        regions(filter: {}, paging: { limit: 600 }, sorting: []) {
           nodes {
              id
              name

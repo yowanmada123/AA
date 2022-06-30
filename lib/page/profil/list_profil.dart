@@ -4,6 +4,7 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
+import 'package:boilerplate_flutter/page/region/region_list_with_pull_to_req.dart';
 import 'package:boilerplate_flutter/page/transaction/transaction_list.dart';
 import 'package:boilerplate_flutter/widget/base/button.dart';
 import 'package:boilerplate_flutter/widget/base/button_bar.dart';
@@ -78,6 +79,11 @@ class _HomePageState extends State<HomePage> {
               title: "List Region",
               onPressed: () {
                 Get.to(RegionListPage());
+              }),
+          OButton(
+              title: "List Region With Pull To Request",
+              onPressed: () {
+                Get.to(RegionListWithPullToReqPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
