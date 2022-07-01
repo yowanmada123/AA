@@ -3,15 +3,25 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
-import 'package:boilerplate_flutter/widget/base/button.dart';
-import 'package:boilerplate_flutter/widget/base/button_bar.dart';
-import 'package:boilerplate_flutter/widget/base/checkbox.dart';
-import 'package:boilerplate_flutter/widget/base/date_picker.dart';
-import 'package:boilerplate_flutter/widget/base/date_picker_ios.dart';
-import 'package:boilerplate_flutter/widget/base/dropdown.dart';
+import 'package:boilerplate_flutter/widget/base/button/button.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_circle.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_small.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_square.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_date_picker.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_date_picker_ios.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_dropdown.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
+import 'package:boilerplate_flutter/widget/base/label/label_capsul.dart';
+import 'package:boilerplate_flutter/widget/base/label/label_capsul_outline.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/form.dart';
-import 'package:boilerplate_flutter/widget/base/radio.dart';
+import 'package:boilerplate_flutter/widget/base/form/form.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -29,6 +39,7 @@ class _AllScreenState extends State<AllScreen> {
   DateTime selectedDate = DateTime.now();
   bool accept = false;
   String radioSelected = '';
+  String groupValue = '';
 
   List<String> itemDropdown = ["Satu", "Dua", "Tiga"];
   String dropdownValue = "Satu";
@@ -89,43 +100,135 @@ class _AllScreenState extends State<AllScreen> {
                 Container(width: 30, height: 30, color: Theme.of(context).colorScheme.secondary),
               ],
             ),
-            Divider(),
+            const Divider(),
             Text("Text :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
-            Text(
+            const Text(
               "Description Title - Nunito Bold 16",
             ).titleText(),
-            Text(
+            const Text(
               "Page Title - Nunito Bold 14",
             ).pageTitleText(),
-            Text(
+            const Text(
               "Field TITLE - Nunito Bold 12",
             ).fieldTitleText(),
-            Text(
+            const Text(
               "Field Text - Nunito Regular 14",
             ).descriptionText(),
-            Text(
+            const Text(
               "Redirect Text - Nunito Bold 12",
             ).linkText(),
-            Text(
+            const Text(
               "Information Text - Nunito Regular 12",
             ).informationText(),
+            const OTitleHeader(
+                  title: "Lupa Password",
+                ),
             Divider(),
             Text("Button :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
             OButton(
               title: "Button 1 - Nunito bold 14 ",
               onPressed: () {},
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             OButtonBar(
               title: "Fixed 1 - Nunito bold 14 ",
               onPressed: () {},
             ),
-            Divider(),
+            const SizedBox(
+              height: 10,
+            ),
+            SmallButton(
+              title: "Fixed 1 - Nunito bold 14 ",
+              onPressed: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            OButton(
+              title: "Fixed 1 - Nunito bold 14 ",
+              onPressed: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SquareButton(
+              title: "Fixed 1 - Nunito bold 14 ",
+              onPressed: () {},
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            OSmallOutlinebutton(title: "Fixed 1 - Nunito bold 14 ", icon: "assets/ic/ic_filter.svg"),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                OCircleButton(
+                  icon: "assets/ic/ic_filter.svg",
+                  onPressed: () {},
+                ),
+                 OCircleButton(
+                  icon: "assets/ic/ic_filter.svg",
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            Text("Label :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                OLabelCapsul(
+                  title: "Label 1",
+                ),
+                OLabelOutlineCapsul(
+                  title: "Label 2",
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  textColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            Text("Search Widget :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            const SizedBox(
+              height: 10,
+            ),
+            OSearchWidget(
+              text: "",
+              hintText: 'Example Search',
+              onChanged: (String a){},
+            ),
+            const Divider(),
             Text("CheckBox :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            OSquareCheckBox(
+              text: "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
+              accept: accept,
+              fungsi: (val) {
+                setState(() {
+                  accept = !accept;
+                  print(accept);
+                });
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             OCheckBox(
-                text: "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
+                text: "Fixed 1",
                 accept: accept,
                 fungsi: (val) {
                   setState(() {
@@ -170,6 +273,58 @@ class _AllScreenState extends State<AllScreen> {
                 });
                 log(val);
               },
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 37.0),
+              child: Column(
+                children: [
+                  OMyRadioOption<String>(
+                    value: 'A',
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                    label: 'A',
+                    text: 'POPULARITY',
+                  ),
+                  OMyRadioOption<String>(
+                    value: 'B',
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                    label: 'B',
+                    text: 'CLOSEST DISTANCE',
+                  ),
+                  OMyRadioOption<String>(
+                    value: 'C',
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                    label: 'C',
+                    text: 'PRICE: HIGH TO LOW',
+                  ),
+                  OMyRadioOption<String>(
+                    value: 'D',
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                    label: 'D',
+                    text: 'PRICE: LOW TO HIGH',
+                  ),
+                ],
+              ),
             ),
             Divider(),
             ODropdown(

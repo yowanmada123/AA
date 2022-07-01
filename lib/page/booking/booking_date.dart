@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../widget/base/scaffold.dart';
-import '../../widget/base/button_bar.dart';
+import '../../widget/base/form/form_scaffold.dart';
+import '../../widget/base/button/button_bar.dart';
 
 class BookingDate extends StatefulWidget {
   final Product product;

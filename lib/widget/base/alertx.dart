@@ -1,6 +1,6 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
-import 'package:boilerplate_flutter/widget/base/button.dart';
+import 'package:boilerplate_flutter/widget/base/button/button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
 import 'package:flutter/material.dart';

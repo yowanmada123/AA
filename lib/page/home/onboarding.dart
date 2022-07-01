@@ -4,7 +4,7 @@ import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
-import 'package:boilerplate_flutter/widget/base/button.dart';
+import 'package:boilerplate_flutter/widget/base/button/button.dart';
 import 'package:boilerplate_flutter/widget/dummy/logo.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';

@@ -1,28 +1,27 @@
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
-import 'package:boilerplate_flutter/widget/base/choose_place_button.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/radio_filter.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'checkbox_filter.dart';
+import '../form/form_checkbox_filter.dart';
 
-class OFilterList extends StatefulWidget {
+class OSmallOutlinebutton extends StatefulWidget {
   final String title;
   final String icon;
-  OFilterList({
+  OSmallOutlinebutton({
     Key? key,
     required this.title,
     required this.icon,
   }) : super(key: key);
 
   @override
-  State<OFilterList> createState() => _OFilterListState();
+  State<OSmallOutlinebutton> createState() => _OSmallOutlinebuttonState();
 }
 
-class _OFilterListState extends State<OFilterList> {
+class _OSmallOutlinebuttonState extends State<OSmallOutlinebutton> {
   bool accept = false;
 
   @override
@@ -37,9 +36,7 @@ class _OFilterListState extends State<OFilterList> {
             } else if (widget.title == "Sort By") {
               SortBy(context);
             } else {
-              Get.to(const ChoseLocation(
-                isFrom: 'Haha',
-              ));
+              Get.to(const ChoseLocation());
             }
           },
           child: Container(
@@ -207,7 +204,7 @@ class _OFilterListState extends State<OFilterList> {
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: FCheckBox(
+                    child: OCheckBox(
                         text: "AVAILABLE TODAY",
                         accept: accept,
                         fungsi: (val) {
@@ -224,12 +221,10 @@ class _OFilterListState extends State<OFilterList> {
     );
   }
 
+
+
   Future<dynamic> SortBy(BuildContext context) {
     String? _groupValue;
-
-    // void _valueChangedHandler(String value) {
-    //   setState(() => _groupValue = value);
-    // }
 
     return showModalBottomSheet(
       context: context,
@@ -276,7 +271,7 @@ class _OFilterListState extends State<OFilterList> {
                     padding: const EdgeInsets.symmetric(horizontal: 37.0),
                     child: Column(
                       children: [
-                        MyRadioOption<String>(
+                        OMyRadioOption<String>(
                           value: 'A',
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -287,7 +282,7 @@ class _OFilterListState extends State<OFilterList> {
                           label: 'A',
                           text: 'POPULARITY',
                         ),
-                        MyRadioOption<String>(
+                        OMyRadioOption<String>(
                           value: 'B',
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -298,7 +293,7 @@ class _OFilterListState extends State<OFilterList> {
                           label: 'B',
                           text: 'CLOSEST DISTANCE',
                         ),
-                        MyRadioOption<String>(
+                        OMyRadioOption<String>(
                           value: 'C',
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -309,7 +304,7 @@ class _OFilterListState extends State<OFilterList> {
                           label: 'C',
                           text: 'PRICE: HIGH TO LOW',
                         ),
-                        MyRadioOption<String>(
+                        OMyRadioOption<String>(
                           value: 'D',
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -330,3 +325,47 @@ class _OFilterListState extends State<OFilterList> {
     );
   }
 }
+
+
+class ChoosePlaceButton extends StatefulWidget {
+  @override
+  State<ChoosePlaceButton> createState() => _ChoosePlaceButtonState();
+}
+
+class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
+  late String placeValue = "Jakarta";
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _navigateAndDisplaySelection(context);
+      },
+      child: Container(
+          height: 24,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(color: Theme.of(context).colorScheme.secondary, style: BorderStyle.solid, width: 0.80),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 7.0, top: 1),
+            child: Text(placeValue,),
+          ),
+          ),
+    );
+  }
+
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegionListPage()),
+    );
+    setState(() {
+      placeValue = result;
+    });
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$result')));
+    // print(placeValue);
+  }
+}
+

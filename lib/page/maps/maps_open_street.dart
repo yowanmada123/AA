@@ -5,21 +5,21 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 // import 'package:boilerplate_flutter/pages/booking/list_user_page.dart';
 
 
-import 'package:boilerplate_flutter/widget/base/map.dart';
-import 'package:boilerplate_flutter/widget/base/map_openstreet.dart';
-import 'package:boilerplate_flutter/widget/base/square_button.dart';
-import 'package:boilerplate_flutter/widget/base/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/map/map.dart';
+import 'package:boilerplate_flutter/widget/base/map/map_openstreet.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_square.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
-import 'package:boilerplate_flutter/widget/form/form_text.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../widget/base/scaffold.dart';
+import '../../widget/base/form/form_scaffold.dart';
 
 class ChoseLocation extends StatefulWidget {
-  final String isFrom;
-  const ChoseLocation({Key? key, required this.isFrom}) : super(key: key);
+  
+  const ChoseLocation({Key? key,}) : super(key: key);
 
   @override
   State<ChoseLocation> createState() => _ChoseLocationState();
@@ -51,7 +51,7 @@ class _ChoseLocationState extends State<ChoseLocation> {
             padding: const EdgeInsets.only(left: 16.0,right: 12.0),
             child: Form(
               key: _key,
-              child: BaseFormText(
+              child: OBaseFormText(
                 title: "Description Title - Nunito Bold 16",
                 controller: alamat,
                 maxLines: 2,

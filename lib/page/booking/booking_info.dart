@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../model/place/place_res.dart';
-import '../../widget/base/button_bar.dart';
+import '../../widget/base/button/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {

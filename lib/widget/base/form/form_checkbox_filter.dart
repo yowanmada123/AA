@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class FCheckBox extends StatelessWidget {
+class OCheckBox extends StatelessWidget {
   final Function(bool?)? fungsi;
   final bool accept;
   final String text;
   Widget? child;
-  FCheckBox(
+  OCheckBox(
       {Key? key,
       required this.fungsi,
       required this.accept,
@@ -22,7 +22,7 @@ class FCheckBox extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Checkbox(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0))),
             checkColor: Theme.of(context).colorScheme.onPrimary,
             activeColor: Theme.of(context).colorScheme.primary,

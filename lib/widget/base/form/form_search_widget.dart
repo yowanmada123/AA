@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class SearchWidget extends StatefulWidget {
+class OSearchWidget extends StatefulWidget {
   final String text;
   final ValueChanged<String> onChanged;
   final String hintText;
 
-  const SearchWidget({Key? key, required this.text, required this.onChanged, required this.hintText}) : super(key: key);
+  const OSearchWidget({Key? key, required this.text, required this.onChanged, required this.hintText}) : super(key: key);
 
   @override
-  State<SearchWidget> createState() => _SearchWidgetState();
+  State<OSearchWidget> createState() => _OSearchWidgetState();
 }
 
-class _SearchWidgetState extends State<SearchWidget> {
+class _OSearchWidgetState extends State<OSearchWidget> {
   final controller = TextEditingController();
 
   @override

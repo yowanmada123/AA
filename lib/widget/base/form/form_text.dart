@@ -6,7 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum FormType { text, email, phone, password, money }
 
-class BaseFormText extends StatelessWidget {
+class OBaseFormText extends StatelessWidget {
   final String title;
   final String? hintText;
   final TextEditingController? controller;
@@ -15,7 +15,7 @@ class BaseFormText extends StatelessWidget {
   final int maxLines;
   final bool readOnly;
 
-  const BaseFormText({
+  const OBaseFormText({
     Key? key,
     required this.title,
     this.controller,

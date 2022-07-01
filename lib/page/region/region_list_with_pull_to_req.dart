@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/widget/base/scaffold.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
@@ -36,7 +36,6 @@ class _RegionListWithPullToReqPageState extends State<RegionListWithPullToReqPag
   void onLoading() async {
     currentPage = currentPage + 10;
     await getData();
-    // regions = regions + listRegion;
     _refreshController.loadComplete();
   }
 

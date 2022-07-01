@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/page/login/forgot_pass.dart';
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
 import 'package:boilerplate_flutter/page/profil/list_profil.dart';
-import 'package:boilerplate_flutter/widget/base/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/form.dart';
+import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
-import 'package:boilerplate_flutter/widget/base/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: SingleChildScrollView(
                       child: Wrap(
                         children: [
-                          TitleHeader(
+                          OTitleHeader(
                             title: "Masuk",
                           ),
                           OFormText(

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
-import 'package:boilerplate_flutter/widget/base/checkbox.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -112,7 +112,7 @@ class _ItemNamaState extends State<ItemNama> {
           Row(
             children: [
               Expanded(
-                child: OCheckBox(
+                child: OSquareCheckBox(
                   text: "",
                   accept: isCheck,
                   fungsi: (val) {

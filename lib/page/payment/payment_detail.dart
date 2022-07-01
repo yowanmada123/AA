@@ -1,5 +1,5 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/widget/base/scaffold.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';

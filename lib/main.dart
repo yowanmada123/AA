@@ -65,7 +65,8 @@ class _MyAppState extends State<MyApp> {
             Theme.of(context).textTheme,
           ),
         ),
-        home: const LoadingScreen(),
+        home: AllScreen()
+        // const LoadingScreen(),
       ),
     );
   }

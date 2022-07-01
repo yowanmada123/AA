@@ -7,9 +7,9 @@ import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/appbar.dart';
-import 'package:boilerplate_flutter/widget/base/scaffold.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/list_filter.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -83,20 +83,20 @@ class _BookingListPageState extends State<BookingListPage> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: OFilterList(
+                  child: OSmallOutlinebutton(
                     title: "Filter",
                     icon: "assets/ic/ic_filter.svg",
                   ),
                 ),
                 Expanded(
                     flex: 1,
-                    child: OFilterList(
+                    child: OSmallOutlinebutton(
                       title: "Sort By",
                       icon: "assets/ic/ic_sort.svg",
                     )),
                 Expanded(
                     flex: 1,
-                    child: OFilterList(
+                    child: OSmallOutlinebutton(
                       title: "Maps",
                       icon: "assets/ic/ic_nav.svg",
                     )),
@@ -150,17 +150,21 @@ class ItemPlace extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-                // flex: 1,
+                flex: 1,
                 child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     item.name,
+                    textAlign: TextAlign.center,
                     style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ).titleText(),
-                  Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
+                  Text(
+                    item.region.name, 
+                    style: TextStyle(color: OColorBrown)).informationText(),
                   Expanded(child: Container()),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +174,9 @@ class ItemPlace extends StatelessWidget {
                         child: SvgPicture.asset("assets/ic/ic_location.svg"),
                       ),
                       Expanded(
-                        child: Text(item.address).informationText(),
+                        child: Text(
+                          item.address
+                          ).informationText(),
                       ),
                     ],
                   ),
@@ -178,26 +184,29 @@ class ItemPlace extends StatelessWidget {
                 ],
               ),
             )),
-            GestureDetector(
-              onTap: () {
-                cGlobal.selectPlace.clear();
-                cGlobal.selectPlace.add(item);
-                cGlobal.selectPlace.clear();
-                cGlobal.selectProduct.clear();
-                cGlobal.selectPaymentMethods.clear();
-                cGlobal.selectScheduleTime.clear();
-                Get.to(BookingInfo(
-                  item: item,
-                ));
-              },
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(9),
-                  bottomRight: Radius.circular(9),
-                ),
-                child: Image.network(
-                  state.baseFile + item.images.replaceAll("\"", ""),
-                  fit: BoxFit.fill,
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () {
+                  cGlobal.selectPlace.clear();
+                  cGlobal.selectPlace.add(item);
+                  cGlobal.selectPlace.clear();
+                  cGlobal.selectProduct.clear();
+                  cGlobal.selectPaymentMethods.clear();
+                  cGlobal.selectScheduleTime.clear();
+                  Get.to(BookingInfo(
+                    item: item,
+                  ));
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(9),
+                    bottomRight: Radius.circular(9),
+                  ),
+                  child: Image.network(
+                    state.baseFile + item.images.replaceAll("\"", ""),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             )

@@ -2,8 +2,8 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/widget/base/scaffold.dart';
-import 'package:boilerplate_flutter/widget/base/search_widget.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,7 +61,11 @@ class _RegionListPageState extends State<RegionListPage> {
       title: "List Region",
       body: Column(
         children: [
-          buildSearch(),
+          OSearchWidget(
+            text: query,
+            hintText: 'Region Name',
+            onChanged: searchRegion,
+          ),
           Expanded(
             child: Obx(
               () => Container(
@@ -84,12 +88,6 @@ class _RegionListPageState extends State<RegionListPage> {
       ),
     );
   }
-
-  Widget buildSearch() => SearchWidget(
-        text: query,
-        hintText: 'Region Name',
-        onChanged: searchRegion,
-      );
 
   void searchRegion(String query) {
     final regions = listRegion.where((region) {

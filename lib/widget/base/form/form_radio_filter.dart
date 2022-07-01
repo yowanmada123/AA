@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-  class MyRadioOption<T> extends StatelessWidget {
+  class OMyRadioOption<T> extends StatelessWidget {
   
     final T value;
     final T? groupValue;
@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
     final String text;
     final ValueChanged<T?> onChanged;
   
-    const MyRadioOption({
+    const OMyRadioOption({
       required this.value,
       required this.groupValue,
       required this.label,

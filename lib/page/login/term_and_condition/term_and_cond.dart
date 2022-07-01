@@ -1,8 +1,8 @@
 import 'package:boilerplate_flutter/page/login/register_controller.dart';
-import 'package:boilerplate_flutter/widget/base/button_bar.dart';
-import 'package:boilerplate_flutter/widget/base/checkbox.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -26,7 +26,7 @@ class _TandCPageState extends State<TandCPage> {
         builder: (c) {
           return Column(
             children: [
-              TitleHeader(
+              OTitleHeader(
                 title: "Syarat Dan Ketentuan",
               ),
               Padding(
@@ -49,7 +49,7 @@ class _TandCPageState extends State<TandCPage> {
                     child: Text(c.tncContent)
                         .descriptionText()), // Html(data: dataTnC)),
               ),
-              OCheckBox(
+              OSquareCheckBox(
                   text:
                       "Saya telah membaca, memahami dan menyetujui syarat dan ketentuan.",
                   accept: accept,
@@ -59,22 +59,24 @@ class _TandCPageState extends State<TandCPage> {
                       print(accept);
                     });
                   }),
-              OButtonBar(
-                title: "LANJUT",
-                isEnable: accept,
-                onPressed: () async {
-                  // if (res != null) {
-                  //   Get.to(EmailSentPage(
-                  //     email: widget.email,
-                  //     password: widget.password,
-                  //   ));
-                  // }
-                  if (accept) {
-                    await c.signUpEmail();
-                  }
-                },
-                // color: Color((accept) ? primaryDark : greyLight),
-                textColor: Colors.white,
+              Expanded(
+                child: OButtonBar(
+                  title: "LANJUT",
+                  isEnable: accept,
+                  onPressed: () async {
+                    // if (res != null) {
+                    //   Get.to(EmailSentPage(
+                    //     email: widget.email,
+                    //     password: widget.password,
+                    //   ));
+                    // }
+                    if (accept) {
+                      await c.signUpEmail();
+                    }
+                  },
+                  // color: Color((accept) ? primaryDark : greyLight),
+                  textColor: Colors.white,
+                ),
               ),
             ],
           );

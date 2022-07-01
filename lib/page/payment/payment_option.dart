@@ -6,7 +6,7 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/title_form.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -78,7 +78,7 @@ class _PaymentOptionState extends State<PaymentOption> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TitleHeader(
+        const OTitleHeader(
           title: "Page Title - Nunito Bold 14",
         ),
         Expanded(
