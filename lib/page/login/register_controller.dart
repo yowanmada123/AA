@@ -173,21 +173,46 @@ class RegisterController extends GetxController {
 
   Future<void> loginByGoogle(String token) async {
     String q = '''
-    mutation{
-        loginBySocialProvider(
-          input:{
-            accessToken:"$token"
-            provider:GOOGLE
-          }
-          
-        ){
-          __typename
-          ... on AuthUserResponse{
-            token
-          }
-          
+    mutation {
+      loginByGoogle(
+        accessToken:"$token"
+      ) {
+        __typename
+        ... on AuthUserResponse {
+          token
         }
       }
+    }
+    ''';
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(q);
+      if (res != null) {
+        log(res.toString());
+        final token = res['loginByGoogle'][0]['token'];
+        log("token from login google $token");
+        cGlobal.setToken(token);
+        Get.offAll(HomePage());
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  Future<void> loginByApple({required final String identityToken, required final String authorizationCode}) async {
+    String q = '''
+   mutation {
+      loginByApple(
+        accessToken:"$identityToken"
+        code:"$authorizationCode"
+      ) {
+        __typename
+        ... on AuthUserResponse {
+          token
+        }
+      }
+    }
+
     ''';
     try {
       Map<String, dynamic>? res = await GraphQLBase().mutate(q);
