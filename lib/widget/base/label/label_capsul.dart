@@ -17,11 +17,6 @@ class OLabelCapsul extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ButtonStyle flatButtonStyle = TextButton.styleFrom(
-    //   backgroundColor: color ?? Theme.of(context).colorScheme.primary,
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    //   // color: Theme.of(context).primaryColor,
-    // );
     return (loading)
         ? Container(
             child: Center(child: CircularProgressIndicator()),

@@ -1,6 +1,7 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_square_outline.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
 import 'package:flutter/material.dart';
@@ -11,14 +12,13 @@ import 'package:get/get.dart';
 
 class Alertx {
   final gstate = Get.find<GlobalController>();
-
   success(String? message, {String title = 'Success', String code = ''}) {
     Get.dialog(Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
       child: Container(
-        height: 100,
+        height: 200,
         width: 100,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -35,17 +35,19 @@ class Alertx {
               Text(
                 title,
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
               Text(
                 message ?? '',
               ),
               const SizedBox(height: 20),
-              OButton(
-                  title: 'OK',
-                  color: Colors.green,
-                  onPressed: () {
-                    Get.back();
-                  })
+              Expanded(
+                child: OButton(
+                    title: 'OK',
+                    color: Colors.green,
+                    onPressed: () {
+                      Get.back();
+                    }),
+              )
             ],
           ),
         ),
@@ -59,7 +61,7 @@ class Alertx {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
-        height: 200,
+        height: 170,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -78,7 +80,8 @@ class Alertx {
                 children: [
                   Flexible(
                       child: GestureDetector(
-                    child: Container(
+                    child: 
+                    Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       child: Text('Tidak'),
@@ -128,7 +131,7 @@ class Alertx {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Container(
-        height: 300,
+        height: 260,
         width: 100,
         child: Padding(
           padding: const EdgeInsets.all(10),

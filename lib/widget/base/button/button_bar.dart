@@ -33,47 +33,47 @@ class OButtonBar extends StatelessWidget {
         ? Container(
             child: Center(child: CircularProgressIndicator()),
           )
-        : Container(
-            width: double.infinity,
-            // constraints: BoxConstraints(
-            //   maxWidth:
-            // ),
-            height: 60,
-            child: TextButton(
-              style: (isEnable)
-                  ? flatButtonStyle
-                  : TextButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                      // color: Theme.of(context).primaryColor,
-                    ),
-              onPressed: (isEnable) ? onPressed : null,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (icon == null)
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: icon,
-                          ),
-                        ),
-                  Center(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor ?? Colors.white,
+        : GestureDetector(
+          onTap: onPressed,
+          child: Container(
+              width: double.infinity,
+              height: 60,
+              child: TextButton(
+                style: (isEnable)
+                    ? flatButtonStyle
+                    : TextButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                        // color: Theme.of(context).primaryColor,
                       ),
-                    ).titleText(),
-                  ),
-                ],
+                onPressed: (isEnable) ? onPressed : null,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    (icon == null)
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: icon,
+                            ),
+                          ),
+                    Center(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: textColor ?? Colors.white,
+                        ),
+                      ).titleText(),
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
+        );
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class OCircleButton extends StatelessWidget {
+class OCircleButtonOutline extends StatelessWidget {
   final String? title;
   final String? icon;
   final Function()? onTap;
   final Color? color;
   final Color? iconColor;
+  final Color? outlineColor;
   final bool loading;
-  const OCircleButton({
+  const OCircleButtonOutline({
     Key? key,
     this.title,
     this.onTap,
@@ -15,6 +16,7 @@ class OCircleButton extends StatelessWidget {
     this.loading = false,
     this.color,
     this.iconColor,
+    this.outlineColor
   }) : super(key: key);
 
   @override
@@ -24,8 +26,18 @@ class OCircleButton extends StatelessWidget {
             child: Center(child: CircularProgressIndicator()),
           )
         : GestureDetector(
-          onTap: onTap,
-          child: Container(
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                color: (color == null) ? Theme.of(context).colorScheme.onPrimary : color,
+                border: Border.all(
+                  width: 2,
+                  color: color ?? Theme.of(context).colorScheme.onPrimary,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(100),
+                ),
+              ),
               width: 48,
               height: 48,
               child: ClipOval(
@@ -34,8 +46,7 @@ class OCircleButton extends StatelessWidget {
                   child: InkWell(
                     splashColor: Colors.red, // Splash color
                     onTap: () {},
-                    child: 
-                    SizedBox(
+                    child: SizedBox(
                       width: 56,
                       height: 56,
                       child: (icon == null)
@@ -56,6 +67,6 @@ class OCircleButton extends StatelessWidget {
                 ),
               ),
             ),
-        );
+          );
   }
 }

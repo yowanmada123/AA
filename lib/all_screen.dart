@@ -3,12 +3,17 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
+import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_circle.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_circle_outline.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_small.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_oval.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_square.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_square_outline.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_date_picker.dart';
@@ -23,10 +28,10 @@ import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_radio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter/src/foundation/key.dart';
+// import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+// import 'package:get/get_state_manager/get_state_manager.dart';
 
 class AllScreen extends StatefulWidget {
   const AllScreen({Key? key}) : super(key: key);
@@ -121,47 +126,76 @@ class _AllScreenState extends State<AllScreen> {
               "Information Text - Nunito Regular 12",
             ).informationText(),
             const OTitleHeader(
-                  title: "Lupa Password",
-                ),
+              title: "Lupa Password",
+            ),
             Divider(),
             Text("Button :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
-            OButton(
-              title: "Button 1 - Nunito bold 14 ",
-              onPressed: () {},
-            ),
             const SizedBox(
               height: 10,
             ),
             OButtonBar(
-              title: "Fixed 1 - Nunito bold 14 ",
+              title: "ButtonBar",
               onPressed: () {},
             ),
             const SizedBox(
               height: 10,
             ),
-            SmallButton(
-              title: "Fixed 1 - Nunito bold 14 ",
-              onPressed: () {},
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SmallButton(
+                  title: "Small",
+                  onPressed: () {},
+                ),
+                SmallButton(
+                  title: "Small",
+                  onPressed: () {
+                  },
+                  icon: Icon(
+                    Icons.home,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),       
+                OButtonSmallOutline(
+                title: "outline", 
+                icon: "assets/ic/ic_filter.svg",
+                onTap: (){},
+                outlineColor: OColorBrown,
+                titleColor: OColorBrown,
+              ),        
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const OButtonSquare(
+                  title: "Small",
+                  icon: "assets/ic/ic_filter.svg",
+                ),
+                OButtonSquareOutline(
+                  icon: "assets/ic/ic_filter.svg",
+                  iconColor: Theme.of(context).colorScheme.outline,
+                )
+              ],
             ),
             const SizedBox(
               height: 10,
             ),
             OButton(
-              title: "Fixed 1 - Nunito bold 14 ",
+              title: "OButton",
               onPressed: () {},
             ),
             const SizedBox(
               height: 10,
             ),
-            SquareButton(
-              title: "Fixed 1 - Nunito bold 14 ",
+            OButtonOVal(
+              title: "OButtonOVal",
               onPressed: () {},
               color: Theme.of(context).colorScheme.primary,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            OSmallOutlinebutton(title: "Fixed 1 - Nunito bold 14 ", icon: "assets/ic/ic_filter.svg"),
             const SizedBox(
               height: 10,
             ),
@@ -170,15 +204,54 @@ class _AllScreenState extends State<AllScreen> {
               children: [
                 OCircleButton(
                   icon: "assets/ic/ic_filter.svg",
-                  onPressed: () {},
+                  onTap: () {},
                 ),
-                 OCircleButton(
+                OCircleButtonOutline(
                   icon: "assets/ic/ic_filter.svg",
-                  onPressed: () {},
+                  onTap: () {},
+                  iconColor: Colors.yellow,
                 ),
               ],
             ),
             const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            Text("Alert :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            const SizedBox(
+              height: 10,
+            ),
+             OButtonOVal(
+                title: "Confirm",
+                onPressed: () {
+                  Alertx().confirmDialog(
+                    title: "Confirm",
+                    desc: "Are You Sure ?"
+                  );
+                },
+                color: Theme.of(context).colorScheme.primary,
+              ),
+             const SizedBox(
+              height: 10,
+            ),
+            OButtonOVal(
+                title: "Error",
+                onPressed: () {
+                  Alertx().error("Error");
+                },
+                color: Theme.of(context).colorScheme.primary,
+              ),
+             const SizedBox(
+              height: 10,
+            ),
+            OButtonOVal(
+                title: "Confirm",
+                onPressed: () {
+                  Alertx().success("success");
+                },
+                color: Theme.of(context).colorScheme.primary,
+              ),
+             const SizedBox(
               height: 10,
             ),
             const Divider(),
@@ -210,7 +283,7 @@ class _AllScreenState extends State<AllScreen> {
             OSearchWidget(
               text: "",
               hintText: 'Example Search',
-              onChanged: (String a){},
+              onChanged: (String a) {},
             ),
             const Divider(),
             Text("CheckBox :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
@@ -337,7 +410,16 @@ class _AllScreenState extends State<AllScreen> {
                 });
                 log(val);
               },
-            )
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            Text("Image Slider :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
+            const SizedBox(
+              height: 10,
+            ),
+
           ],
         ),
       ),

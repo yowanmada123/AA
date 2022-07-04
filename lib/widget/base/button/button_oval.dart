@@ -1,23 +1,25 @@
+import 'package:boilerplate_flutter/utils/colors.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SmallButton extends StatelessWidget {
+class OButtonOVal extends StatelessWidget {
   final String title;
   final Widget? icon;
   final Function() onPressed;
   final Color? color;
   final Color? textColor;
   final bool loading;
-  final bool outlineColor;
-  const SmallButton({
+  final bool isEnable;
+  const OButtonOVal({
     Key? key,
     required this.title,
     required this.onPressed,
     this.icon,
     this.loading = false,
+    this.isEnable = true,
     this.color,
     this.textColor,
-    this.outlineColor = false,
   }) : super(key: key);
 
   @override
@@ -25,8 +27,13 @@ class SmallButton extends StatelessWidget {
     // final gstate = Get.put(GlobalController());
 
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      backgroundColor: color ?? Theme.of(context).colorScheme.primary,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: color ?? Color(primaryDark),
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      // color: Theme.of(context).primaryColor,
+    );
+    final ButtonStyle flatButtonStyleDisable = TextButton.styleFrom(
+      backgroundColor: Color(greyLight),
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       // color: Theme.of(context).primaryColor,
     );
 
@@ -35,12 +42,13 @@ class SmallButton extends StatelessWidget {
             child: Center(child: CircularProgressIndicator()),
           )
         : GestureDetector(
-          onTap: onPressed,
+          onTap:onPressed,
           child: Container(
-              height: 40,
+              width: double.infinity,
+              height: 60,
               child: TextButton(
-                style: flatButtonStyle,
-                onPressed: onPressed,
+                style: isEnable ? flatButtonStyle : flatButtonStyleDisable,
+                onPressed: (isEnable) ? onPressed : null,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +56,7 @@ class SmallButton extends StatelessWidget {
                     (icon == null)
                         ? Container()
                         : Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
                               width: 30,
                               height: 30,

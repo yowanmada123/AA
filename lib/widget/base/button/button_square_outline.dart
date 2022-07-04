@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OButtonSquare extends StatelessWidget {
+class OButtonSquareOutline extends StatelessWidget {
   final String? title;
   final String? icon;
   final Function()? onTap;
   final Color? color;
   final Color? iconColor;
   final bool loading;
-  const OButtonSquare({
+  const OButtonSquareOutline({
     Key? key,
     this.title,
     this.onTap,
@@ -28,6 +28,7 @@ class OButtonSquare extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: iconColor ?? Theme.of(context).colorScheme.primary, width: 2),
               color: (color == null) ? Theme.of(context).colorScheme.primary : color,
             ),
               width: 48,

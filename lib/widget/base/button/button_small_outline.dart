@@ -8,48 +8,48 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../form/form_checkbox_filter.dart';
 
-class OSmallOutlinebutton extends StatefulWidget {
+class OButtonSmallOutline extends StatefulWidget {
   final String title;
   final String icon;
-  OSmallOutlinebutton({
+  final Color? titleColor;
+  final Function()? onTap;
+  final Color? outlineColor;
+  OButtonSmallOutline({
     Key? key,
     required this.title,
     required this.icon,
+    this.titleColor,
+    this.onTap,
+    this.outlineColor,
   }) : super(key: key);
 
   @override
-  State<OSmallOutlinebutton> createState() => _OSmallOutlinebuttonState();
+  State<OButtonSmallOutline> createState() => _OButtonSmallOutlineState();
 }
 
-class _OSmallOutlinebuttonState extends State<OSmallOutlinebutton> {
-  bool accept = false;
-
+class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: GestureDetector(
-          onTap: () async {
-            if (widget.title == "Filter") {
-              ShowFilter(context);
-            } else if (widget.title == "Sort By") {
-              SortBy(context);
-            } else {
-              Get.to(const ChoseLocation());
-            }
-          },
+          onTap: widget.onTap,
           child: Container(
+            width: 104,
+            height: 32,
             decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: OColorBrown,
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(12),
-                )),
+              color: Colors.white,
+              border: Border.all(
+                width: 2,
+                color: widget.outlineColor ?? Theme.of(context).colorScheme.primary,
+              ),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left:8.0),
               child: Row(
                 children: [
                   Padding(
@@ -60,7 +60,7 @@ class _OSmallOutlinebuttonState extends State<OSmallOutlinebutton> {
                     child: Text(
                       widget.title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: OColorBrown),
+                      style: TextStyle(color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,),
                     ).fieldTitleText(),
                   )
                 ],
@@ -71,261 +71,7 @@ class _OSmallOutlinebuttonState extends State<OSmallOutlinebutton> {
       ),
     );
   }
-
-  Future<dynamic> ShowFilter(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        // <-- SEE HERE
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) {
-        return Container(
-            height: 0.4 * MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_close.svg")),
-                        const Text(
-                          "Filter",
-                          style: TextStyle(color: Color(0xff19204E)),
-                        ).pageTitleText(),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_tick.svg")),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "LOCATION",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        ChoosePlaceButton(),
-                        const SizedBox(height: 35),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "PRICE RANGE",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 103,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 7.0),
-                                child: TextField(
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 12),
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.zero,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 7),
-                            SvgPicture.asset("assets/ic/ic_strip.svg"),
-                            const SizedBox(width: 7),
-                            Container(
-                              width: 103,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 7.0),
-                                child: TextField(
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 12),
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.zero,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: OCheckBox(
-                        text: "AVAILABLE TODAY",
-                        accept: accept,
-                        fungsi: (val) {
-                          setState(() {
-                            accept = !accept;
-                            print(accept);
-                          });
-                        }),
-                  ),
-                ],
-              ),
-            ));
-      },
-    );
-  }
-
-
-
-  Future<dynamic> SortBy(BuildContext context) {
-    String? _groupValue;
-
-    return showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        // <-- SEE HERE
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) {
-        return Container(
-            height: 0.38 * MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_close.svg")),
-                        const Text(
-                          "Sort By",
-                          style: TextStyle(color: Color(0xff19204E)),
-                        ).pageTitleText(),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_tick.svg")),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 37.0),
-                    child: Column(
-                      children: [
-                        OMyRadioOption<String>(
-                          value: 'A',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'A',
-                          text: 'POPULARITY',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'B',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'B',
-                          text: 'CLOSEST DISTANCE',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'C',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'C',
-                          text: 'PRICE: HIGH TO LOW',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'D',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'D',
-                          text: 'PRICE: LOW TO HIGH',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ));
-      },
-    );
-  }
 }
-
 
 class ChoosePlaceButton extends StatefulWidget {
   @override
@@ -342,17 +88,19 @@ class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
         _navigateAndDisplaySelection(context);
       },
       child: Container(
-          height: 24,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            border: Border.all(color: Theme.of(context).colorScheme.secondary, style: BorderStyle.solid, width: 0.80),
+        height: 24,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          border: Border.all(color: Theme.of(context).colorScheme.secondary, style: BorderStyle.solid, width: 0.80),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 7.0, top: 1),
+          child: Text(
+            placeValue,
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 7.0, top: 1),
-            child: Text(placeValue,),
-          ),
-          ),
+        ),
+      ),
     );
   }
 
@@ -368,4 +116,3 @@ class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
     // print(placeValue);
   }
 }
-

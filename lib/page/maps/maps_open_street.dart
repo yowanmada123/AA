@@ -7,7 +7,7 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 
 import 'package:boilerplate_flutter/widget/base/map/map.dart';
 import 'package:boilerplate_flutter/widget/base/map/map_openstreet.dart';
-import 'package:boilerplate_flutter/widget/base/button/button_square.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_oval.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
