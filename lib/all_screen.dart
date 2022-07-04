@@ -27,10 +27,12 @@ import 'package:boilerplate_flutter/widget/base/label/label_capsul_outline.dart'
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_radio.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/src/foundation/key.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 // import 'package:get/get_state_manager/get_state_manager.dart';
 
 class AllScreen extends StatefulWidget {
@@ -48,6 +50,10 @@ class _AllScreenState extends State<AllScreen> {
 
   List<String> itemDropdown = ["Satu", "Dua", "Tiga"];
   String dropdownValue = "Satu";
+
+  final urlImages = ['https://wallpaperaccess.com/full/2802364.jpg', 'https://www.diykamera.com/wp-content/uploads/2017/07/cara-memotret-pemandangan.jpg', 'https://dagodreampark.co.id/media/k2/items/cache/be4e4fd1bcb87d92f342f6e3e3e1d9e2_XL.jpg'];
+  int activeIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,20 +155,19 @@ class _AllScreenState extends State<AllScreen> {
                 ),
                 SmallButton(
                   title: "Small",
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   icon: Icon(
                     Icons.home,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
-                ),       
+                ),
                 OButtonSmallOutline(
-                title: "outline", 
-                icon: "assets/ic/ic_filter.svg",
-                onTap: (){},
-                outlineColor: OColorBrown,
-                titleColor: OColorBrown,
-              ),        
+                  title: "outline",
+                  icon: "assets/ic/ic_filter.svg",
+                  onTap: () {},
+                  outlineColor: OColorBrown,
+                  titleColor: OColorBrown,
+                ),
               ],
             ),
             const SizedBox(
@@ -221,37 +226,34 @@ class _AllScreenState extends State<AllScreen> {
             const SizedBox(
               height: 10,
             ),
-             OButtonOVal(
-                title: "Confirm",
-                onPressed: () {
-                  Alertx().confirmDialog(
-                    title: "Confirm",
-                    desc: "Are You Sure ?"
-                  );
-                },
-                color: Theme.of(context).colorScheme.primary,
-              ),
-             const SizedBox(
+            OButtonOVal(
+              title: "Confirm",
+              onPressed: () {
+                Alertx().confirmDialog(title: "Confirm", desc: "Are You Sure ?");
+              },
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(
               height: 10,
             ),
             OButtonOVal(
-                title: "Error",
-                onPressed: () {
-                  Alertx().error("Error");
-                },
-                color: Theme.of(context).colorScheme.primary,
-              ),
-             const SizedBox(
+              title: "Error",
+              onPressed: () {
+                Alertx().error("Error");
+              },
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(
               height: 10,
             ),
             OButtonOVal(
-                title: "Confirm",
-                onPressed: () {
-                  Alertx().success("success");
-                },
-                color: Theme.of(context).colorScheme.primary,
-              ),
-             const SizedBox(
+              title: "Confirm",
+              onPressed: () {
+                Alertx().success("success");
+              },
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(
               height: 10,
             ),
             const Divider(),
@@ -419,7 +421,7 @@ class _AllScreenState extends State<AllScreen> {
             const SizedBox(
               height: 10,
             ),
-
+            OImageSlider(),
           ],
         ),
       ),
@@ -429,4 +431,46 @@ class _AllScreenState extends State<AllScreen> {
       ),
     );
   }
+
+  Widget OImageSlider() {
+    return Column(
+            children: [
+              CarouselSlider.builder(
+                options: CarouselOptions(initialPage: 0, viewportFraction: 1, height: 200, autoPlay: true, autoPlayAnimationDuration: const Duration(seconds: 2), reverse: true, enableInfiniteScroll: false, onPageChanged: (index, reason) => setState(() => activeIndex = index)),
+                itemCount: urlImages.length,
+                itemBuilder: (context, index, realIndex) {
+                  final urlImage = urlImages[index];
+
+                  return buildImage(urlImage, index);
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              buildIndicator(),
+            ],
+          );
+  }
+
+  Widget buildImage(String urlImage, int index) {
+    return Container(
+      // margin: const EdgeInsets.symmetric(horizontal: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.network(
+          urlImage,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+    activeIndex: activeIndex, 
+    count: urlImages.length,
+    effect: const JumpingDotEffect(
+      dotWidth: 10,
+      dotHeight: 10,
+    ),
+    );
 }
