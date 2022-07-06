@@ -49,7 +49,7 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left:8.0),
+              padding: const EdgeInsets.only(left: 8.0),
               child: Row(
                 children: [
                   Padding(
@@ -60,7 +60,9 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
                     child: Text(
                       widget.title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,),
+                      style: TextStyle(
+                        color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ).fieldTitleText(),
                   )
                 ],
@@ -74,11 +76,13 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
 }
 
 class ChoosePlaceButton extends StatefulWidget {
+
   @override
   State<ChoosePlaceButton> createState() => _ChoosePlaceButtonState();
 }
 
 class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
+
   late String placeValue = "Jakarta";
 
   @override
@@ -110,9 +114,10 @@ class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
       MaterialPageRoute(builder: (context) => RegionListPage()),
     );
     setState(() {
-      placeValue = result;
+      placeValue = result.name;
     });
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$result')));
     // print(placeValue);
+    // print(result);
   }
 }

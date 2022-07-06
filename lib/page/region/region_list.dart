@@ -116,7 +116,7 @@ class ItemRegion extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context, item.name);
+        Navigator.pop(context, item);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
