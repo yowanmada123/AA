@@ -336,7 +336,7 @@ Widget foto(File? imageFile, GlobalController gstate) {
               )
             : Column(
                 children: [
-                  Expanded(flex: 1, child: SizedBox()),
+                  const Expanded(flex: 1, child: SizedBox()),
                   Expanded(
                     flex: 1,
                     child: SvgPicture.asset(
@@ -350,7 +350,7 @@ Widget foto(File? imageFile, GlobalController gstate) {
                   const Text(
                     "Ambil Foto",
                   ).titleText(),
-                  Expanded(flex: 1, child: SizedBox()),
+                  const Expanded(flex: 1, child: SizedBox()),
                 ],
               )),
   );
