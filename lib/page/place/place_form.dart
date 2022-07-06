@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/model/images_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/repository/image_repo.dart';
@@ -51,6 +52,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
   TextEditingController regionIdController = TextEditingController();
   TextEditingController langtitudeController = TextEditingController();
   TextEditingController longtitudeController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
 
   bool isButtonLoading = false;
 
@@ -58,8 +60,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
 
   final ImagePicker _picker = ImagePicker();
   late String placeValue = "Jakarta";
-    TextEditingController alamat = TextEditingController();
-
+  TextEditingController alamat = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,201 +69,173 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
       body: Form(
         key: _key,
         child: SingleChildScrollView(
-            child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text("Masukkan Detail Informasi Terkait Lokasi").titleText(),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const Text("Pastikan Anda sudah memasukkan semua data dengan tepat terkait informasi lokasi untuk dapat melakukan proses pembuatan lokasi baru").descriptionText(),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  OFormText(
-                    title: "NAMA TEMPAT",
-                    controller: nameController,
-                  ),
-                  OFormText(
-                    title: "DESKRIPSI",
-                    controller: descriptionController,
-                  ),
-                  const Text("Upload foto terkait lokasi yang dapat dilihat dengan jelas oleh para pengunjung").descriptionText(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: InkWell(
-                            onTap: () async {
-                              showDialog(
-                                barrierDismissible: true,
-                                context: context,
-                                builder: (c) => AlertDialog(
-                                  title: Container(),
-                                  content: Container(
-                                    color: Colors.white,
-                                    height: 80,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            Navigator.pop(context);
-                                            File? file = await Get.to(() => const CameraOverlay('identitas'));
-                                            if (file != null) {
-                                              setState(() {
-                                                fileIdCard = file;
-                                              });
-                                              // imageReader(file);
-                                            }
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Kamera",
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text("Masukkan Detail Informasi Terkait Lokasi").titleText(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    const Text("Pastikan Anda sudah memasukkan semua data dengan tepat terkait informasi lokasi untuk dapat melakukan proses pembuatan lokasi baru").descriptionText(),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    OFormText(
+                      title: "NAMA TEMPAT",
+                      controller: nameController,
+                    ),
+                    OFormText(
+                      title: "DESKRIPSI",
+                      controller: descriptionController,
+                    ),
+                    const Text("Upload foto terkait lokasi yang dapat dilihat dengan jelas oleh para pengunjung").descriptionText(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                              onTap: () async {
+                                showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (c) => AlertDialog(
+                                    title: Container(),
+                                    content: Container(
+                                      color: Colors.white,
+                                      height: 80,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              Navigator.pop(context);
+                                              File? file = await Get.to(() => const CameraOverlay('identitas'));
+                                              if (file != null) {
+                                                setState(() {
+                                                  fileIdCard = file;
+                                                });
+                                                imageReader(file);
+                                              }
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Kamera",
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        InkWell(
-                                          onTap: () async {
-                                            Navigator.pop(context);
-                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                                            if (image != null) {
-                                              setState(() {
-                                                fileIdCard = File(image.path);
-                                              });
-                                              imageReader(fileIdCard!);
-                                            }
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text("Galeri"),
-                                          ),
-                                        )
-                                      ],
+                                          InkWell(
+                                            onTap: () async {
+                                              Navigator.pop(context);
+                                              final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                                              if (image != null) {
+                                                setState(() {
+                                                  fileIdCard = File(image.path);
+                                                });
+                                                imageReader(fileIdCard!);
+                                              }
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text("Galeri"),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: foto(fileIdCard, gstate)),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "PILIH REGION",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ButtonChoosePlace(
-                    placeValue: placeValue,
-                    onTap: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegionListPage()),
-                      );
-                      if (result != null) {
-                        setState(() {
-                          placeValue = result.name;
-                        });
-                      }
-                      // print(result);
-                      regionIdController.text = result.id;
-                      // print(regionIdController.text);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "TENTUKAN LOKASI",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
-                  ),
-                   
-                  OFormText(
-                    title: "LONGTITUDE",
-                    controller: langtitudeController,
-                  ),
-                  OFormText(
-                    title: "LANGTITUDE",
-                    controller: longtitudeController,
-                  ),
-                ],
+                                );
+                              },
+                              child: foto(fileIdCard, gstate)),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "PILIH REGION",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ButtonChoosePlace(
+                      placeValue: placeValue,
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegionListPage()),
+                        );
+                        if (result != null) {
+                          setState(() {
+                            placeValue = result.name;
+                          });
+                        }
+                        // print(result);
+                        regionIdController.text = result.id;
+                        // print(regionIdController.text);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "TENTUKAN LOKASI",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                    ),
+                    OFormText(
+                      title: "LONGTITUDE",
+                      controller: langtitudeController,
+                    ),
+                    OFormText(
+                      title: "LANGTITUDE",
+                      controller: longtitudeController,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            OButtonBar(
-              title: "LANJUT",
-              onPressed: () async {
-                if (_key.currentState!.validate()) {
-                  if (fileIdCard == null) {
-                    Alertx().error("Foto identitas belum ada");
-                  } else if (filePhoto == null) {
-                    Alertx().error("Foto profil belum ada");
-                  } else {
-                    await SaveData();
+              OButtonBar(
+                title: "LANJUT",
+                onPressed: () async {
+                  if (_key.currentState!.validate()) {
+                    if (fileIdCard == null) {
+                      Alertx().error("Foto tempat belum ada");
+                    } else if (filePhoto == null) {
+                      Alertx().error("Foto tempat belum ada");
+                    } else {
+                      await SaveData();
+                    }
+                    log("valid");
+                    log("addressController.text =${addressController.text}");
+                    log("nameController.text =${nameController.text}");
+                    log("descriptionController.text=${descriptionController.text}");
+                    log("regionIdController.text=${regionIdController.text}");
+                    log("langtitudeController.text=${langtitudeController.text}");
+                    log("longtitudeController.text=${longtitudeController.text}");
                   }
-                  log("valid");
-                  log("addressController.text =${addressController.text}");
-                  //images
-                  log("nameController.text =${nameController.text}");
-                  log("descriptionController.text=${descriptionController.text}");
-                  log("regionIdController.text=${regionIdController.text}");
-                  log("langtitudeController.text=${langtitudeController.text}");
-                  log("longtitudeController.text=${longtitudeController.text}");
-                }
-              },
-            ),
-            
-          ],
-        ),
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   imageReader(File file) async {
-    Profile? ocr = await ImageService().image(file);
-
-    // if (ocr != null) {
-    //   setState(() {
-    //     nameController.text = ocr.fullname;
-    //     birthPlaceController.text = ocr.placeOfBirth;
-    //     addressController.text = ocr.address;
-    //     identityNumberController.text = ocr.identityNumber;
-
-    //     try {
-    //       try {
-    //         var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
-    //         birthDateControllerDisplay = dateTime2.toDateHuman();
-    //         birthDateController = dateTime2;
-    //       } catch (e) {}
-
-    //       if (ocr.gender.toLowerCase() == "male") {
-    //         genderController = "L";
-    //       } else if (ocr.gender.toLowerCase() == "female") {
-    //         genderController = "P";
-    //       }
-    //       if (ocr.gender.toLowerCase() == "laki - laki") {
-    //         genderController = "L";
-    //       } else if (ocr.gender.toLowerCase() == "perempuan") {
-    //         genderController = "P";
-    //       }
-    //     } catch (e) {}
-    //   });
-    log('ocr');
-    // }
+    ImageRes? imageResponse = await ImageService().image(file);
+    if (imageResponse != null) {
+      imageController.text = imageResponse.filename;
+    }
+    log('imageResponse');
   }
 
   Future<void> SaveData() async {
@@ -281,28 +254,31 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
       contentType: MediaType("image", "jpeg"),
     );
 
-    var identityType = jenisIdentitas.toString();
-
-    String optionsPerson = '''
-      mutation createPlaces(\$identityPhoto:ImageFile!,\$profilePhoto:ImageFile!) {
+    String optionPlace = '''
+      mutation createPlaces{
           createProfile(
             input: {
               address: "${addressController.text}"
-              images: "string"
+              images: "${imageController.text}"
               name: "${nameController.text}"
               description: "${descriptionController.text}"
               region_id: "${regionIdController.text}"
               latitude: "${langtitudeController.text}"
               longitude: "${longtitudeController.text}"
             }
-            identityPhoto: \$identityPhoto
-            profilePhoto: \$profilePhoto
           ) {
             __typename
-            ... on Profile {
-              id
+            ... on Place{
+              address
+              images
+              description
+              name
+              distance
+              description
+              latitude
+              longitude
             }
-            ... on Error {
+            ... on Error{
               message
             }
           }
@@ -310,15 +286,14 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
 
       ''';
 
-    Map<String, dynamic> variables = {"identityPhoto": b, "profilePhoto": b2};
-
     try {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
 
-      Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
-      log(dataUser.toString());
-      // if (dataUser!['addProfile']['__typename'] != 'Error') {
+      Map<String, dynamic>? dataPlace = await GraphQLBase().mutate(optionPlace,);
+      log(dataPlace.toString());
+
+      // if (dataPlace!['addProfile']['__typename'] != 'Error') {
       //   isSuccess = true;
       // } else {
       //   Alertx().error(dataUser['addProfile']['message']);
@@ -369,10 +344,10 @@ Widget foto(File? imageFile, GlobalController gstate) {
                       fit: BoxFit.scaleDown,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
-                  Text(
+                  const Text(
                     "Ambil Foto",
                   ).titleText(),
                   Expanded(flex: 1, child: SizedBox()),
