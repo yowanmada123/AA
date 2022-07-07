@@ -1,17 +1,16 @@
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
+import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/region/region_list_with_pull_to_req.dart';
 import 'package:boilerplate_flutter/page/transaction/transaction_list.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -83,7 +82,17 @@ class _HomePageState extends State<HomePage> {
           OButton(
               title: "List Region With Pull To Request",
               onPressed: () {
-                Get.to(RegionListWithPullToReqPage());
+                Get.to(const RegionListWithPullToReqPage());
+              }),
+          OButton(
+              title: "Maps",
+              onPressed: () {
+                Get.to(const ChoseLocation());
+              }),
+          OButton(
+              title: "List Place",
+              onPressed: () {
+                Get.to(const PlaceListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
           Expanded(
