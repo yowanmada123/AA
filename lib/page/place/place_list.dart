@@ -60,40 +60,17 @@ class _PlaceListPageState extends State<PlaceListPage> {
         }
       }
     ''';
-    // try {
-      // bool isSuccess = false;
-      log("OYOY");
-      Map<String, dynamic>? data = await GraphQLBase().query(options);
-      var list = data!['places']['nodes'] as List;
-      log(list.toString());
-      List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
-      log(newData.toString());
-      listPlace.value = newData;
-      log(newData.toString());
-      log(listPlace.length.toString());
-      loading.value = false;
 
-    //   if (data!['places']['nodes'] != null) {
-    //     isSuccess = true;
-    //   } else {  
-    //     Alertx().error("Error");
-    //   }
-    //   if (isSuccess) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(content: Text('Data Berhasil Ditampilkan ')),
-    //     );
-    //   }
-    // } on Error catch (e, s) {
-    //   print(e);
-    //   print(s);
-    // }
-
-    // log(newData.length.toString());
-    // log("OYOYOOYOYOYOY");
-    // listPlace.value = newData;
-    // log(newData.toString());
-    // log(listPlace.length.toString());
-    // loading.value = false;
+    log("OYOY");
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['places']['nodes'] as List;
+    log(list.toString());
+    List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
+    log(newData.toString());
+    listPlace.value = newData;
+    log(newData.toString());
+    log(listPlace.length.toString());
+    loading.value = false;
   }
 
   final gstate = Get.find<GlobalController>();
@@ -140,281 +117,13 @@ class _PlaceListPageState extends State<PlaceListPage> {
       ),
     );
   }
-
-  Future<dynamic> ShowFilter(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        // <-- SEE HERE
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) {
-        return Container(
-            height: 0.4 * MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_close.svg")),
-                        const Text(
-                          "Filter",
-                          style: TextStyle(color: Color(0xff19204E)),
-                        ).pageTitleText(),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_tick.svg")),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "LOCATION",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        ButtonChoosePlace(
-                          placeValue: placeValue,
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => RegionListPage()),
-                            );
-                            if (result != null) {
-                              setState(() {
-                                placeValue = result.name;
-                              });
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 35),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "PRICE RANGE",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ).titleText(),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 103,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 7.0),
-                                child: TextField(
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 12),
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.zero,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 7),
-                            SvgPicture.asset("assets/ic/ic_strip.svg"),
-                            const SizedBox(width: 7),
-                            Container(
-                              width: 103,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 7.0),
-                                child: TextField(
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 12),
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.zero,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: OCheckBox(
-                        text: "AVAILABLE TODAY",
-                        accept: accept,
-                        fungsi: (val) {
-                          setState(() {
-                            accept = !accept;
-                            print(accept);
-                          });
-                        }),
-                  ),
-                ],
-              ),
-            ));
-      },
-    );
-  }
-
-  Future<dynamic> SortBy(BuildContext context) {
-    String? _groupValue;
-
-    return showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        // <-- SEE HERE
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) {
-        return Container(
-            height: 0.38 * MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_close.svg")),
-                        const Text(
-                          "Sort By",
-                          style: TextStyle(color: Color(0xff19204E)),
-                        ).pageTitleText(),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: SvgPicture.asset("assets/ic/ic_tick.svg")),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 37.0),
-                    child: Column(
-                      children: [
-                        OMyRadioOption<String>(
-                          value: 'A',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'A',
-                          text: 'POPULARITY',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'B',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'B',
-                          text: 'CLOSEST DISTANCE',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'C',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'C',
-                          text: 'PRICE: HIGH TO LOW',
-                        ),
-                        OMyRadioOption<String>(
-                          value: 'D',
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                            });
-                          },
-                          label: 'D',
-                          text: 'PRICE: LOW TO HIGH',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ));
-      },
-    );
-  }
 }
 
 class ItemPlace extends StatelessWidget {
   final Place item;
   final GlobalController state;
 
-  const ItemPlace({
-    Key? key,
-    required this.item,
-    required this.state
-  }) : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -431,40 +140,39 @@ class ItemPlace extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          item.name,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                        ).titleText(),
-                      ),
-                      // Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
-                      Expanded(child: Container()),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                          ),
-                          Expanded(
-                            child: Text(item.address).informationText(),
-                          ),
-                        ],
-                      ),
-                      // Text("Highlighted Text - Nunito Bold 14").pageTitleText(),
-                    ],
-                  ),
-                )),
-            Expanded(
               flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ).titleText(),
+                    ),
+                    Expanded(child: Container()),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                        ),
+                        Expanded(
+                          child: Text(item.address).informationText(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
               child: GestureDetector(
                 onTap: () {
                   cGlobal.selectPlace.clear();
@@ -475,7 +183,6 @@ class ItemPlace extends StatelessWidget {
                   cGlobal.selectScheduleTime.clear();
                   Get.to(UpdatePlacePage(
                     item: item,
-                    
                   ));
                 },
                 child: ClipRRect(
@@ -489,10 +196,87 @@ class ItemPlace extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (c) => AlertDialog(
+                      title: Container(),
+                      content: Container(
+                        color: Colors.white,
+                        height: 80,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                Navigator.pop(context);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "No",
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                deleteItem();
+                                Navigator.pop(context);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text("Yes"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.delete),
+                    Text("Are You Sure Want To Delete The Data ?")
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  deleteItem() async {
+    String itemID = item.id.toString();
+    String options = '''
+      mutation deleteOnePlace{
+        deleteOnePlace(input: {
+          id: "$itemID"
+        }) {
+          address
+          description
+          distance
+          id
+          image_path
+          images
+          latitude
+          longitude
+          name
+        }
+      }
+    ''';
+    log("OYOY");
+    Map<String, dynamic>? data = await GraphQLBase().mutate(options);
+    var message = data!['deleteOnePlace'];
+    log(message.toString());
   }
 }
