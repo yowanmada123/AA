@@ -37,7 +37,8 @@ class PlaceFormPage extends StatefulWidget {
 class _PlaceFormPageState extends State<PlaceFormPage> {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   File? fileIdCard;
-  File? filePhoto;
+  File? file;
+  // File? filePhoto;
   Uint8List webImageCard = Uint8List(10);
   Uint8List webImagePhoto = Uint8List(10);
   bool isHaveImageCard = false;
@@ -61,6 +62,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
   final ImagePicker _picker = ImagePicker();
   late String placeValue = "Jakarta";
   TextEditingController alamat = TextEditingController();
+
+  // File? fileIdCard;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +127,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                                                 setState(() {
                                                   fileIdCard = file;
                                                 });
-                                                imageReader(file);
+                                                // imageReader(file);
                                               }
                                             },
                                             child: const Padding(
@@ -142,8 +145,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                                                 setState(() {
                                                   fileIdCard = File(image.path);
                                                 });
-                                                imageReader(fileIdCard!);
                                               }
+                                              // imageReader(fileIdCard!);
                                             },
                                             child: const Padding(
                                               padding: EdgeInsets.all(8.0),
@@ -179,9 +182,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                             placeValue = result.name;
                           });
                         }
-                        // print(result);
                         regionIdController.text = result.id;
-                        // print(regionIdController.text);
                       },
                     ),
                     const SizedBox(
@@ -208,10 +209,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                   if (_key.currentState!.validate()) {
                     if (fileIdCard == null) {
                       Alertx().error("Foto tempat belum ada");
-                    } else if (filePhoto == null) {
-                      Alertx().error("Foto tempat belum ada");
                     } else {
-                      await SaveData();
+                      await SaveData(fileIdCard);
                     }
                     log("valid");
                     log("addressController.text =${addressController.text}");
@@ -230,45 +229,32 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
     );
   }
 
-  imageReader(File file) async {
+  Future<void> SaveData(file) async {
     ImageRes? imageResponse = await ImageService().image(file);
     if (imageResponse != null) {
       imageController.text = imageResponse.filename;
     }
     log('imageResponse');
-  }
 
-  Future<void> SaveData() async {
-    var imageKtp = await fileIdCard!;
-    var imageProfil = await filePhoto!;
-
-    var b = await HttpMultipartFile.MultipartFile.fromPath(
-      'imageProfil',
-      imageProfil.path,
-      contentType: MediaType("image", "jpeg"),
-    );
-
-    var b2 = await HttpMultipartFile.MultipartFile.fromPath(
-      'imageProfil',
-      imageKtp.path,
-      contentType: MediaType("image", "jpeg"),
-    );
+    var langtitude = int.parse(langtitudeController.text);
+    var longtitude = int.parse(longtitudeController.text);
+    var regionID = int.parse(regionIdController.text);
 
     String optionPlace = '''
-      mutation createPlaces{
-          createProfile(
+      mutation createOnePlace{
+          createOnePlace(
             input: {
-              address: "${addressController.text}"
-              images: "${imageController.text}"
-              name: "${nameController.text}"
-              description: "${descriptionController.text}"
-              region_id: "${regionIdController.text}"
-              latitude: "${langtitudeController.text}"
-              longitude: "${longtitudeController.text}"
+              place: {
+                address: "${addressController.text}"
+                images: "${imageController.text}"
+                name: "${nameController.text}"
+                description: "${descriptionController.text}"
+                region_id: $regionID
+                latitude: $langtitude
+                longitude:  $longtitude
+              }
             }
           ) {
-            __typename
-            ... on Place{
               address
               images
               description
@@ -277,36 +263,30 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
               description
               latitude
               longitude
-            }
-            ... on Error{
-              message
-            }
           }
         }
-
       ''';
 
     try {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
-
-      Map<String, dynamic>? dataPlace = await GraphQLBase().mutate(optionPlace,);
+      Map<String, dynamic>? dataPlace = await GraphQLBase().mutate(
+        optionPlace,
+      );
       log(dataPlace.toString());
 
-      // if (dataPlace!['addProfile']['__typename'] != 'Error') {
-      //   isSuccess = true;
-      // } else {
-      //   Alertx().error(dataUser['addProfile']['message']);
-      // }
-
-      // if (isSuccess) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Data Berhasil Disimpan')),
-      // );
-      // Get.offAll(SuccesPage());
-      // Get.back();
-      // }
-
+      if (dataPlace!['createplace'] != 'Error') {
+        isSuccess = true;
+      } else {
+        Alertx().error("Error");
+      }
+      if (isSuccess) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Data Berhasil Disimpan')),
+        );
+        // Get.offAll(SuccesPage());
+        Get.back();
+      }
       // }
     } on Error catch (e, s) {
       print(e);

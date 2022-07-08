@@ -12,7 +12,8 @@ class ImageService {
   Future<ImageRes?> image(File file) async {
     String query = '''
       mutation uploadImages(\$file: ImageFile!) {
-        uploadImages(file:  $file, 
+        uploadImages(
+          file: \$file, 
           input: { 
             category: PLACE,
           }
@@ -35,9 +36,8 @@ class ImageService {
     var b = await MultipartFile.fromPath(
       'imageProfil',
       file.path,
-      contentType: MediaType("image", "jpg"),
+      contentType: MediaType("image", "jpeg"),
     );
-    // print("ITEM NAME : $b");
 
     Map<String, dynamic> variables = {
       "file": b,
@@ -45,14 +45,11 @@ class ImageService {
     try {
       print("object");
       Map<String, dynamic>? data = await GraphQLBase().mutate(query, variables: variables);
-      // log(" DATA ::: $data.toString()");
-      // print("DATA $data");
-      ImageRes item = ImageRes.fromMap(data!['uploadImages'][0]);
-      // print("ITEM ITEM $data");
-      return item;
-      // log(data.toString());
+      log(data.toString());
+      String filename = data!['uploadImages'][0]['filename'];
+      log('---filename---');
+      log(filename);
     } on Error catch (e, s) {
-      // print("HAHAHAHAHAHA");
       print(e);
       print(s);
     }

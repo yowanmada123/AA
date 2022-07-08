@@ -555,25 +555,23 @@ class _KYCFormPageState extends State<KYCFormPage> {
 
     try {
       bool isSuccess = false;
-      // if (gstate.dataUser.value.name == '') {
-
+      // if (gstate.optionsPerson.value.name == '') {
       Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
       log(dataUser.toString());
-      // if (dataUser!['addProfile']['__typename'] != 'Error') {
-      //   isSuccess = true;
-      // } else {
-      //   Alertx().error(dataUser['addProfile']['message']);
-      // }
-
-      // if (isSuccess) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Data Berhasil Disimpan')),
-      // );
+      if (dataUser!['createProfile']['__typename'] != 'Error') {
+        isSuccess = true;
+      } else {
+        Alertx().error(dataUser['createProfile']['message']);
+      }
+      if (isSuccess) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Data Berhasil Disimpan')),
+      );
       // Get.offAll(SuccesPage());
       // Get.back();
       // }
 
-      // }
+      }
     } on Error catch (e, s) {
       print(e);
       print(s);

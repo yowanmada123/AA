@@ -13,14 +13,12 @@ class OButtonSmallOutline extends StatefulWidget {
   final String icon;
   final Color? titleColor;
   final Function()? onTap;
-  final Color? outlineColor;
-  OButtonSmallOutline({
+    OButtonSmallOutline({
     Key? key,
     required this.title,
     required this.icon,
     this.titleColor,
     this.onTap,
-    this.outlineColor,
   }) : super(key: key);
 
   @override
@@ -42,7 +40,7 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
               color: Colors.white,
               border: Border.all(
                 width: 2,
-                color: widget.outlineColor ?? Theme.of(context).colorScheme.primary,
+                color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(12),

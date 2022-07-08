@@ -94,7 +94,6 @@ class _BookingListPageState extends State<BookingListPage> {
                     onTap: () {
                       ShowFilter(context);
                     },
-                    outlineColor: OColorBrown,
                   ),
                 ),
                 Expanded(
@@ -105,8 +104,7 @@ class _BookingListPageState extends State<BookingListPage> {
                       icon: "assets/ic/ic_sort.svg",
                       onTap: () {
                         SortBy(context);
-                      },
-                      outlineColor: OColorBrown,
+                      },            
                     )),
                 Expanded(
                     flex: 1,
@@ -116,8 +114,7 @@ class _BookingListPageState extends State<BookingListPage> {
                       icon: "assets/ic/ic_nav.svg",
                       onTap: (){
                         Get.to(const ChoseLocation());
-                      },
-                      outlineColor: OColorBrown,
+                      },            
                     )),
               ],
             ),

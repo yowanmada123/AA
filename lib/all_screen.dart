@@ -164,8 +164,7 @@ class _AllScreenState extends State<AllScreen> {
                 OButtonSmallOutline(
                   title: "outline",
                   icon: "assets/ic/ic_filter.svg",
-                  onTap: () {},
-                  outlineColor: OColorBrown,
+                  onTap: () {}, 
                   titleColor: OColorBrown,
                 ),
               ],

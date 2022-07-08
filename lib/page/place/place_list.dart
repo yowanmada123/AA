@@ -32,48 +32,48 @@ class _PlaceListPageState extends State<PlaceListPage> {
   bool accept = false;
   late String placeValue = "Jakarta";
 
-
   getData() async {
     String options = '''
-      query {
-        places(filter: {}, paging: { limit: 100 }, sorting: []) {
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-          }
+      query listPlaces{
+        places(filter: {}, paging: { limit: 10 }, sorting: []) {
           nodes {
-           address
-           region{
-              id
-              name
-              type
-            }
+            address
+            description
+            distance
             id
             images
             latitude
             longitude
             name
           }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
         }
       }
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(options);
     var list = data!['places']['nodes'] as List;
+    log(list.toString());
     List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
-    log(newData.length.toString());
-    listPlace.value = newData;
     log(newData.toString());
-    log(listPlace.length.toString());
-    loading.value = false;
+    log("OYOY");
+    // log(newData.length.toString());
+    // log("OYOYOOYOYOYOY");
+    // listPlace.value = newData;
+    // log(newData.toString());
+    // log(listPlace.length.toString());
+    // loading.value = false;
   }
 
-  final gstate = Get.find<GlobalController>();
+  // final gstate = Get.find<GlobalController>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getData();
+    getData();
   }
 
   @override
@@ -93,7 +93,7 @@ class _PlaceListPageState extends State<PlaceListPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return ItemPlace(
                             item: listPlace[index],
-                            state: gstate,
+                            // state: gstate,
                             // onTap: () {
                             //   // Get.to(ListHealtPage());
                             // },
@@ -171,16 +171,16 @@ class _PlaceListPageState extends State<PlaceListPage> {
                         ButtonChoosePlace(
                           placeValue: placeValue,
                           onTap: () async {
-                          final result = await Navigator.push(
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => RegionListPage()),
                             );
                             if (result != null) {
                               setState(() {
-                                placeValue = result.name;         
+                                placeValue = result.name;
                               });
                             }
-                        },
+                          },
                         ),
                         const SizedBox(height: 35),
                         Row(
@@ -379,8 +379,11 @@ class _PlaceListPageState extends State<PlaceListPage> {
 
 class ItemPlace extends StatelessWidget {
   final Place item;
-  final GlobalController state;
-  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
+  // final GlobalController state;
+  const ItemPlace({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -441,16 +444,16 @@ class ItemPlace extends StatelessWidget {
                     item: item,
                   ));
                 },
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(9),
-                    bottomRight: Radius.circular(9),
-                  ),
-                  child: Image.network(
-                    state.baseFile + item.images.replaceAll("\"", ""),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                // child: ClipRRect(
+                //   borderRadius: const BorderRadius.only(
+                //     topRight: Radius.circular(9),
+                //     bottomRight: Radius.circular(9),
+                //   ),
+                //   child: Image.network(
+                //     state.baseFile + item.images.replaceAll("\"", ""),
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
               ),
             )
           ],
