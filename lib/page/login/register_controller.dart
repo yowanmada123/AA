@@ -218,7 +218,7 @@ class RegisterController extends GetxController {
       Map<String, dynamic>? res = await GraphQLBase().mutate(q);
       if (res != null) {
         log(res.toString());
-        final token = res['loginBySocialProvider'][0]['token'];
+        final token = res['loginByApple'][0]['token'];
         log("token from login google $token");
         cGlobal.setToken(token);
         Get.offAll(HomePage());
