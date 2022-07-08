@@ -8,15 +8,17 @@ import 'region_res.dart';
 class Place {
   String address;
   Region region;
+  String description;
   String id;
   String images;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   String name;
 
   Place({
     required this.address,
     required this.region,
+    required this.description,
     required this.id,
     required this.images,
     required this.latitude,
@@ -28,6 +30,7 @@ class Place {
     return <String, dynamic>{
       'address': address,
       'region': region.toMap(),
+      'description': description,
       'id': id,
       'images': images,
       'latitude': latitude,
@@ -39,11 +42,12 @@ class Place {
   factory Place.fromMap(Map<String, dynamic> map) {
     return Place(
       address: map['address'] as String,
-      region: Region.fromMap(map['region'] as Map<String, dynamic>),
+      region: Region.fromMap(map['region'] as Map<String,dynamic>),
+      description: map['description'] ?? "",
       id: map['id'] as String,
       images: map['images'] as String,
-      latitude: map['latitude'] as String,
-      longitude: map['longitude'] as String,
+      latitude: map['latitude'] ?? 0.0,
+      longitude: map['longitude'] ?? 0.0,
       name: map['name'] as String,
     );
   }

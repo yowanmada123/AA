@@ -555,7 +555,6 @@ class _KYCFormPageState extends State<KYCFormPage> {
 
     try {
       bool isSuccess = false;
-      // if (gstate.optionsPerson.value.name == '') {
       Map<String, dynamic>? dataUser = await GraphQLBase().mutate(optionsPerson, variables: variables);
       log(dataUser.toString());
       if (dataUser!['createProfile']['__typename'] != 'Error') {
@@ -568,9 +567,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
         const SnackBar(content: Text('Data Berhasil Disimpan')),
       );
       // Get.offAll(SuccesPage());
-      // Get.back();
-      // }
-
+      Get.back();
       }
     } on Error catch (e, s) {
       print(e);

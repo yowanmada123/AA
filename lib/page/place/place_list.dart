@@ -9,6 +9,7 @@ import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/appbar.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_choose_place.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
@@ -45,6 +46,11 @@ class _PlaceListPageState extends State<PlaceListPage> {
             latitude
             longitude
             name
+            region {
+              name
+              id
+              type
+            }
           }
           pageInfo {
             hasNextPage
@@ -53,12 +59,34 @@ class _PlaceListPageState extends State<PlaceListPage> {
         }
       }
     ''';
-    Map<String, dynamic>? data = await GraphQLBase().query(options);
-    var list = data!['places']['nodes'] as List;
-    log(list.toString());
-    List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
-    log(newData.toString());
-    log("OYOY");
+    // try {
+      // bool isSuccess = false;
+      log("OYOY");
+      Map<String, dynamic>? data = await GraphQLBase().query(options);
+      var list = data!['places']['nodes'] as List;
+      log(list.toString());
+      List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
+      log(newData.toString());
+      listPlace.value = newData;
+      log(newData.toString());
+      log(listPlace.length.toString());
+      loading.value = false;
+
+    //   if (data!['places']['nodes'] != null) {
+    //     isSuccess = true;
+    //   } else {  
+    //     Alertx().error("Error");
+    //   }
+    //   if (isSuccess) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(content: Text('Data Berhasil Ditampilkan ')),
+    //     );
+    //   }
+    // } on Error catch (e, s) {
+    //   print(e);
+    //   print(s);
+    // }
+
     // log(newData.length.toString());
     // log("OYOYOOYOYOYOY");
     // listPlace.value = newData;
@@ -412,7 +440,7 @@ class ItemPlace extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ).titleText(),
-                      Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
+                      // Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
                       Expanded(child: Container()),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,20 +458,20 @@ class ItemPlace extends StatelessWidget {
                     ],
                   ),
                 )),
-            Expanded(
-              flex: 2,
-              child: GestureDetector(
-                onTap: () {
-                  cGlobal.selectPlace.clear();
-                  cGlobal.selectPlace.add(item);
-                  cGlobal.selectPlace.clear();
-                  cGlobal.selectProduct.clear();
-                  cGlobal.selectPaymentMethods.clear();
-                  cGlobal.selectScheduleTime.clear();
-                  Get.to(BookingInfo(
-                    item: item,
-                  ));
-                },
+            // Expanded(
+            //   flex: 2,
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       cGlobal.selectPlace.clear();
+            //       // cGlobal.selectPlace.add(item);
+            //       cGlobal.selectPlace.clear();
+            //       cGlobal.selectProduct.clear();
+            //       cGlobal.selectPaymentMethods.clear();
+            //       cGlobal.selectScheduleTime.clear();
+            //       Get.to(BookingInfo(
+            //         item: item,
+            //       ));
+            //     },
                 // child: ClipRRect(
                 //   borderRadius: const BorderRadius.only(
                 //     topRight: Radius.circular(9),
@@ -454,8 +482,8 @@ class ItemPlace extends StatelessWidget {
                 //     fit: BoxFit.cover,
                 //   ),
                 // ),
-              ),
-            )
+              // ),
+            // )
           ],
         ),
       ),
