@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -95,7 +96,7 @@ class _PlaceListPageState extends State<PlaceListPage> {
     // loading.value = false;
   }
 
-  // final gstate = Get.find<GlobalController>();
+  final gstate = Get.find<GlobalController>();
 
   @override
   void initState() {
@@ -121,7 +122,7 @@ class _PlaceListPageState extends State<PlaceListPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return ItemPlace(
                             item: listPlace[index],
-                            // state: gstate,
+                            state: gstate,
                             // onTap: () {
                             //   // Get.to(ListHealtPage());
                             // },
@@ -407,10 +408,12 @@ class _PlaceListPageState extends State<PlaceListPage> {
 
 class ItemPlace extends StatelessWidget {
   final Place item;
-  // final GlobalController state;
+  final GlobalController state;
+
   const ItemPlace({
     Key? key,
     required this.item,
+    required this.state
   }) : super(key: key);
 
   @override
@@ -419,7 +422,7 @@ class ItemPlace extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
+        height: 80,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -435,11 +438,13 @@ class ItemPlace extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        item.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ).titleText(),
+                      Expanded(
+                        child: Text(
+                          item.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        ).titleText(),
+                      ),
                       // Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
                       Expanded(child: Container()),
                       Row(
@@ -458,32 +463,33 @@ class ItemPlace extends StatelessWidget {
                     ],
                   ),
                 )),
-            // Expanded(
-            //   flex: 2,
-            //   child: GestureDetector(
-            //     onTap: () {
-            //       cGlobal.selectPlace.clear();
-            //       // cGlobal.selectPlace.add(item);
-            //       cGlobal.selectPlace.clear();
-            //       cGlobal.selectProduct.clear();
-            //       cGlobal.selectPaymentMethods.clear();
-            //       cGlobal.selectScheduleTime.clear();
-            //       Get.to(BookingInfo(
-            //         item: item,
-            //       ));
-            //     },
-                // child: ClipRRect(
-                //   borderRadius: const BorderRadius.only(
-                //     topRight: Radius.circular(9),
-                //     bottomRight: Radius.circular(9),
-                //   ),
-                //   child: Image.network(
-                //     state.baseFile + item.images.replaceAll("\"", ""),
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
-              // ),
-            // )
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () {
+                  cGlobal.selectPlace.clear();
+                  // cGlobal.selectPlace.add(item);
+                  cGlobal.selectPlace.clear();
+                  cGlobal.selectProduct.clear();
+                  cGlobal.selectPaymentMethods.clear();
+                  cGlobal.selectScheduleTime.clear();
+                  Get.to(UpdatePlacePage(
+                    item: item,
+                    
+                  ));
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(9),
+                    bottomRight: Radius.circular(9),
+                  ),
+                  child: Image.network(
+                    state.baseFile + item.images.replaceAll("\"", ""),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
