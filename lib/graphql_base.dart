@@ -16,7 +16,7 @@ class GraphQLBase {
 
   Future<GraphQLClient> getGraphQLClient() async {
     log(gstate.token);
-    // await checkToken();
+    await checkToken();
     final Link _link = HttpLink(
       gstate.baseUrl,
       defaultHeaders: {
@@ -35,9 +35,9 @@ class GraphQLBase {
     if (JwtDecoder.isExpired(gstate.token)) {
       String q = '''
       query getRefreshToken {
-        getRefreshedToken(oldToken:"${gstate.token}"){
+        getRefreshToken(token:"${gstate.token}"){
           __typename
-          ... on GetRefreshedTokenOK {
+          ... on AuthUserResponse {
             token
           }
           ... on Error {
@@ -54,15 +54,13 @@ class GraphQLBase {
       final QueryOptions options = QueryOptions(document: gql(q));
       final QueryResult result = await _client.query(options);
       if (result.data != null) {
-        String newToken = result.data!['getRefreshedToken']['token'];
+        String newToken = result.data!['getRefreshToken']['AuthUserResponse']['token'];
         gstate.setToken(newToken);
       }
     }
   }
 
-  Future<Map<String, dynamic>?> query(String queryString,
-      {Map<String, dynamic> variables = const {},
-      bool showLoading = false}) async {
+  Future<Map<String, dynamic>?> query(String queryString, {Map<String, dynamic> variables = const {}, bool showLoading = false}) async {
     final QueryOptions options = QueryOptions(
       document: gql(queryString),
       variables: variables,
@@ -78,10 +76,8 @@ class GraphQLBase {
       log('error query');
       log(result.exception.toString());
       if (result.exception!.linkException is ServerException) {
-        ServerException exception =
-            result.exception!.linkException as ServerException;
-        errorMessage =
-            exception.parsedResponse?.errors?[0].message ?? errorMessageDefault;
+        ServerException exception = result.exception!.linkException as ServerException;
+        errorMessage = exception.parsedResponse?.errors?[0].message ?? errorMessageDefault;
 
         // Alertx().error(errorMessage, code: 'UNAUTHENTICATED');
         // throw Exception(errorMessage);
@@ -103,9 +99,7 @@ class GraphQLBase {
     return result.data;
   }
 
-  Future<Map<String, dynamic>?> mutate(String queryString,
-      {Map<String, dynamic> variables = const {},
-      bool showLoading = true}) async {
+  Future<Map<String, dynamic>?> mutate(String queryString, {Map<String, dynamic> variables = const {}, bool showLoading = true}) async {
     final MutationOptions options = MutationOptions(
       document: gql(queryString),
       variables: variables,

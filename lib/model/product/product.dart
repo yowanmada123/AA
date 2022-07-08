@@ -29,20 +29,20 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'createdAt': createdAt,
+      'created_at': createdAt,
       'description': description,
       'id': id,
       'place': place.toMap(),
       'name': name,
       'price': price,
       'schedules': schedules.map((x) => x.toMap()).toList(),
-      'updatedAt': updatedAt,
+      'updated_at': updatedAt,
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      createdAt: map['createdAt'] as String,
+      createdAt: map['created_at'] ?? '',
       description: map['description'] as String,
       id: map['id'] as String,
       place: Place.fromMap(map['place'] as Map<String, dynamic>),
@@ -53,7 +53,7 @@ class Product {
           (x) => Schedule.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      updatedAt: map['updatedAt'] as String,
+      updatedAt: map['updated_at'] ?? '',
     );
   }
 

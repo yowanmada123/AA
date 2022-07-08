@@ -38,7 +38,6 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
               hasPreviousPage
             }
             nodes {
-              createdAt
               description
               id
               place {
@@ -63,7 +62,6 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                 startTime
                 timePerSession
               }
-              updatedAt
             }
           }
         }

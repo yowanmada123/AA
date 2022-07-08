@@ -80,8 +80,7 @@ class Alertx {
                 children: [
                   Flexible(
                       child: GestureDetector(
-                    child: 
-                    Container(
+                    child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       child: Text('Tidak'),
@@ -131,7 +130,7 @@ class Alertx {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Container(
-        height: 260,
+        height: 280,
         width: 100,
         child: Padding(
           padding: const EdgeInsets.all(10),
