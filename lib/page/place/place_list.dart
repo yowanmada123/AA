@@ -34,6 +34,7 @@ class _PlaceListPageState extends State<PlaceListPage> {
             distance
             id
             images
+            image_path
             latitude
             longitude
             name
@@ -111,7 +112,7 @@ class ItemPlace extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 80,
+        height: 110,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -166,12 +167,12 @@ class ItemPlace extends StatelessWidget {
                   ));
                 },
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(9),
-                    bottomRight: Radius.circular(9),
-                  ),
+                  // borderRadius: const BorderRadius.only(
+                  //   topRight: Radius.circular(9),
+                  //   bottomRight: Radius.circular(9),
+                  // ),
                   child: Image.network(
-                    state.baseFile + item.images.replaceAll("\"", ""),
+                    item.image_path,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -188,33 +189,39 @@ class ItemPlace extends StatelessWidget {
                       title: Container(),
                       content: Container(
                         color: Colors.white,
-                        height: 80,
+                        // height: 80,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            InkWell(
-                              onTap: () async {
-                                Navigator.pop(context);
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  "No",
+                            Text("Are You Sure Want To Delete The Data ?"),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "No",
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                deleteItem();
-                                Navigator.pop(context);
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text("Yes"),
-                              ),
+                                InkWell(
+                                  onTap: () async {
+                                    deleteItem();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text("Yes"),
+                                  ),
+                                )
+                              ],
                             )
+                           
                           ],
                         ),
                       ),
@@ -222,7 +229,8 @@ class ItemPlace extends StatelessWidget {
                   );
                 },
                 child: Row(
-                  children: [Icon(Icons.delete), Text("Are You Sure Want To Delete The Data ?")],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.delete)],
                 ),
               ),
             ),
