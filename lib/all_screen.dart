@@ -51,7 +51,7 @@ class _AllScreenState extends State<AllScreen> {
   List<String> itemDropdown = ["Satu", "Dua", "Tiga"];
   String dropdownValue = "Satu";
 
-  final urlImages = ['https://wallpaperaccess.com/full/2802364.jpg', 'https://www.diykamera.com/wp-content/uploads/2017/07/cara-memotret-pemandangan.jpg', 'https://dagodreampark.co.id/media/k2/items/cache/be4e4fd1bcb87d92f342f6e3e3e1d9e2_XL.jpg'];
+  final urlImages = ['https://wallpaperaccess.com/full/2802364.jpg', 'https://dagodreampark.co.id/media/k2/items/cache/be4e4fd1bcb87d92f342f6e3e3e1d9e2_XL.jpg'];
   int activeIndex = 0;
 
   @override
