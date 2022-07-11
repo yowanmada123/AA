@@ -104,9 +104,52 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: OButtonBar(
           title: "Logout",
           onPressed: () async {
-            _handleSignOut();
-            cGlobal.setToken("");
-            Get.offAll(AllScreen());
+            showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (c) => AlertDialog(
+                                    title: Container(),
+                                    content: Container(
+                                      color: Colors.white,
+                                      // height: 80,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("Are You Sure Want To Logout ?"),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "No",
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  _handleSignOut();
+                                                  cGlobal.setToken("");
+                                                  Get.offAll(AllScreen());
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text("Yes"),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+            
           }),
     );
   }
