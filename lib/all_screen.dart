@@ -181,7 +181,7 @@ class _AllScreenState extends State<AllScreen> {
                 ),
                 OButtonSquareOutline(
                   icon: "assets/ic/ic_filter.svg",
-                  iconColor: Theme.of(context).colorScheme.outline,
+                  iconColor: Theme.of(context).colorScheme.primary,
                 )
               ],
             ),
@@ -213,8 +213,7 @@ class _AllScreenState extends State<AllScreen> {
                 OCircleButtonOutline(
                   icon: "assets/ic/ic_filter.svg",
                   onTap: () {},
-                  iconColor: Colors.yellow,
-                ),
+                  iconColor: Theme.of(context).colorScheme.primary,                ),
               ],
             ),
             const SizedBox(

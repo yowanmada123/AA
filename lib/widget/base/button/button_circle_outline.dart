@@ -19,7 +19,7 @@ class OCircleButtonOutline extends StatelessWidget {
     this.outlineColor
   }) : super(key: key);
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return (loading)
         ? Container(
@@ -29,10 +29,10 @@ class OCircleButtonOutline extends StatelessWidget {
             onTap: onTap,
             child: Container(
               decoration: BoxDecoration(
-                color: (color == null) ? Theme.of(context).colorScheme.onPrimary : color,
+                // color: (iconColor != null) ? Theme.of(context).colorScheme.onPrimary : iconColor  ,
                 border: Border.all(
                   width: 2,
-                  color: color ?? Theme.of(context).colorScheme.onPrimary,
+                  color: iconColor ?? Theme.of(context).colorScheme.primary,
                 ),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(100),
@@ -42,7 +42,7 @@ class OCircleButtonOutline extends StatelessWidget {
               height: 48,
               child: ClipOval(
                 child: Material(
-                  color: (color == null) ? Theme.of(context).colorScheme.primary : color,
+                  color:  Theme.of(context).colorScheme.onPrimary,
                   child: InkWell(
                     splashColor: Colors.red, // Splash color
                     onTap: () {},
@@ -55,7 +55,7 @@ class OCircleButtonOutline extends StatelessWidget {
                               ? Container()
                               : Icon(
                                   Icons.menu,
-                                  color: (iconColor == null) ? Theme.of(context).colorScheme.onPrimary : iconColor,
+                                  color: (iconColor == null) ? Theme.of(context).colorScheme.primary : iconColor,
                                 ),
                     ),
                     // Padding(

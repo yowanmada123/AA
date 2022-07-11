@@ -28,13 +28,16 @@ class OButtonSquareOutline extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: iconColor ?? Theme.of(context).colorScheme.primary, width: 2),
-              color: (color == null) ? Theme.of(context).colorScheme.primary : color,
+              border: Border.all(
+                color: iconColor ?? Theme.of(context).colorScheme.primary, 
+                width: 2),
+              color: 
+              Theme.of(context).colorScheme.onPrimary,
             ),
               width: 48,
               height: 48,
               child: InkWell(
-                splashColor: Colors.red, // Splash color
+                // splashColor: Theme.of(context).colorScheme.onPrimary,
                 onTap: () {},
                 child: 
                 (icon == null)
@@ -43,7 +46,7 @@ class OButtonSquareOutline extends StatelessWidget {
                         ? Container()
                         : Icon(
                             Icons.menu,
-                            color: (iconColor == null) ? Theme.of(context).colorScheme.onPrimary : iconColor,
+                            color: (iconColor == null) ? Theme.of(context).colorScheme.primary : iconColor,
                           ),
                 // Padding(
                 //     padding: const EdgeInsets.symmetric(horizontal: 5),
