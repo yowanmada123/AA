@@ -1,20 +1,11 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/main.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
-import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
-import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
-import 'package:boilerplate_flutter/widget/base/alertx.dart';
-import 'package:boilerplate_flutter/widget/base/appbar.dart';
-import 'package:boilerplate_flutter/widget/base/button/button_choose_place.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +20,7 @@ class PlaceListPage extends StatefulWidget {
 }
 
 class _PlaceListPageState extends State<PlaceListPage> {
-  final loading = true.obs;
-  final listPlace = <Place>[].obs;
+  List<Place> listPlace = [];
   bool accept = false;
   late String placeValue = "Jakarta";
 
@@ -62,15 +52,17 @@ class _PlaceListPageState extends State<PlaceListPage> {
     ''';
 
     log("OYOY");
-    Map<String, dynamic>? data = await GraphQLBase().query(options);
-    var list = data!['places']['nodes'] as List;
-    log(list.toString());
-    List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
-    log(newData.toString());
-    listPlace.value = newData;
-    log(newData.toString());
-    log(listPlace.length.toString());
-    loading.value = false;
+    try {
+      Map<String, dynamic>? data = await GraphQLBase().query(options);
+      var list = data!['places']['nodes'] as List;
+      List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
+      setState(() {
+        listPlace = newData;
+      });
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
   }
 
   final gstate = Get.find<GlobalController>();
@@ -87,29 +79,17 @@ class _PlaceListPageState extends State<PlaceListPage> {
     return OScaffold(
       title: "List Place",
       backgroundColor: Color(redBooked),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx(
-              () => Container(
-                child: (loading.value)
-                    ? Container()
-                    : ListView.builder(
-                        itemCount: listPlace.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ItemPlace(
-                            item: listPlace[index],
-                            state: gstate,
-                            // onTap: () {
-                            //   // Get.to(ListHealtPage());
-                            // },
-                          );
-                        }),
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: ListView.builder(
+          itemCount: listPlace.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ItemPlace(
+              item: listPlace[index],
+              state: gstate,
+              // onTap: () {
+              //   // Get.to(ListHealtPage());
+              // },
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(const PlaceFormPage()),
         child: const Icon(Icons.add),
@@ -242,10 +222,7 @@ class ItemPlace extends StatelessWidget {
                   );
                 },
                 child: Row(
-                  children: [
-                    Icon(Icons.delete),
-                    Text("Are You Sure Want To Delete The Data ?")
-                  ],
+                  children: [Icon(Icons.delete), Text("Are You Sure Want To Delete The Data ?")],
                 ),
               ),
             ),

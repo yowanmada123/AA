@@ -7,25 +7,16 @@ import 'package:boilerplate_flutter/model/images_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/repository/image_repo.dart';
-import 'package:boilerplate_flutter/repository/ocr_passport_repo.dart';
-import 'package:boilerplate_flutter/repository/orc_ktp_repo.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_choose_place.dart';
 import 'package:boilerplate_flutter/widget/base/camera.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_text.dart';
-import 'package:boilerplate_flutter/widget/base/map/map_openstreet.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import "package:http/http.dart" as HttpMultipartFile;
-import 'package:http_parser/http_parser.dart';
-import 'package:intl/intl.dart';
-
-import '../../model/user/profile.dart';
 
 class PlaceFormPage extends StatefulWidget {
   const PlaceFormPage({Key? key}) : super(key: key);
@@ -35,7 +26,7 @@ class PlaceFormPage extends StatefulWidget {
 }
 
 class _PlaceFormPageState extends State<PlaceFormPage> {
-  GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   File? fileIdCard;
   File? file;
   // File? filePhoto;
@@ -55,12 +46,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
   TextEditingController longtitudeController = TextEditingController();
   TextEditingController imageController = TextEditingController();
 
-  bool isButtonLoading = false;
-
-  String jenisIdentitas = "PASSPORT";
-
   final ImagePicker _picker = ImagePicker();
-  late String placeValue = "Jakarta";
+  String placeValue = "";
   TextEditingController alamat = TextEditingController();
 
   // File? fileIdCard;
@@ -210,15 +197,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                     if (fileIdCard == null) {
                       Alertx().error("Foto tempat belum ada");
                     } else {
-                      await SaveData(fileIdCard);
+                      await saveData(fileIdCard);
                     }
-                    log("valid");
-                    log("addressController.text =${addressController.text}");
-                    log("nameController.text =${nameController.text}");
-                    log("descriptionController.text=${descriptionController.text}");
-                    log("regionIdController.text=${regionIdController.text}");
-                    log("langtitudeController.text=${langtitudeController.text}");
-                    log("longtitudeController.text=${longtitudeController.text}");
                   }
                 },
               ),
@@ -229,16 +209,8 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
     );
   }
 
-  Future<void> SaveData(file) async {
-    ImageRes? imageResponse = await ImageService().image(file);
-    if (imageResponse != null) {
-      imageController.text = imageResponse.filename;
-    }
-    log('imageResponse');
-
-    var langtitude = int.parse(langtitudeController.text);
-    var longtitude = int.parse(longtitudeController.text);
-    var regionID = int.parse(regionIdController.text);
+  Future<void> saveData(file) async {
+    String? filename = await ImageService().image(file);
 
     String optionPlace = '''
       mutation createOnePlace{
@@ -246,12 +218,12 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
             input: {
               place: {
                 address: "${addressController.text}"
-                images: "${imageController.text}"
+                images: "$filename"
                 name: "${nameController.text}"
                 description: "${descriptionController.text}"
-                region_id: $regionID
-                latitude: $langtitude
-                longitude:  $longtitude
+                region_id: ${regionIdController.text}
+                latitude: ${langtitudeController.text}
+                longitude:  ${longtitudeController.text}
               }
             }
           ) {
@@ -266,7 +238,6 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
           }
         }
       ''';
-
     try {
       bool isSuccess = false;
       // if (gstate.dataUser.value.name == '') {
@@ -275,7 +246,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
       );
       log(dataPlace.toString());
 
-      if (dataPlace!['createplace'] != 'Error') {
+      if (dataPlace != null) {
         isSuccess = true;
       } else {
         Alertx().error("Error");
@@ -285,7 +256,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
           const SnackBar(content: Text('Data Berhasil Disimpan')),
         );
         // Get.offAll(SuccesPage());
-        Get.back();
+        // Get.back();
       }
       // }
     } on Error catch (e, s) {

@@ -41,20 +41,21 @@ class GraphQLBase {
             token
           }
           ... on Error {
-            status
             message
           }
         }
       }
       ''';
+
       GraphQLClient _client = GraphQLClient(
         cache: GraphQLCache(),
         link: HttpLink(gstate.baseUrl),
       );
       final QueryOptions options = QueryOptions(document: gql(q));
       final QueryResult result = await _client.query(options);
+      // log(result.data.toString());
       if (result.data != null) {
-        String newToken = result.data!['getRefreshToken']['AuthUserResponse']['token'];
+        String newToken = result.data!['getRefreshToken'][0]['token'];
         gstate.setToken(newToken);
       }
     }
@@ -100,12 +101,14 @@ class GraphQLBase {
   }
 
   Future<Map<String, dynamic>?> mutate(String queryString, {Map<String, dynamic> variables = const {}, bool showLoading = true}) async {
+    log('------------------request mutatation------------------');
+    log(queryString);
+    log('------------------------------------------------------');
+
     final MutationOptions options = MutationOptions(
       document: gql(queryString),
       variables: variables,
     );
-    log('request mutatation');
-    log(queryString);
     // Show Loading
     if (showLoading) Alertx().loading();
 

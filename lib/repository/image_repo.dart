@@ -9,7 +9,7 @@ import '../graphql_base.dart';
 import '../model/ocr_res.dart';
 
 class ImageService {
-  Future<ImageRes?> image(File file) async {
+  Future<String?> image(File file) async {
     String query = '''
       mutation uploadImages(\$file: ImageFile!) {
         uploadImages(
@@ -47,8 +47,7 @@ class ImageService {
       Map<String, dynamic>? data = await GraphQLBase().mutate(query, variables: variables);
       log(data.toString());
       String filename = data!['uploadImages'][0]['filename'];
-      log('---filename---');
-      log(filename);
+      return filename;
     } on Error catch (e, s) {
       print(e);
       print(s);

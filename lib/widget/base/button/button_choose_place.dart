@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ButtonChoosePlace extends StatefulWidget {
-  late final String placeValue;
+  final String placeValue;
   final Function() onTap;
 
-    ButtonChoosePlace({Key? key, required this.placeValue, required this.onTap}) : super(key: key);
+  const ButtonChoosePlace({Key? key, required this.placeValue, required this.onTap}) : super(key: key);
 
   @override
   State<ButtonChoosePlace> createState() => _ButtonChoosePlaceState();
 }
 
 class _ButtonChoosePlaceState extends State<ButtonChoosePlace> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,5 +31,4 @@ class _ButtonChoosePlaceState extends State<ButtonChoosePlace> {
       ),
     );
   }
-
 }
