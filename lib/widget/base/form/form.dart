@@ -1,7 +1,6 @@
 import 'package:boilerplate_flutter/widget/extention/ext_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/route_manager.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum FormType { text, email, phone, password, money, multiLine }
@@ -73,7 +72,6 @@ class _OFormTextState extends State<OFormText> {
   bool obscureText = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.formType == FormType.password) obscureText = true;
   }
@@ -115,7 +113,7 @@ class _OFormTextState extends State<OFormText> {
                       });
                     },
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ),
           obscureText: obscureText,
         ),
