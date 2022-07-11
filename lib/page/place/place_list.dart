@@ -21,7 +21,6 @@ class PlaceListPage extends StatefulWidget {
 
 class _PlaceListPageState extends State<PlaceListPage> {
   List<Place> listPlace = [];
-  bool accept = false;
   late String placeValue = "Jakarta";
 
   getData() async {
@@ -112,130 +111,261 @@ class ItemPlace extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 110,
+        height: 200,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(9),
             )),
-        child: Row(
+        child: 
+        Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ).titleText(),
+            Stack(
+              children:[
+                Container(
+                height: 100,
+                width: double.infinity,
+                child: GestureDetector(
+                  onTap: () {
+                    cGlobal.selectPlace.clear();
+                    // cGlobal.selectPlace.add(item);
+                    cGlobal.selectPlace.clear();
+                    cGlobal.selectProduct.clear();
+                    cGlobal.selectPaymentMethods.clear();
+                    cGlobal.selectScheduleTime.clear();
+                    Get.to(UpdatePlacePage(
+                      item: item,
+                    ));
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(9),
+                      // topRight: Radius.circular(9),
+                      // topLeft: Radius.circular(9),
+                      // bottomRight: Radius.circular(9),
                     ),
-                    Expanded(child: Container()),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                        ),
-                        Expanded(
-                          child: Text(item.address).informationText(),
-                        ),
-                      ],
+                    child: Image.network(
+                      item.image_path,
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 3,
-              child: GestureDetector(
-                onTap: () {
-                  cGlobal.selectPlace.clear();
-                  // cGlobal.selectPlace.add(item);
-                  cGlobal.selectPlace.clear();
-                  cGlobal.selectProduct.clear();
-                  cGlobal.selectPaymentMethods.clear();
-                  cGlobal.selectScheduleTime.clear();
-                  Get.to(UpdatePlacePage(
-                    item: item,
-                  ));
-                },
-                child: ClipRRect(
-                  // borderRadius: const BorderRadius.only(
-                  //   topRight: Radius.circular(9),
-                  //   bottomRight: Radius.circular(9),
-                  // ),
-                  child: Image.network(
-                    item.image_path,
-                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (c) => AlertDialog(
-                      title: Container(),
-                      content: Container(
-                        color: Colors.white,
-                        // height: 80,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text("Are You Sure Want To Delete The Data ?"),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "No",
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    deleteItem();
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text("Yes"),
-                                  ),
-                                )
-                              ],
-                            )
-                           
-                          ],
-                        ),
-                      ),
+              Container(
+                height: 100,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.4),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(9),
+                      // topRight: Radius.circular(9),
+                      // topLeft: Radius.circular(9),
+                      // bottomRight: Radius.circular(9),
                     ),
-                  );
-                },
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.delete)],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                        item.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ).titleText(),
+                  ],
                 ),
               ),
+              ] 
             ),
+
+            Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left:10.0, top:10.0, bottom: 2),
+                      child: Expanded(
+                        child: Text(item.description).titleText(),
+                      ),
+                    ),
+                  ],
+                ),
+                 Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 15),
+                  child: Expanded(
+                    child: Text(item.region.name).informationText(),
+                  ),
+                ),
+              ],
+            ),
+             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 5),
+                  child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                ),
+                Expanded(
+                  child: Text(item.address).informationText(),
+                ),
+              ],
+            ),
+           
+           
+            // Text(item.description).informationText(),
+            // Text(item.address, textAlign: TextAlign.center
+            //           ).informationText(),
+            
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Expanded(
+            //       child: Text(
+            //         item.name,
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            //       ).titleText(),
+            //     ),
+            //     Expanded(child: Container()),
+            //     Row(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.symmetric(horizontal: 2),
+            //           child: SvgPicture.asset("assets/ic/ic_location.svg"),
+            //         ),
+            //         Expanded(
+            //           child: Text(item.address).informationText(),
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // ),
+          
           ],
         ),
+        // Row(
+        //   children: [
+        //     Expanded(
+        //       flex: 2,
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(12.0),
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.center,
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [
+        //             Expanded(
+        //               child: Text(
+        //                 item.name,
+        //                 textAlign: TextAlign.center,
+        //                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        //               ).titleText(),
+        //             ),
+        //             Expanded(child: Container()),
+        //             Row(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: [
+        //                 Padding(
+        //                   padding: const EdgeInsets.symmetric(horizontal: 2),
+        //                   child: SvgPicture.asset("assets/ic/ic_location.svg"),
+        //                 ),
+        //                 Expanded(
+        //                   child: Text(item.address).informationText(),
+        //                 ),
+        //               ],
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     Expanded(
+        //       flex: 3,
+        //       child: GestureDetector(
+        //         onTap: () {
+        //           cGlobal.selectPlace.clear();
+        //           // cGlobal.selectPlace.add(item);
+        //           cGlobal.selectPlace.clear();
+        //           cGlobal.selectProduct.clear();
+        //           cGlobal.selectPaymentMethods.clear();
+        //           cGlobal.selectScheduleTime.clear();
+        //           Get.to(UpdatePlacePage(
+        //             item: item,
+        //           ));
+        //         },
+        //         child: ClipRRect(
+        //           // borderRadius: const BorderRadius.only(
+        //           //   topRight: Radius.circular(9),
+        //           //   bottomRight: Radius.circular(9),
+        //           // ),
+        //           child: Image.network(
+        //             item.image_path,
+        //             fit: BoxFit.cover,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     Expanded(
+        //       flex: 1,
+        //       child: GestureDetector(
+        //         onTap: () {
+        //           showDialog(
+        //             barrierDismissible: true,
+        //             context: context,
+        //             builder: (c) => AlertDialog(
+        //               title: Container(),
+        //               content: Container(
+        //                 color: Colors.white,
+        //                 // height: 80,
+        //                 child: Column(
+        //                   mainAxisSize: MainAxisSize.min,
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   mainAxisAlignment: MainAxisAlignment.start,
+        //                   children: [
+        //                     Text("Are You Sure Want To Delete The Data ?"),
+        //                     Row(
+        //                       children: [
+        //                         InkWell(
+        //                           onTap: () async {
+        //                             Navigator.pop(context);
+        //                           },
+        //                           child: const Padding(
+        //                             padding: EdgeInsets.all(8.0),
+        //                             child: Text(
+        //                               "No",
+        //                             ),
+        //                           ),
+        //                         ),
+        //                         InkWell(
+        //                           onTap: () async {
+        //                             deleteItem();
+        //                             Navigator.pop(context);
+        //                           },
+        //                           child: const Padding(
+        //                             padding: EdgeInsets.all(8.0),
+        //                             child: Text("Yes"),
+        //                           ),
+        //                         )
+        //                       ],
+        //                     )
+                           
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //         child: Row(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [Icon(Icons.delete)],
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }
