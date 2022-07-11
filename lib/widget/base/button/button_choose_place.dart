@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonChoosePlace extends StatefulWidget {
-  final String placeValue;
+  late final String placeValue;
   final Function() onTap;
 
-  const ButtonChoosePlace({Key? key, required this.placeValue, required this.onTap}) : super(key: key);
+  ButtonChoosePlace({Key? key, required this.placeValue, required this.onTap}) : super(key: key);
 
   @override
   State<ButtonChoosePlace> createState() => _ButtonChoosePlaceState();

@@ -1,6 +1,7 @@
 import 'package:boilerplate_flutter/widget/extention/ext_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/route_manager.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum FormType { text, email, phone, password, money, multiLine }
@@ -13,6 +14,7 @@ class OFormText extends StatefulWidget {
   final FormType formType;
   final int maxLines;
   final bool readOnly;
+  final Function()? onTap;
 
   const OFormText({
     Key? key,
@@ -23,6 +25,7 @@ class OFormText extends StatefulWidget {
     this.hintText,
     this.maxLines = 1,
     this.readOnly = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -77,50 +80,49 @@ class _OFormTextState extends State<OFormText> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          widget.title,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+        ),
+        TextFormField(
+          onTap: widget.onTap,
+          readOnly: (widget.onTap != null) ? true : widget.readOnly,
+          maxLines: widget.maxLines,
+          validator: (value) => checkValidation(value!),
+          controller: widget.controller,
+          keyboardType: textInputType(widget.formType),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
           ),
-          Text(
-            widget.title,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+          // inputFormatters: maskFormat(formType),
+          decoration: InputDecoration(
+            // border: InputBorder.none,
+            hintText: widget.hintText ?? 'Masukkan ${widget.title.capitalizeText()}',
+            // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
+            suffixIcon: (widget.formType == FormType.password)
+                ? InkWell(
+                    child: Icon((obscureText) ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    onTap: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                  )
+                : SizedBox.shrink(),
           ),
-          TextFormField(
-            readOnly: widget.readOnly,
-            maxLines: widget.maxLines,
-            validator: (value) => checkValidation(value!),
-            controller: widget.controller,
-            keyboardType: textInputType(widget.formType),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            // inputFormatters: maskFormat(formType),
-            decoration: InputDecoration(
-              // border: InputBorder.none,
-              hintText: widget.hintText ?? 'Masukkan ${widget.title.capitalizeText()}',
-              // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
-              suffixIcon: (widget.formType == FormType.password)
-                  ? InkWell(
-                      child: Icon((obscureText) ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                      onTap: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
-                      },
-                    )
-                  : SizedBox.shrink(),
-            ),
-            obscureText: obscureText,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
+          obscureText: obscureText,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 

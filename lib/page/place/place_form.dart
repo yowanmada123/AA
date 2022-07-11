@@ -38,13 +38,13 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
   //images
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController regionIdController = TextEditingController();
+  TextEditingController regionController = TextEditingController();
   TextEditingController langtitudeController = TextEditingController();
   TextEditingController longtitudeController = TextEditingController();
   TextEditingController imageController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
-  String placeValue = "";
+  String regionId = "";
   TextEditingController alamat = TextEditingController();
 
   // File? fileIdCard;
@@ -147,15 +147,9 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                         ),
                       ],
                     ),
-                    Text(
-                      "PILIH REGION",
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    ButtonChoosePlace(
-                      placeValue: placeValue,
+                    OFormText(
+                      title: 'PILIH REGION',
+                      controller: regionController,
                       onTap: () async {
                         final result = await Navigator.push(
                           context,
@@ -163,10 +157,10 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                         );
                         if (result != null) {
                           setState(() {
-                            placeValue = result.name;
+                            regionController.text = result.name;
                           });
+                          regionId = result.id;
                         }
-                        regionIdController.text = result.id;
                       },
                     ),
                     const SizedBox(
@@ -241,7 +235,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                 images: "$filename"
                 name: "${nameController.text}"
                 description: "${descriptionController.text}"
-                region_id: ${regionIdController.text}
+                region_id: $regionId
                 latitude: ${langtitudeController.text}
                 longitude:  ${longtitudeController.text}
               }
