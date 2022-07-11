@@ -6,21 +6,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 
 class BaseMapOpenStreet extends StatefulWidget {
-  final Function(String)? onChanged;
-  const BaseMapOpenStreet({Key? key, this.onChanged}) : super(key: key);
+  final double? latitude;
+  final double? logintude;
+  final double? height;
+  final Function(MapDataResult)? onChanged;
+  const BaseMapOpenStreet({Key? key, this.onChanged, this.latitude, this.logintude, this.height}) : super(key: key);
 
   @override
   State<BaseMapOpenStreet> createState() => BaseMapOpenStreetState();
 }
 
 class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
-  final gstate = Get.find<GlobalController>();
   bool _serviceEnabled = false;
   LocationPermission? _permissionGranted;
 
@@ -30,6 +32,9 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
   @override
   void initState() {
     super.initState();
+    if (widget.latitude != null && widget.logintude != null) {
+      point = LatLng(widget.latitude!, widget.logintude!);
+    }
     cekPermision();
   }
 
@@ -43,18 +48,13 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
     _permissionGranted = await Geolocator.checkPermission();
 
     log(_permissionGranted.toString());
-    if (_permissionGranted == LocationPermission.denied ||
-        _permissionGranted == LocationPermission.unableToDetermine) {
-      bool isAllow = await Alertx().confirmDialog(
-          title: 'Permission location',
-          desc:
-              'Medilab need to access current location to enable find nearest medilab medical facility');
+    if (_permissionGranted == LocationPermission.denied || _permissionGranted == LocationPermission.unableToDetermine) {
+      bool isAllow = await Alertx().confirmDialog(title: 'Permission location', desc: 'Medilab need to access current location to enable find nearest medilab medical facility');
       if (isAllow) {
         _permissionGranted = await Geolocator.requestPermission();
         log(_permissionGranted.toString());
 
-        if (_permissionGranted == LocationPermission.always ||
-            _permissionGranted == LocationPermission.whileInUse) {
+        if (_permissionGranted == LocationPermission.always || _permissionGranted == LocationPermission.whileInUse) {
           getLocation();
         } else {
           Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
@@ -66,8 +66,7 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
       }
     } else if (_permissionGranted == LocationPermission.deniedForever) {
       Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
-    } else if (_permissionGranted == LocationPermission.always ||
-        _permissionGranted == LocationPermission.whileInUse) {
+    } else if (_permissionGranted == LocationPermission.always || _permissionGranted == LocationPermission.whileInUse) {
       getLocation();
     }
 
@@ -84,43 +83,32 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
   }
 
   Future<void> getLocation() async {
-    Position currentLocation = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position currentLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     if (currentLocation.latitude != null) {
       log("currentLocation.accuracy ${currentLocation.accuracy}");
       tappedPoints.clear();
-      tappedPoints
-          .add(LatLng(currentLocation.latitude, currentLocation.longitude));
-      if (currentLocation.accuracy < 30) {
-        getAddressFromLatLong(
-            currentLocation.latitude, currentLocation.longitude, true);
-      }
+      tappedPoints.add(LatLng(currentLocation.latitude, currentLocation.longitude));
+      // if (currentLocation.accuracy < 30) {
+      getAddressFromLatLong(currentLocation.latitude, currentLocation.longitude, true);
+      // }
     }
   }
 
-  Future<void> getAddressFromLatLong(
-      double latitude, double longitude, bool isMove) async {
+  Future<void> getAddressFromLatLong(double latitude, double longitude, bool isMove) async {
     //TODO : JIKA bukan web, get addres from plugin
     if (!kIsWeb) {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(latitude, longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
       print(placemarks);
       Placemark place = placemarks[0];
-      var address =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-      setState(() {
-        gstate.addres = address;
-      });
+      var address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
       if (widget.onChanged != null) {
-        widget.onChanged!(address);
+        widget.onChanged!(MapDataResult(latitude, longitude, address));
       }
     }
-
+    log('-----getaddress------');
     setState(() {
-      gstate.latitude = latitude;
-      gstate.longitude = longitude;
-
       if (isMove) {
         mapController.move(LatLng(latitude, longitude), 17);
       }
@@ -157,26 +145,20 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
 
     return SizedBox(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.56, 
+      height: widget.height ?? MediaQuery.of(context).size.height * 0.56,
       // double.infinity * 0.56,
       child: Stack(
         children: [
           FlutterMap(
             mapController: mapController,
             options: MapOptions(
-              center: (gstate.latitude == 0.0)
-                  ? point
-                  : LatLng(
-                      gstate.latitude,
-                      gstate.longitude,
-                    ),
+              center: point,
               zoom: 17.0,
               onTap: _handleTap,
             ),
             layers: [
               TileLayerOptions(
-                urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 subdomains: ['a', 'b', 'c'],
                 attributionBuilder: (_) {
                   return Text("© OpenStreetMap contributors");
@@ -218,4 +200,12 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
       ),
     );
   }
+}
+
+class MapDataResult {
+  final double latitude;
+  final double longitude;
+  final String address;
+
+  MapDataResult(this.latitude, this.longitude, this.address);
 }

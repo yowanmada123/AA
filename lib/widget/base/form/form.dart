@@ -1,8 +1,6 @@
 import 'package:boilerplate_flutter/widget/extention/ext_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum FormType { text, email, phone, password, money, multiLine }

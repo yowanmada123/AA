@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/model/images_res.dart';
-import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/repository/image_repo.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
@@ -18,6 +16,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../widget/base/map/map_openstreet.dart';
+
 class PlaceFormPage extends StatefulWidget {
   const PlaceFormPage({Key? key}) : super(key: key);
 
@@ -28,14 +28,11 @@ class PlaceFormPage extends StatefulWidget {
 class _PlaceFormPageState extends State<PlaceFormPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   File? fileIdCard;
-  File? file;
   // File? filePhoto;
   Uint8List webImageCard = Uint8List(10);
   Uint8List webImagePhoto = Uint8List(10);
   bool isHaveImageCard = false;
   bool isHaveImageID = false;
-
-  final gstate = Get.put(GlobalController());
 
   TextEditingController addressController = TextEditingController();
   //images
@@ -146,7 +143,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                                   ),
                                 );
                               },
-                              child: foto(fileIdCard, gstate)),
+                              child: foto(fileIdCard)),
                         ),
                       ],
                     ),
@@ -179,13 +176,36 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                       "TENTUKAN LOKASI",
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
                     ),
-                    OFormText(
-                      title: "LONGTITUDE",
-                      controller: langtitudeController,
+                    BaseMapOpenStreet(
+                      height: 200,
+                      onChanged: (val) {
+                        setState(() {
+                          langtitudeController.text = val.latitude.toString();
+                          longtitudeController.text = val.longitude.toString();
+                          addressController.text = val.address;
+                        });
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OFormText(
+                            title: "LATITUDE",
+                            controller: langtitudeController,
+                          ),
+                        ),
+                        Expanded(
+                          child: OFormText(
+                            title: "LONGTITUDE",
+                            controller: longtitudeController,
+                          ),
+                        ),
+                      ],
                     ),
                     OFormText(
-                      title: "LANGTITUDE",
-                      controller: longtitudeController,
+                      title: "Addess",
+                      controller: addressController,
+                      maxLines: 4,
                     ),
                   ],
                 ),
@@ -266,7 +286,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
   }
 }
 
-Widget foto(File? imageFile, GlobalController gstate) {
+Widget foto(File? imageFile) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Container(
