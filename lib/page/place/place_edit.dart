@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/repository/image_repo.dart';
 import 'package:boilerplate_flutter/repository/ocr_passport_repo.dart';
 import 'package:boilerplate_flutter/repository/orc_ktp_repo.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
@@ -30,8 +31,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../model/ocr_res.dart';
 import '../../model/user/profile.dart';
 
-
-
 class UpdatePlacePage extends StatefulWidget {
   final Place item;
   const UpdatePlacePage({Key? key, required this.item}) : super(key: key);
@@ -41,8 +40,6 @@ class UpdatePlacePage extends StatefulWidget {
 }
 
 class _UpdatePlacePageState extends State<UpdatePlacePage> {
-
-  
   GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   File? fileIdCard;
@@ -68,8 +65,6 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
   double? longitude;
 
   getData() async {
-    
-
     String itemId = widget.item.id;
 
     String options = '''
@@ -129,6 +124,10 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
 
       latitude = data['place']['latitude'];
       longitude = data['place']['longitude'];
+      log("LATITUDE & LONGITUDE");
+      log(latitude.toString());
+      log(longitude.toString());
+      log("LATITUDE & LONGITUDE 2");
 
       if (data != null) {
         isSuccess = true;
@@ -186,6 +185,9 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
                     "UBAH LOKASI",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   BaseMapOpenStreet(
                     height: 200,
                     latitude: latitude,
@@ -210,86 +212,125 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
                     title: "LONGTITUDE",
                     controller: longitudeController,
                   ),
-
-                  // Row(
-                  //     children: [
-                  //       Expanded(
-                  //         flex: 1,
-                  //         child: InkWell(
-                  //             onTap: () async {
-                  //               showDialog(
-                  //                 barrierDismissible: true,
-                  //                 context: context,
-                  //                 builder: (c) => AlertDialog(
-                  //                   title: Container(),
-                  //                   content: Container(
-                  //                     color: Colors.white,
-                  //                     height: 80,
-                  //                     child: Column(
-                  //                       mainAxisSize: MainAxisSize.min,
-                  //                       crossAxisAlignment: CrossAxisAlignment.start,
-                  //                       mainAxisAlignment: MainAxisAlignment.start,
-                  //                       children: [
-                  //                         InkWell(
-                  //                           onTap: () async {
-                  //                             Navigator.pop(context);
-                  //                             File? file = await Get.to(() => const CameraOverlay('identitas'));
-                  //                             if (file != null) {
-                  //                               setState(() {
-                  //                                 fileIdCard = file;
-                  //                               });
-                  //                               // imageReader(file);
-                  //                             }
-                  //                           },
-                  //                           child: const Padding(
-                  //                             padding: EdgeInsets.all(8.0),
-                  //                             child: Text(
-                  //                               "Kamera",
-                  //                             ),
-                  //                           ),
-                  //                         ),
-                  //                         InkWell(
-                  //                           onTap: () async {
-                  //                             Navigator.pop(context);
-                  //                             final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                  //                             if (image != null) {
-                  //                               setState(() {
-                  //                                 fileIdCard = File(image.path);
-                  //                               });
-                  //                             }
-                  //                             // imageReader(fileIdCard!);
-                  //                           },
-                  //                           child: const Padding(
-                  //                             padding: EdgeInsets.all(8.0),
-                  //                             child: Text("Galeri"),
-                  //                           ),
-                  //                         )
-                  //                       ],
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               );
-                  //             },
-                  //             child: foto(fileIdCard)),
-                  //       ),
-                  //     ],
-                  //   ),
+                  Text(
+                    "UBAH GAMBAR",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Container(
-                    height: 100,
+                    height: 250,
                     width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(9),
-                      ),
-                      child: Image.network(
-                        "http://103.186.0.33:3000/uploads/${imagesController.text}",
-                        fit: BoxFit.cover,
-                      ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        showDialog(
+                          barrierDismissible: true,
+                          context: context,
+                          builder: (c) => AlertDialog(
+                            title: Container(),
+                            content: Container(
+                              color: Colors.white,
+                              height: 80,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Ingin mengubah gambar ?",
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          showDialog(
+                                            barrierDismissible: true,
+                                            context: context,
+                                            builder: (c) => AlertDialog(
+                                              title: Container(),
+                                              content: Container(
+                                                color: Colors.white,
+                                                height: 80,
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        Navigator.pop(context);
+                                                        File? file = await Get.to(() => const CameraOverlay('identitas'));
+                                                        if (file != null) {
+                                                          setState(() {
+                                                            fileIdCard = file;
+                                                          });
+                                                          Get.back();
+                                                        }
+                                                      },
+                                                      child: const Padding(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "Kamera",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        Navigator.pop(context);
+                                                        final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                                                        if (image != null) {
+                                                          setState(() {
+                                                            fileIdCard = File(image.path);
+                                                          });
+                                                        }
+                                                        Get.back();
+                                                      },
+                                                      child: const Padding(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Text("Galeri"),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Yes ",
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.back();
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "No ",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: foto(fileIdCard, imagesController.text),
                     ),
                   ),
-                  OFormText(
-                    title: "IMAGE",
-                    controller: imagesController,
+                  const SizedBox(
+                    height: 15,
                   ),
                 ],
               ),
@@ -297,33 +338,16 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
             OButtonBar(
               title: "UPDATE",
               onPressed: () async {
-                // Get.to(Home());
                 if (_key.currentState!.validate()) {
-                  await updateData();
-                  // if (fileIdCard == null) {
-                  //   Alertx().error("Foto identitas belum ada");
-                  // } else if (filePhoto == null) {
-                  //   Alertx().error("Foto profil belum ada");
-                  // } else if (genderController == "") {
-                  //   Alertx().error("Pilih Jenis Kelamin");
-                  // } else {
-                  //   await updateData();
-                  // }
-                  log("valid");
-                  log("nameController.text =${nameController.text}");
-                  log("addressController.text =${addressController.text}");
-                  log("latitudeController.text =${latitudeController.text}");
-                  log("longitudeController.text =${longitudeController.text}");
-
-                  // log("birthDateController.text =${birthDateController}");
-                  // log("birthPlaceController.text =${birthPlaceController.text}");
-                  // log("emailController.text =${emailController.text}");
-                  // log("phoneNumberController.text =${phoneNumberController.text}");
-
+                  await updateData(fileIdCard);
+                  // log("valid");
+                  // log("nameController.text =${nameController.text}");
+                  // log("nameController.text =${imagesController.text}");
+                  // log("addressController.text =${addressController.text}");
+                  // log("latitudeController.text =${latitudeController.text}");
+                  // log("longitudeController.text =${longitudeController.text}");
                 }
               },
-              // color: Color(primaryDark),
-              // textColor: Colors.white,
             ),
           ],
         ),
@@ -331,91 +355,22 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
     );
   }
 
-  // ocr(File file) async {
-  //   Profile? ocr = await OcrService().ktp(file);
-  //   if (ocr != null) {
-  //     setState(() {
-  //       nameController.text = ocr.fullname;
-  //       birthPlaceController.text = ocr.placeOfBirth;
-  //       addressController.text = ocr.address;
-  //       identityNumberController.text = ocr.identityNumber;
-  //       try {
-  //         try {
-  //           var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
-  //           birthDateControllerDisplay = dateTime2.toDateHuman();
-  //           birthDateController = dateTime2;
-  //         } catch (e) {}
+  Future<void> updateData(File? file) async {
+    if (file != null) {
+      String? filename = await ImageService().image(file);
+      imagesController.text = filename!;
+      log("OYOY1");
+      // log(imagesController.text);
+      // log("----------------Image Readed-----------------------");
+    }
 
-  //         if (ocr.gender.toLowerCase() == "male") {
-  //           genderController = "L";
-  //         } else if (ocr.gender.toLowerCase() == "female") {
-  //           genderController = "P";
-  //         }
-  //         if (ocr.gender.toLowerCase() == "laki - laki") {
-  //           genderController = "L";
-  //         } else if (ocr.gender.toLowerCase() == "perempuan") {
-  //           genderController = "P";
-  //         }
-  //       } catch (e) {}
-  //     });
-  //     log('ocr');
-  //   }
-  // }
-
-  // ocrPassport(File file) async {
-  //   Profile? ocr = await OcrPassportService().passport(file);
-  //   if (ocr != null) {
-  //     setState(() {
-  //       nameController.text = ocr.fullname;
-  //       birthPlaceController.text = ocr.placeOfBirth;
-  //       addressController.text = ocr.address;
-  //       identityNumberController.text = ocr.identityNumber;
-
-  //       try {
-  //         try {
-  //           var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
-  //           birthDateControllerDisplay = dateTime2.toDateHuman();
-  //           birthDateController = dateTime2;
-  //         } catch (e) {}
-
-  //         if (ocr.gender.toLowerCase() == "male") {
-  //           genderController = "L";
-  //         } else if (ocr.gender.toLowerCase() == "female") {
-  //           genderController = "P";
-  //         }
-  //         if (ocr.gender.toLowerCase() == "laki - laki") {
-  //           genderController = "L";
-  //         } else if (ocr.gender.toLowerCase() == "perempuan") {
-  //           genderController = "P";
-  //         }
-  //       } catch (e) {}
-  //     });
-  //     log('ocr');
-  //   }
-  // }
-
-  Future<void> updateData() async {
-    // var imageKtp = await fileIdCard!;
-    // var imageProfil = await filePhoto!;
-
-    // var b = await HttpMultipartFile.MultipartFile.fromPath(
-    //   'imageProfil',
-    //   imageProfil.path,
-    //   contentType: MediaType("image", "jpeg"),
-    // );
-
-    // var b2 = await HttpMultipartFile.MultipartFile.fromPath(
-    //   'imageProfil',
-    //   imageKtp.path,
-    //   contentType: MediaType("image", "jpeg"),
-    // );
-
-    // var identityType = jenisIdentitas.toString();
-    // var gender = genderController;
     String itemID = widget.item.id.toString();
-    int latitude = int.parse(latitudeController.text);
-    int longitude = int.parse(longitudeController.text);
-    log(latitude.toString());
+    double latitude = double.parse(latitudeController.text);
+    double longitude = double.parse(longitudeController.text);
+    // log(latitude.toString());
+    // log(longitude.toString());
+    // log(itemID);
+
     String optionsPerson = '''
       mutation updateOnePlace{
   updateOnePlace(
@@ -427,7 +382,6 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
         latitude: $latitude
         longitude: $longitude
         name: "${nameController.text}"
-        
       }
     }
   ) {
@@ -469,8 +423,6 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
 
       ''';
 
-    // Map<String, dynamic> variables = {"identityPhoto": b, "profilePhoto": b2};
-
     try {
       bool isSuccess = false;
       Map<String, dynamic>? place = await GraphQLBase().mutate(optionsPerson);
@@ -484,7 +436,6 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data Berhasil di Update')),
         );
-        // Get.offAll(SuccesPage());
         Get.back();
       }
     } on Error catch (e, s) {
@@ -494,46 +445,40 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
   }
 }
 
-Widget foto(File? imageFile, GlobalController gstate) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: AspectRatio(
-      aspectRatio: 3 / 4,
-      child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.black12,
-              border: Border.all(
-                color: Colors.black38, // red as border color
-              ),
+Widget foto(File? imageFile, String? images) {
+  return AspectRatio(
+    aspectRatio: 3 / 4,
+    child: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.black12,
+        border: Border.all(
+          color: Colors.black38, // red as border color
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(9),
+        ),
+      ),
+      child: (imageFile != null)
+          ? ClipRRect(
               borderRadius: const BorderRadius.all(
                 Radius.circular(9),
-              )),
-          child: (imageFile != null)
-              ? Image.file(
-                  File(imageFile.path),
-                  fit: BoxFit.cover,
-                )
-              : Column(
-                  children: [
-                    Expanded(flex: 1, child: SizedBox()),
-                    Expanded(
-                      flex: 1,
-                      child: SvgPicture.asset(
-                        "assets/ic/ic_camera.svg",
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "Ambil Foto",
-                    ).titleText(),
-                    Expanded(flex: 1, child: SizedBox()),
-                  ],
-                )),
+              ),
+              child: Image.file(
+                File(imageFile.path),
+                fit: BoxFit.cover,
+              ),
+            )
+          : ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(9),
+              ),
+              child: Image.network(
+                "http://103.186.0.33:3000/uploads/$images",
+                fit: BoxFit.cover,
+              ),
+            ),
     ),
   );
 }
