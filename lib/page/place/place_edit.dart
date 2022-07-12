@@ -12,6 +12,8 @@ import 'package:boilerplate_flutter/widget/base/camera.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_date_picker.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_dropdown.dart';
+import 'package:path/path.dart' as p;
+import 'package:boilerplate_flutter/widget/base/map/map_openstreet.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +25,12 @@ import 'package:image_picker/image_picker.dart';
 import "package:http/http.dart" as HttpMultipartFile;
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../model/ocr_res.dart';
 import '../../model/user/profile.dart';
+
+
 
 class UpdatePlacePage extends StatefulWidget {
   final Place item;
@@ -36,6 +41,8 @@ class UpdatePlacePage extends StatefulWidget {
 }
 
 class _UpdatePlacePageState extends State<UpdatePlacePage> {
+
+  
   GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   File? fileIdCard;
@@ -53,22 +60,16 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
   TextEditingController longitudeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
-  String genderController = "";
-  // String birthDateController = "";
-  String birthDateControllerDisplay = "";
-  DateTime birthDateController = DateTime.now();
-  // List<CountryModel> dataNegara = [];
-  bool isButtonLoading = false;
-
-  List<String> itemDropdown = ["PASSPORT", "KTP", "KK"];
-  String jenisIdentitas = "PASSPORT";
-
   final ImagePicker _picker = ImagePicker();
   final place = <Place>[].obs;
   final loading = true.obs;
 
+  double? latitude;
+  double? longitude;
+
   getData() async {
-    // print(widget.item.id);
+    
+
     String itemId = widget.item.id;
 
     String options = '''
@@ -118,15 +119,16 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
       bool isSuccess = false;
       Map<String, dynamic>? data = await GraphQLBase().query(options);
       log(data.toString());
-      // log(data!['place']['address']);
-
       double latitude = data!['place']['latitude'];
 
-      addressController.text = data!['place']['address'];
+      addressController.text = data['place']['address'];
       imagesController.text = data['place']['images'];
-      latitudeController.text = data!['place']['latitude'].toString();
-      longitudeController.text = data!['place']['longitude'].toString();
+      latitudeController.text = data['place']['latitude'].toString();
+      longitudeController.text = data['place']['longitude'].toString();
       nameController.text = data['place']['name'];
+
+      latitude = data['place']['latitude'];
+      longitude = data['place']['longitude'];
 
       if (data != null) {
         isSuccess = true;
@@ -177,6 +179,25 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
                     title: "NAMA TEMPAT",
                     controller: nameController,
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "UBAH LOKASI",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                  ),
+                  BaseMapOpenStreet(
+                    height: 200,
+                    latitude: latitude,
+                    logintude: longitude,
+                    onChanged: (val) {
+                      setState(() {
+                        latitudeController.text = val.latitude.toString();
+                        longitudeController.text = val.longitude.toString();
+                        addressController.text = val.address;
+                      });
+                    },
+                  ),
                   OFormText(
                     title: "ALAMAT LOKASI",
                     controller: addressController,
@@ -189,172 +210,87 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
                     title: "LONGTITUDE",
                     controller: longitudeController,
                   ),
+
+                  // Row(
+                  //     children: [
+                  //       Expanded(
+                  //         flex: 1,
+                  //         child: InkWell(
+                  //             onTap: () async {
+                  //               showDialog(
+                  //                 barrierDismissible: true,
+                  //                 context: context,
+                  //                 builder: (c) => AlertDialog(
+                  //                   title: Container(),
+                  //                   content: Container(
+                  //                     color: Colors.white,
+                  //                     height: 80,
+                  //                     child: Column(
+                  //                       mainAxisSize: MainAxisSize.min,
+                  //                       crossAxisAlignment: CrossAxisAlignment.start,
+                  //                       mainAxisAlignment: MainAxisAlignment.start,
+                  //                       children: [
+                  //                         InkWell(
+                  //                           onTap: () async {
+                  //                             Navigator.pop(context);
+                  //                             File? file = await Get.to(() => const CameraOverlay('identitas'));
+                  //                             if (file != null) {
+                  //                               setState(() {
+                  //                                 fileIdCard = file;
+                  //                               });
+                  //                               // imageReader(file);
+                  //                             }
+                  //                           },
+                  //                           child: const Padding(
+                  //                             padding: EdgeInsets.all(8.0),
+                  //                             child: Text(
+                  //                               "Kamera",
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         InkWell(
+                  //                           onTap: () async {
+                  //                             Navigator.pop(context);
+                  //                             final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                  //                             if (image != null) {
+                  //                               setState(() {
+                  //                                 fileIdCard = File(image.path);
+                  //                               });
+                  //                             }
+                  //                             // imageReader(fileIdCard!);
+                  //                           },
+                  //                           child: const Padding(
+                  //                             padding: EdgeInsets.all(8.0),
+                  //                             child: Text("Galeri"),
+                  //                           ),
+                  //                         )
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             },
+                  //             child: foto(fileIdCard)),
+                  //       ),
+                  //     ],
+                  //   ),
+                  Container(
+                    height: 100,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(9),
+                      ),
+                      child: Image.network(
+                        "http://103.186.0.33:3000/uploads/${imagesController.text}",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                   OFormText(
                     title: "IMAGE",
                     controller: imagesController,
                   ),
-                  // OFormText(
-                  //   title: "ALAMAT LOKASI",
-                  //   controller: addressController,
-                  // ),
-
-                  // const Text("Upload foto identitas beserta foto diri harus terlihat jelas").descriptionText(),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     const Text(
-                  //       "FOTO IDENTITAS",
-                  //     ).titleText(),
-                  //     const Text(
-                  //       "FOTO PROFIL",
-                  //     ).titleText(),
-                  //   ],
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       flex: 1,
-                  //       child: InkWell(
-                  //           onTap: () async {
-                  //             showDialog(
-                  //               barrierDismissible: true,
-                  //               context: context,
-                  //               builder: (c) => AlertDialog(
-                  //                 title: Container(),
-                  //                 content: Container(
-                  //                   color: Colors.white,
-                  //                   height: 80,
-                  //                   child: Column(
-                  //                     mainAxisSize: MainAxisSize.min,
-                  //                     crossAxisAlignment: CrossAxisAlignment.start,
-                  //                     mainAxisAlignment: MainAxisAlignment.start,
-                  //                     children: [
-                  //                       InkWell(
-                  //                         onTap: () async {
-                  //                           Navigator.pop(context);
-                  //                           File? file = await Get.to(() => const CameraOverlay('identitas'));
-                  //                           if (file != null) {
-                  //                             setState(() {
-                  //                               fileIdCard = file;
-                  //                             });
-                  //                             if (jenisIdentitas == "KTP") {
-                  //                               print("KTP KTP KTP");
-                  //                               ocr(file);
-                  //                             } else {
-                  //                               ocrPassport(file);
-                  //                               print("PASSPORT PASSPORT PASSPORT");
-                  //                             }
-                  //                           }
-                  //                         },
-                  //                         child: const Padding(
-                  //                           padding: EdgeInsets.all(8.0),
-                  //                           child: Text(
-                  //                             "Kamera",
-                  //                           ),
-                  //                         ),
-                  //                       ),
-                  //                       InkWell(
-                  //                         onTap: () async {
-                  //                           Navigator.pop(context);
-                  //                           final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                  //                           if (image != null) {
-                  //                             setState(() {
-                  //                               fileIdCard = File(image.path);
-                  //                             });
-                  //                             if (jenisIdentitas == "KTP") {
-                  //                               print("KTP KTP KTP");
-                  //                               ocr(fileIdCard!);
-                  //                             } else {
-                  //                               ocrPassport(fileIdCard!);
-                  //                               print("PASSPORT PASSPORT PASSPORT");
-                  //                             }
-                  //                           }
-                  //                         },
-                  //                         child: const Padding(
-                  //                           padding: EdgeInsets.all(8.0),
-                  //                           child: Text("Galeri"),
-                  //                         ),
-                  //                       )
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //             );
-
-                  //             // Get.to(() => CameraExampleHome());
-                  //           },
-                  //           child: foto(fileIdCard, gstate)),
-                  //     ),
-                  //     Expanded(
-                  //       flex: 1,
-                  //       child: InkWell(
-                  //           onTap: () async {
-                  //             showDialog(
-                  //               barrierDismissible: true,
-                  //               context: context,
-                  //               builder: (c) => AlertDialog(
-                  //                 title: Container(),
-                  //                 content: Container(
-                  //                   color: Colors.white,
-                  //                   height: 80,
-                  //                   child: Column(
-                  //                     mainAxisSize: MainAxisSize.min,
-                  //                     crossAxisAlignment: CrossAxisAlignment.start,
-                  //                     mainAxisAlignment: MainAxisAlignment.start,
-                  //                     children: [
-                  //                       InkWell(
-                  //                         onTap: () async {
-                  //                           Navigator.pop(context);
-                  //                           File? file = await Get.to(() => CameraOverlay('profil'));
-                  //                           if (file != null) {
-                  //                             setState(() {
-                  //                               filePhoto = file;
-                  //                             });
-                  //                           }
-                  //                         },
-                  //                         child: const Padding(
-                  //                           padding: EdgeInsets.all(8.0),
-                  //                           child: Text(
-                  //                             "Kamera",
-                  //                           ),
-                  //                         ),
-                  //                       ),
-                  //                       InkWell(
-                  //                         onTap: () async {
-                  //                           Navigator.pop(context);
-                  //                           final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                  //                           if (image != null) {
-                  //                             setState(() {
-                  //                               filePhoto = File(image.path);
-                  //                             });
-                  //                           }
-                  //                         },
-                  //                         child: const Padding(
-                  //                           padding: EdgeInsets.all(8.0),
-                  //                           child: Text("Galeri"),
-                  //                         ),
-                  //                       )
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //             );
-                  //           },
-                  //           child: foto(filePhoto, gstate)),
-                  //     ),
-                  //   ],
-                  // ),
-                  // OFormText(
-                  //   title: "ALAMAT LENGKAP",
-                  //   controller: addressController,
-                  // ),
-                  // OFormText(
-                  //   title: "ALAMAT EMAIL",
-                  //   controller: imagesController,
-                  // ),
                 ],
               ),
             ),
