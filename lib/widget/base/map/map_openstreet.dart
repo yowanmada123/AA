@@ -9,33 +9,37 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:boilerplate_flutter/page/global_controller.dart';
 
 class BaseMapOpenStreet extends StatefulWidget {
   final double? latitude;
-  final double? logintude;
+  final double? longitude;
   final double? height;
   final Function(MapDataResult)? onChanged;
-  const BaseMapOpenStreet({Key? key, this.onChanged, this.latitude, this.logintude, this.height}) : super(key: key);
+  const BaseMapOpenStreet({Key? key, this.onChanged, this.latitude, this.longitude, this.height}) : super(key: key);
 
   @override
   State<BaseMapOpenStreet> createState() => BaseMapOpenStreetState();
 }
 
 class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
-  bool _serviceEnabled = false;
   LocationPermission? _permissionGranted;
+  bool loading = false;
 
   MapController mapController = MapController();
   LatLng point = LatLng(-6.20, 106.81);
   List<LatLng> tappedPoints = [];
+
   @override
   void initState() {
     super.initState();
-    if (widget.latitude != null && widget.logintude != null) {
-      point = LatLng(widget.latitude!, widget.logintude!);
+
+    if (widget.latitude != null && widget.longitude != null) {
+      log('hi');
+      point = LatLng(widget.latitude!, widget.longitude!);
+      tappedPoints.add(point);
+    } else {
+      cekPermision();
     }
-    cekPermision();
   }
 
   cekPermision() async {
@@ -82,24 +86,41 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
     //     position: LatLng(currentLocation.latitude, currentLocation.longitude)));
   }
 
+  setMarker(double latitude, double longitude) async {
+    log('set marker');
+
+    setState(() {
+      tappedPoints.clear();
+      tappedPoints.add(LatLng(latitude, longitude));
+      mapController.move(LatLng(latitude, longitude), 17);
+    });
+    // await getAddressFromLatLong(latitude, longitude, true);
+  }
+
   Future<void> getLocation() async {
+    setState(() {
+      loading = true;
+    });
+    log('getLocation');
     Position currentLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     if (currentLocation.latitude != null) {
       log("currentLocation.accuracy ${currentLocation.accuracy}");
-      tappedPoints.clear();
-      tappedPoints.add(LatLng(currentLocation.latitude, currentLocation.longitude));
+      await setMarker(currentLocation.latitude, currentLocation.longitude);
       // if (currentLocation.accuracy < 30) {
       getAddressFromLatLong(currentLocation.latitude, currentLocation.longitude, true);
       // }
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   Future<void> getAddressFromLatLong(double latitude, double longitude, bool isMove) async {
     //TODO : JIKA bukan web, get addres from plugin
     if (!kIsWeb) {
       List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
-      print(placemarks);
+      // log(placemarks.toString());
       Placemark place = placemarks[0];
       var address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
 
@@ -108,11 +129,6 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
       }
     }
     log('-----getaddress------');
-    setState(() {
-      if (isMove) {
-        mapController.move(LatLng(latitude, longitude), 17);
-      }
-    });
 
     // widget.presensiState.setLatitude(position.latitude);
     // widget.presensiState.setLongitude(position.longitude);
@@ -129,6 +145,13 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
 
   @override
   Widget build(BuildContext context) {
+    // if (widget.latitude != null && widget.longitude != null) {
+    //   tappedPoints.add(LatLng(widget.latitude!, widget.longitude!));
+    //   point = LatLng(widget.latitude!, widget.longitude!);
+    //   setState(() {
+    //     mapController.move(point, 17);
+    //   });
+    // }
     var markers = tappedPoints.map((latlng) {
       return Marker(
         width: 80.0,
@@ -190,9 +213,13 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
                 onPressed: () {
                   cekPermision();
                 },
-                icon: Icon(
-                  Icons.my_location,
-                ),
+                icon: (loading)
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Icon(
+                        Icons.my_location,
+                      ),
               ),
             ),
           )

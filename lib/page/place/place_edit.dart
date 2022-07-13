@@ -6,30 +6,15 @@ import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/repository/image_repo.dart';
-import 'package:boilerplate_flutter/repository/ocr_passport_repo.dart';
-import 'package:boilerplate_flutter/repository/orc_ktp_repo.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/camera.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_date_picker.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_dropdown.dart';
-import 'package:path/path.dart' as p;
 import 'package:boilerplate_flutter/widget/base/map/map_openstreet.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import "package:http/http.dart" as HttpMultipartFile;
-import 'package:http_parser/http_parser.dart';
-import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-
-import '../../model/ocr_res.dart';
-import '../../model/user/profile.dart';
 
 class UpdatePlacePage extends StatefulWidget {
   final Place item;
@@ -58,8 +43,7 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
   TextEditingController nameController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
-  final place = <Place>[].obs;
-  final loading = true.obs;
+  bool loading = true;
 
   double? latitude;
   double? longitude;
@@ -114,9 +98,8 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
       bool isSuccess = false;
       Map<String, dynamic>? data = await GraphQLBase().query(options);
       log(data.toString());
-      double latitude = data!['place']['latitude'];
 
-      addressController.text = data['place']['address'];
+      addressController.text = data!['place']['address'];
       imagesController.text = data['place']['images'];
       latitudeController.text = data['place']['latitude'].toString();
       longitudeController.text = data['place']['longitude'].toString();
@@ -139,6 +122,9 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
           const SnackBar(content: Text('Data Berhasil Ditampilkan ')),
         );
       }
+      setState(() {
+        loading = false;
+      });
     } on Error catch (e, s) {
       print(e);
       print(s);
@@ -158,199 +144,203 @@ class _UpdatePlacePageState extends State<UpdatePlacePage> {
       appBar: AppBar(title: Text("Update Place").pageTitleText()),
       body: Form(
         key: _key,
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+        child: (loading)
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView(
                 children: [
-                  const Text("Update Informasi ").titleText(),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const Text("Pastikan Anda sudah mengisikan data terupdate terkait lokasi").descriptionText(),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  OFormText(
-                    title: "NAMA TEMPAT",
-                    controller: nameController,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "UBAH LOKASI",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  BaseMapOpenStreet(
-                    height: 200,
-                    latitude: latitude,
-                    logintude: longitude,
-                    onChanged: (val) {
-                      setState(() {
-                        latitudeController.text = val.latitude.toString();
-                        longitudeController.text = val.longitude.toString();
-                        addressController.text = val.address;
-                      });
-                    },
-                  ),
-                  OFormText(
-                    title: "ALAMAT LOKASI",
-                    controller: addressController,
-                  ),
-                  OFormText(
-                    title: "LATITUDE",
-                    controller: latitudeController,
-                  ),
-                  OFormText(
-                    title: "LONGTITUDE",
-                    controller: longitudeController,
-                  ),
-                  Text(
-                    "UBAH GAMBAR",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: () async {
-                        showDialog(
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (c) => AlertDialog(
-                            title: Container(),
-                            content: Container(
-                              color: Colors.white,
-                              height: 80,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Ingin mengubah gambar ?",
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () async {
-                                          showDialog(
-                                            barrierDismissible: true,
-                                            context: context,
-                                            builder: (c) => AlertDialog(
-                                              title: Container(),
-                                              content: Container(
-                                                color: Colors.white,
-                                                height: 80,
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        Navigator.pop(context);
-                                                        File? file = await Get.to(() => const CameraOverlay('identitas'));
-                                                        if (file != null) {
-                                                          setState(() {
-                                                            fileIdCard = file;
-                                                          });
-                                                          Get.back();
-                                                        }
-                                                      },
-                                                      child: const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                          "Kamera",
-                                                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("Update Informasi ").titleText(),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const Text("Pastikan Anda sudah mengisikan data terupdate terkait lokasi").descriptionText(),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        OFormText(
+                          title: "NAMA TEMPAT",
+                          controller: nameController,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "UBAH LOKASI",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        BaseMapOpenStreet(
+                          height: 200,
+                          latitude: latitude,
+                          longitude: longitude,
+                          onChanged: (val) {
+                            // setState(() {
+                            latitudeController.text = val.latitude.toString();
+                            longitudeController.text = val.longitude.toString();
+                            addressController.text = val.address;
+                            // });
+                          },
+                        ),
+                        OFormText(
+                          title: "ALAMAT LOKASI",
+                          controller: addressController,
+                        ),
+                        OFormText(
+                          title: "LATITUDE",
+                          controller: latitudeController,
+                        ),
+                        OFormText(
+                          title: "LONGTITUDE",
+                          controller: longitudeController,
+                        ),
+                        Text(
+                          "UBAH GAMBAR",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          height: 250,
+                          width: double.infinity,
+                          child: GestureDetector(
+                            onTap: () async {
+                              showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (c) => AlertDialog(
+                                  title: Container(),
+                                  content: Container(
+                                    color: Colors.white,
+                                    height: 80,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Ingin mengubah gambar ?",
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                showDialog(
+                                                  barrierDismissible: true,
+                                                  context: context,
+                                                  builder: (c) => AlertDialog(
+                                                    title: Container(),
+                                                    content: Container(
+                                                      color: Colors.white,
+                                                      height: 80,
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              Navigator.pop(context);
+                                                              File? file = await Get.to(() => const CameraOverlay('identitas'));
+                                                              if (file != null) {
+                                                                setState(() {
+                                                                  fileIdCard = file;
+                                                                });
+                                                                Get.back();
+                                                              }
+                                                            },
+                                                            child: const Padding(
+                                                              padding: EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                "Kamera",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              Navigator.pop(context);
+                                                              final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                                                              if (image != null) {
+                                                                setState(() {
+                                                                  fileIdCard = File(image.path);
+                                                                });
+                                                              }
+                                                              Get.back();
+                                                            },
+                                                            child: const Padding(
+                                                              padding: EdgeInsets.all(8.0),
+                                                              child: Text("Galeri"),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        Navigator.pop(context);
-                                                        final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                                                        if (image != null) {
-                                                          setState(() {
-                                                            fileIdCard = File(image.path);
-                                                          });
-                                                        }
-                                                        Get.back();
-                                                      },
-                                                      child: const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Text("Galeri"),
-                                                      ),
-                                                    )
-                                                  ],
+                                                  ),
+                                                );
+                                              },
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "Yes ",
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Yes ",
-                                          ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "No ",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.back();
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "No ",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
+                            child: foto(fileIdCard, imagesController.text),
                           ),
-                        );
-                      },
-                      child: foto(fileIdCard, imagesController.text),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
+                  OButtonBar(
+                    title: "UPDATE",
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        await updateData(fileIdCard);
+                        // log("valid");
+                        // log("nameController.text =${nameController.text}");
+                        // log("nameController.text =${imagesController.text}");
+                        // log("addressController.text =${addressController.text}");
+                        // log("latitudeController.text =${latitudeController.text}");
+                        // log("longitudeController.text =${longitudeController.text}");
+                      }
+                    },
                   ),
                 ],
               ),
-            ),
-            OButtonBar(
-              title: "UPDATE",
-              onPressed: () async {
-                if (_key.currentState!.validate()) {
-                  await updateData(fileIdCard);
-                  // log("valid");
-                  // log("nameController.text =${nameController.text}");
-                  // log("nameController.text =${imagesController.text}");
-                  // log("addressController.text =${addressController.text}");
-                  // log("latitudeController.text =${latitudeController.text}");
-                  // log("longitudeController.text =${longitudeController.text}");
-                }
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
