@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Profil").pageTitleText()),
-      body: Column(
+      body: ListView(
         children: [
           OButton(
               title: "Lengkapi Profil",
@@ -95,61 +95,60 @@ class _HomePageState extends State<HomePage> {
                 Get.to(const PlaceListPage());
               }),
           // OButton(title: "Tambah User", onPressed: () {}),
-          Expanded(
-              child: ListView(
-            children: [],
-          )),
+          // Expanded(
+          //     child: ListView(
+          //   children: [],
+          // )),
         ],
       ),
       bottomNavigationBar: OButtonBar(
           title: "Logout",
           onPressed: () async {
             showDialog(
-                                  barrierDismissible: true,
-                                  context: context,
-                                  builder: (c) => AlertDialog(
-                                    title: Container(),
-                                    content: Container(
-                                      color: Colors.white,
-                                      // height: 80,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text("Are You Sure Want To Logout ?"),
-                                          Row(
-                                            children: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "No",
-                                                  ),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () async {
-                                                  _handleSignOut();
-                                                  cGlobal.setToken("");
-                                                  Get.offAll(AllScreen());
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text("Yes"),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-            
+              barrierDismissible: true,
+              context: context,
+              builder: (c) => AlertDialog(
+                title: Container(),
+                content: Container(
+                  color: Colors.white,
+                  // height: 80,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Are You Sure Want To Logout ?"),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              Navigator.pop(context);
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "No",
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              _handleSignOut();
+                              cGlobal.setToken("");
+                              Get.offAll(AllScreen());
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text("Yes"),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
           }),
     );
   }

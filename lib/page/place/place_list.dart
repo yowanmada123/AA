@@ -140,7 +140,7 @@ class ItemPlace extends StatelessWidget {
                         Radius.circular(9),
                       ),
                       child: Image.network(
-                        item.image_path,
+                        item.images,
                         fit: BoxFit.cover,
                       ),
                     ),

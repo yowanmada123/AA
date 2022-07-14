@@ -11,7 +11,7 @@ class Place {
   String description;
   String id;
   String images;
-  String image_path;
+  
   double latitude;
   double longitude;
   String name;
@@ -22,7 +22,6 @@ class Place {
     required this.description,
     required this.id,
     required this.images,
-    required this.image_path,
     required this.latitude,
     required this.longitude,
     required this.name,
@@ -35,7 +34,6 @@ class Place {
       'description': description,
       'id': id,
       'images': images,
-      'image_path': image_path,
       'latitude': latitude,
       'longitude': longitude,
       'name': name,
@@ -49,7 +47,6 @@ class Place {
       description: map['description'] ?? "",
       id: map['id'] as String,
       images: map['images'] as String,
-      image_path: map['image_path'] as String,
       latitude: map['latitude'] ?? 0.0,
       longitude: map['longitude'] ?? 0.0,
       name: map['name'] as String,
@@ -58,14 +55,14 @@ class Place {
 
   @override
   String toString() {
-    return 'Place(address: $address, region: $region, id: $id, images: $images, image_path:$image_path, latitude: $latitude, longitude: $longitude, name: $name)';
+    return 'Place(address: $address, region: $region, id: $id, images: $images, latitude: $latitude, longitude: $longitude, name: $name)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Place && other.address == address && other.region == region && other.id == id && other.images == images && other.image_path == image_path && other.latitude == latitude && other.longitude == longitude && other.name == name;
+    return other is Place && other.address == address && other.region == region && other.id == id && other.images == images && other.latitude == latitude && other.longitude == longitude && other.name == name;
   }
 
   getImageUrl() {

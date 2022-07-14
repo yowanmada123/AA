@@ -104,7 +104,7 @@ class _BookingListPageState extends State<BookingListPage> {
                       icon: "assets/ic/ic_sort.svg",
                       onTap: () {
                         SortBy(context);
-                      },            
+                      },
                     )),
                 Expanded(
                     flex: 1,
@@ -112,9 +112,9 @@ class _BookingListPageState extends State<BookingListPage> {
                       title: "Maps",
                       titleColor: OColorBrown,
                       icon: "assets/ic/ic_nav.svg",
-                      onTap: (){
+                      onTap: () {
                         Get.to(const ChoseLocation());
-                      },            
+                      },
                     )),
               ],
             ),
@@ -448,7 +448,7 @@ class ItemPlace extends StatelessWidget {
                   ),
                 )),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: GestureDetector(
                 onTap: () {
                   cGlobal.selectPlace.clear();

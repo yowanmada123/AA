@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
-const String mainbaseFile = 'http://103.186.0.33:3000/uploads/place/';
+const String mainbaseFile = 'http://103.186.0.33:3000/uploads/';
 
 class GlobalController extends GetxController {
   Future<GlobalController> init() async {
