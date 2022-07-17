@@ -111,9 +111,9 @@ class ItemPlace extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           cGlobal.selectPlace.clear();
-            // cGlobal.selectPlace.add(item);
+          // cGlobal.selectPlace.add(item);
           cGlobal.selectPlace.clear();
           cGlobal.selectProduct.clear();
           cGlobal.selectPaymentMethods.clear();
@@ -140,7 +140,7 @@ class ItemPlace extends StatelessWidget {
                         Radius.circular(9),
                       ),
                       child: Image.network(
-                        item.images,
+                        mainbaseFile + "/" + item.images,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -170,100 +170,100 @@ class ItemPlace extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      flex:8,
+                      flex: 8,
                       child: Column(
                         children: [
                           Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
-                                  child: Expanded(
-                                    child: Text(item.description).titleText(),
-                                  ),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
+                                child: Expanded(
+                                  child: Text(item.description).titleText(),
                                 ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10, bottom: 15),
-                                  child: Expanded(
-                                    child: Text(item.region.name).informationText(),
-                                  ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10, bottom: 15),
+                                child: Expanded(
+                                  child: Text(item.region.name).informationText(),
                                 ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8, right: 5),
-                                  child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                                ),
-                                Expanded(
-                                  child: Text(item.address).informationText(),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8, right: 5),
+                                child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                              ),
+                              Expanded(
+                                child: Text(item.address).informationText(),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                     Expanded(
                       flex: 1,
                       child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  barrierDismissible: true,
-                                  context: context,
-                                  builder: (c) => AlertDialog(
-                                    title: Container(),
-                                    content: Container(
-                                      color: Colors.white,
-                                      // height: 80,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text("Are You Sure Want To Delete The Data ?"),
-                                          Row(
-                                            children: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "No",
-                                                  ),
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (c) => AlertDialog(
+                                  title: Container(),
+                                  content: Container(
+                                    color: Colors.white,
+                                    // height: 80,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text("Are You Sure Want To Delete The Data ?"),
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "No",
                                                 ),
                                               ),
-                                              InkWell(
-                                                onTap: () async {
-                                                  deleteItem();
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text("Yes"),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                deleteItem();
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text("Yes"),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                              child: Icon(Icons.delete),
-                            )
-                          ],
+                                ),
+                              );
+                            },
+                            child: Icon(Icons.delete),
+                          )
+                        ],
                       ),
                     )
                   ],

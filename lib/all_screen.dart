@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/chat/chat_page.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
+import 'package:boilerplate_flutter/page/timeline/timeline.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
@@ -66,20 +68,29 @@ class _AllScreenState extends State<AllScreen> {
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
-            InkWell(
-              onTap: () {
+            TextButton(
+              onPressed: () {
                 Get.to(const OnboardingPage());
               },
               child: const Text("Masuk ke Onboarding", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
+            TextButton(
+              onPressed: () {
                 Get.to(const ChangePasswordPage());
               },
-              child: const Text("Ganti Password", style: TextStyle(color: Colors.blueAccent)).titleText(),
+              child: const Text("Ganti Password Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const TimelineWidget());
+              },
+              child: const Text("Timeline Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const ChatPage());
+              },
+              child: const Text("Chat Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
             const Divider(),
             Text("Form :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
@@ -164,7 +175,7 @@ class _AllScreenState extends State<AllScreen> {
                 OButtonSmallOutline(
                   title: "outline",
                   icon: "assets/ic/ic_filter.svg",
-                  onTap: () {}, 
+                  onTap: () {},
                   titleColor: OColorBrown,
                 ),
               ],
@@ -213,7 +224,8 @@ class _AllScreenState extends State<AllScreen> {
                 OCircleButtonOutline(
                   icon: "assets/ic/ic_filter.svg",
                   onTap: () {},
-                  iconColor: Theme.of(context).colorScheme.primary,                ),
+                  iconColor: Theme.of(context).colorScheme.primary,
+                ),
               ],
             ),
             const SizedBox(
@@ -432,22 +444,22 @@ class _AllScreenState extends State<AllScreen> {
 
   Widget OImageSlider() {
     return Column(
-            children: [
-              CarouselSlider.builder(
-                options: CarouselOptions(initialPage: 0, viewportFraction: 1, height: 200, autoPlay: true, autoPlayAnimationDuration: const Duration(seconds: 2), reverse: true, enableInfiniteScroll: false, onPageChanged: (index, reason) => setState(() => activeIndex = index)),
-                itemCount: urlImages.length,
-                itemBuilder: (context, index, realIndex) {
-                  final urlImage = urlImages[index];
+      children: [
+        CarouselSlider.builder(
+          options: CarouselOptions(initialPage: 0, viewportFraction: 1, height: 200, autoPlay: true, autoPlayAnimationDuration: const Duration(seconds: 2), reverse: true, enableInfiniteScroll: false, onPageChanged: (index, reason) => setState(() => activeIndex = index)),
+          itemCount: urlImages.length,
+          itemBuilder: (context, index, realIndex) {
+            final urlImage = urlImages[index];
 
-                  return buildImage(urlImage, index);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              buildIndicator(),
-            ],
-          );
+            return buildImage(urlImage, index);
+          },
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        buildIndicator(),
+      ],
+    );
   }
 
   Widget buildImage(String urlImage, int index) {
@@ -464,11 +476,11 @@ class _AllScreenState extends State<AllScreen> {
   }
 
   Widget buildIndicator() => AnimatedSmoothIndicator(
-    activeIndex: activeIndex, 
-    count: urlImages.length,
-    effect: const JumpingDotEffect(
-      dotWidth: 10,
-      dotHeight: 10,
-    ),
-    );
+        activeIndex: activeIndex,
+        count: urlImages.length,
+        effect: const JumpingDotEffect(
+          dotWidth: 10,
+          dotHeight: 10,
+        ),
+      );
 }
