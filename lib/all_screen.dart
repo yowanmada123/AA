@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/booking/booking_list_grid.dart';
 import 'package:boilerplate_flutter/page/chat/chat_page.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
@@ -91,6 +92,12 @@ class _AllScreenState extends State<AllScreen> {
                 Get.to(const ChatPage());
               },
               child: const Text("Chat Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const BookingListGridPage());
+              },
+              child: const Text("2 grid Order", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
             const Divider(),
             Text("Form :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
