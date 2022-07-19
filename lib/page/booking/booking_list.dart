@@ -32,6 +32,26 @@ class _BookingListPageState extends State<BookingListPage> {
   bool accept = false;
 
   getData() async {
+    String filterRegion = "";
+    filterRegion = '''
+region:{
+            name : 
+            {
+               iLike: "Aceh Barat Daya"
+            } 
+          }
+''';
+    String priceFilter = "";
+    priceFilter = '''
+ products:{
+            price:{
+              between:{
+                lower:10
+                upper:20000
+              }
+            }
+          }
+          ''';
     String options = '''
       query {
         places(filter: {}, paging: { limit: 100 }, sorting: []) {
@@ -156,7 +176,7 @@ class _BookingListPageState extends State<BookingListPage> {
       ),
       builder: (context) {
         return Container(
-            height: 0.4 * MediaQuery.of(context).size.height,
+            height: 0.6 * MediaQuery.of(context).size.height,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
