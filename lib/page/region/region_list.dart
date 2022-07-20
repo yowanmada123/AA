@@ -1,7 +1,7 @@
-
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -114,8 +114,10 @@ class ItemRegion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cBooking = Get.find<BookingController>();
     return GestureDetector(
       onTap: () {
+        cBooking.selectRegion.value = item.name;
         Navigator.pop(context, item);
       },
       child: Padding(
