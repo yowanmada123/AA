@@ -7,6 +7,7 @@ import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/region/region_list_with_pull_to_req.dart';
 import 'package:boilerplate_flutter/page/transaction/transaction_list.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -102,54 +103,64 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: OButtonBar(
-          title: "Logout",
-          onPressed: () async {
-            showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (c) => AlertDialog(
-                title: Container(),
-                content: Container(
-                  color: Colors.white,
-                  // height: 80,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Are You Sure Want To Logout ?"),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              Navigator.pop(context);
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "No",
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              _handleSignOut();
-                              cGlobal.setToken("");
-                              Get.offAll(AllScreen());
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text("Yes"),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }),
+        title: "Logout",
+        onPressed: () async {
+          Alertx().confirmDialog(
+            title: "Logout", 
+            desc: "Are you sure want to Logout ?", 
+            onPressed: () {
+
+          }, onPressed2: () {
+
+
+          });
+          // showDialog(
+          //   barrierDismissible: true,
+          //   context: context,
+          //   builder: (c) => AlertDialog(
+          //     title: Container(),
+          //     content: Container(
+          //       color: Colors.white,
+          //       // height: 80,
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         children: [
+          //           Text("Are You Sure Want To Logout ?"),
+          //           Row(
+          //             children: [
+          //               InkWell(
+          //                 onTap: () async {
+          //                   Navigator.pop(context);
+          //                 },
+          //                 child: const Padding(
+          //                   padding: EdgeInsets.all(8.0),
+          //                   child: Text(
+          //                     "No",
+          //                   ),
+          //                 ),
+          //               ),
+          //               InkWell(
+          //                 onTap: () async {
+          //                   _handleSignOut();
+          //                   cGlobal.setToken("");
+          //                   Get.offAll(AllScreen());
+          //                 },
+          //                 child: const Padding(
+          //                   padding: EdgeInsets.all(8.0),
+          //                   child: Text("Yes"),
+          //                 ),
+          //               )
+          //             ],
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // );
+        },
+      ),
     );
   }
 }

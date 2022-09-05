@@ -55,7 +55,7 @@ class Alertx {
     ));
   }
 
-  Future<dynamic> confirmDialog({String title = '', desc = ''}) async {
+  Future<dynamic> confirmDialog({String title = '', desc = '', required Function() onPressed, required Function() onPressed2, }) async {
     return Get.dialog(Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -86,6 +86,7 @@ class Alertx {
                       child: Text('Tidak'),
                     ),
                     onTap: () {
+                      
                       Get.back(result: false);
                     },
                   )),

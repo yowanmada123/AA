@@ -53,7 +53,7 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
 
     log(_permissionGranted.toString());
     if (_permissionGranted == LocationPermission.denied || _permissionGranted == LocationPermission.unableToDetermine) {
-      bool isAllow = await Alertx().confirmDialog(title: 'Permission location', desc: 'Medilab need to access current location to enable find nearest medilab medical facility');
+      bool isAllow = await Alertx().confirmDialog(title: 'Permission location', desc: 'Medilab need to access current location to enable find nearest medilab medical facility', onPressed2: (){}, onPressed: (){});
       if (isAllow) {
         _permissionGranted = await Geolocator.requestPermission();
         log(_permissionGranted.toString());

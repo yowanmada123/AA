@@ -227,7 +227,7 @@ class _AllScreenState extends State<AllScreen> {
             OButtonOVal(
               title: "Confirm",
               onPressed: () {
-                Alertx().confirmDialog(title: "Confirm", desc: "Are You Sure ?");
+                Alertx().confirmDialog(title: "Confirm", desc: "Are You Sure ?", onPressed: () {  }, onPressed2: (){});
               },
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -432,25 +432,25 @@ class _AllScreenState extends State<AllScreen> {
 
   Widget OImageSlider() {
     return Column(
-            children: [
-              CarouselSlider.builder(
-                options: CarouselOptions(initialPage: 0, viewportFraction: 1, height: 200, autoPlay: true, autoPlayAnimationDuration: const Duration(seconds: 2), reverse: true, enableInfiniteScroll: false, onPageChanged: (index, reason) => setState(() => activeIndex = index)),
-                itemCount: urlImages.length,
-                itemBuilder: (context, index, realIndex) {
-                  final urlImage = urlImages[index];
+      children: [
+        CarouselSlider.builder(
+          options: CarouselOptions(initialPage: 0, viewportFraction: 1, height: 200, autoPlay: true, autoPlayAnimationDuration: const Duration(seconds: 2), reverse: true, enableInfiniteScroll: false, onPageChanged: (index, reason) => setState(() => activeIndex = index)),
+          itemCount: urlImages.length,
+          itemBuilder: (context, index, realIndex) {
+            final urlImage = urlImages[index];
 
-                  return buildImage(urlImage, index);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              buildIndicator(),
-            ],
-          );
+            return buildImage(urlImage);
+          },
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        buildIndicator(),
+      ],
+    );
   }
 
-  Widget buildImage(String urlImage, int index) {
+  Widget buildImage(String urlImage) {
     return Container(
       // margin: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
