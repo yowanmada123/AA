@@ -14,6 +14,7 @@ class OFormText extends StatefulWidget {
   final int maxLines;
   final bool readOnly;
   final Function()? onTap;
+  final IconData? icon;
 
   const OFormText({
     Key? key,
@@ -24,7 +25,7 @@ class OFormText extends StatefulWidget {
     this.hintText,
     this.maxLines = 1,
     this.readOnly = false,
-    this.onTap,
+    this.onTap, this.icon,
   }) : super(key: key);
 
   @override
@@ -99,10 +100,14 @@ class _OFormTextState extends State<OFormText> {
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),
+          
           // inputFormatters: maskFormat(formType),
           decoration: InputDecoration(
+            
             // border: InputBorder.none,
+            icon: (widget.icon == null) ?  null :   Icon(widget.icon),
             hintText: widget.hintText ?? 'Masukkan ${widget.title.capitalizeText()}',
+            // prefixIcon: (widget.icon == null) ?  null :   Icon(widget.icon),
             // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
             suffixIcon: (widget.formType == FormType.password)
                 ? InkWell(

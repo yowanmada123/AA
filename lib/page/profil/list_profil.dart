@@ -3,6 +3,7 @@ import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
+import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/region/region_list_with_pull_to_req.dart';
@@ -106,14 +107,12 @@ class _HomePageState extends State<HomePage> {
         title: "Logout",
         onPressed: () async {
           Alertx().confirmDialog(
-            title: "Logout", 
-            desc: "Are you sure want to Logout ?", 
-            onPressed: () {
-
-          }, onPressed2: () {
-
-
-          });
+              title: "Logout",
+              desc: "Are you sure want to Logout ?",
+              onPressed: () {},
+              onPressed2: () {
+                Get.to(const LoginPage());
+              });
           // showDialog(
           //   barrierDismissible: true,
           //   context: context,

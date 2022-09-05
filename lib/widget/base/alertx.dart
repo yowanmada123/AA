@@ -94,9 +94,11 @@ class Alertx {
                     child: OButton(
                         title: 'Ya',
                         // color: Colors.green,
-                        onPressed: () {
-                          Get.back(result: true);
-                        }),
+                        onPressed: onPressed2,
+                        // () {
+                        //   Get.back(result: true);
+                        // }
+                        ),
                   ),
                 ],
               )

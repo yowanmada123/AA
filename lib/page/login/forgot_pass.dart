@@ -33,7 +33,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             child: Wrap(
               children: [
                 OTitleHeader(
-                  title: "Lupa Password",
+                  title: "Kirim Ulang Email",
                 ),
                 OFormText(
                   title: "EMAIL",

@@ -11,6 +11,8 @@ import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// import '../../widget/base/form/form_with_icon.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -39,33 +41,55 @@ class _LoginPageState extends State<LoginPage> {
                     child: SingleChildScrollView(
                       child: Wrap(
                         children: [
-                          OTitleHeader(
+                          const OTitleHeader(
                             title: "Masuk",
                           ),
+                          // OFormTextWithIcon(
+                          //   title: "EMAIL",
+                          //   controller: _emailController,
+                          //   formType: FormType.email, icon: IconData(codePoint),
+                          // ),
                           OFormText(
                             title: "EMAIL",
                             controller: _emailController,
                             formType: FormType.email,
+                            icon: const IconData(0xf018, fontFamily: 'MaterialIcons'),
                           ),
                           OFormText(
                             title: "PASSWORD",
                             controller: _passwordController,
                             formType: FormType.password,
+                            icon: const IconData(0xe3b1, fontFamily: 'MaterialIcons'),
                           ),
                           Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
                             child: InkWell(
                                 onTap: () {
                                   bottomSheetWidget(heightFactor: 0.8, context: context, child: ForgotPassPage());
                                 },
-                                child: Text("Lupa Password ?").linkText()),
-                          ))
+                                child: 
+                                 
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: const TextSpan(
+                                    text: 'Jika sudah masuk melalui Google sebelumnya silakan masuk lewat Google kembali ',style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black),
+                                    // style: DefaultTextStyle.of(context).style,
+                                    children:  <TextSpan>[
+                                      TextSpan(text: 'disini',style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xff2D79F6))),
+                                      // TextSpan(text: ' world!'),
+                                    ],
+                                  ),
+                                )
+                          ),
+                          ),),
                         ],
                       ),
                     ),
                   ),
                 ),
+                
+
                 OButtonBar(
                   title: "LANJUT",
                   onPressed: () {

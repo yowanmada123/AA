@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/profil/list_profil.dart';
+import 'package:boilerplate_flutter/page/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -28,15 +29,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
     //todo load from box;
     await cGlobal.initState();
     if (cGlobal.token.isNotEmpty) {
-      Get.offAll(HomePage());
+      Get.offAll(WelcomingPage());
+      // Get.offAll(HomePage());
     } else {
-      Get.offAll(const AllScreen());
+      Get.offAll(const WelcomingPage());
+      // Get.offAll(const AllScreen());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: CircularProgressIndicator()),
     );
   }
