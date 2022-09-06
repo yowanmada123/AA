@@ -1,11 +1,12 @@
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 
-import '../../utils/colors.dart';
+import '../../../utils/colors.dart';
+import '../../../widget/base/button/button_base.dart';
 
-class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({Key? key}) : super(key: key);
+class SecondBoardingPage extends StatelessWidget {
+  const SecondBoardingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class OnboardingPage extends StatelessWidget {
             Positioned(
               child:
               Padding(
-                padding: const EdgeInsets.only(top:68.0, left: 18),
+                padding: const EdgeInsets.only(top:68.0, left: 18,right: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -51,18 +52,40 @@ class OnboardingPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20,),
                     const Text("Kebutuhan olahraga Anda dalam satu genggaman",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w800, color: Colors.white)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const Text("Penjadwalan Vaksin, Rapid Tes Antibodi, rapid Test Antigen, RT-PCR dan", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white)),
+                    
                   ],
                 ),
               ), 
             ),
             Positioned(
-              bottom: 200,
-              child: Column(
-                children: [
-                  
-                ],
-              )
-            )
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal:8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BaseButton(text: "MASUK DENGAN EMAIL", textColor: OprimaryColor,color: Colors.white, ontap: () {}, image: "assets/ic/ic_mail.png",),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    BaseButton( text: "MASUK DENGAN GOOGLE",image: "assets/ic/ic_google.png", ontap: () {}, textColor: Colors.white,),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    BaseButton( image: "assets/ic/ic_apple1.png",text: "MASUK DENGAN APPLE ID", color: Color(0xff202B36), ontap: () {
+                      // Get.to(page)
+                    }, textColor: Colors.white,),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

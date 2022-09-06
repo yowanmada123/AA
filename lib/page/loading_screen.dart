@@ -33,7 +33,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       // Get.offAll(HomePage());
     } else {
       Get.offAll(const WelcomingPage());
-      // Get.offAll(const AllScreen());
+      Get.offAll(const AllScreen());
     }
   }
 

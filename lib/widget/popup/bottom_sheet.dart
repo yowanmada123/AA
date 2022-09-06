@@ -21,7 +21,7 @@ bottomSheetWidget(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SafeArea(
                 child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(12.0),

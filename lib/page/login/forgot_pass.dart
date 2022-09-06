@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/login/email_verification/email_verification_sent.dart';
 import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_bar.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -9,6 +10,7 @@ import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 
 class ForgotPassPage extends StatefulWidget {
   const ForgotPassPage({Key? key}) : super(key: key);
@@ -46,10 +48,11 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
           OButtonBar(
             title: "LANJUT",
             onPressed: () {
-              if (_key.currentState!.validate()) {
-                // submit();
-                log("login");
-              }
+              Get.to(const EmailVerificationSent());
+              // if (_key.currentState!.validate()) {
+              //   // submit();
+              //   log("login");
+              // }
             },
             // color: Color(primaryDark),
             // textColor: Colors.white,

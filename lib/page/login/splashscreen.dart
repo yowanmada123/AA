@@ -1,5 +1,5 @@
 import 'package:boilerplate_flutter/page/login/login.dart';
-import 'package:boilerplate_flutter/page/login/onboardingpage.dart';
+import 'package:boilerplate_flutter/page/login/boarding_page/onboardingpage.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenPage extends StatefulWidget {
