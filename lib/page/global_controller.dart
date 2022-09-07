@@ -17,6 +17,7 @@ class GlobalController extends GetxController {
 
   static GlobalController get to => Get.find();
 
+  final tabHomeIndex = 0.obs;
   final box = GetStorage();
   final _isDark = false.obs;
   get isDark => _isDark.value;

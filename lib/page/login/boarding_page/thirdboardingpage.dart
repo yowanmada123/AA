@@ -76,7 +76,6 @@ class ThirdboardingPage extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

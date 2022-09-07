@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/home/home_navbar.dart';
 import 'package:boilerplate_flutter/page/profil/list_profil.dart';
 import 'package:boilerplate_flutter/page/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+
+import 'login/splashscreen.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -29,11 +32,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
     //todo load from box;
     await cGlobal.initState();
     if (cGlobal.token.isNotEmpty) {
-      Get.offAll(WelcomingPage());
-      // Get.offAll(HomePage());
+      // Get.offAll(WelcomingPage());
+      Get.offAll(HomeNavbarButton());
     } else {
-      Get.offAll(const WelcomingPage());
-      Get.offAll(const AllScreen());
+      // Get.offAll(const WelcomingPage());
+      // Get.offAll(const AllScreen());
+      Get.offAll(const SplashScreenPage());
     }
   }
 

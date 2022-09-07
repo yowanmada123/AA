@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/boarding_page/onboardingpage.dart';
+import 'package:boilerplate_flutter/page/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void initState() {
     Future.delayed(Duration(seconds: splashtime), () async {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const OnboardingPage();
+        return const WelcomingPage();
       }));
     });
 

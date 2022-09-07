@@ -1,3 +1,5 @@
+
+import 'package:boilerplate_flutter/page/login/boarding_page/onboardingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,7 +15,7 @@ class WelcomingPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: GestureDetector(
-            onTap: ()=> Get.to(const SplashScreenPage()),
+            onTap: ()=> Get.to(const OnboardingPage()),
             child: Stack(
               children: [
                     SizedBox(

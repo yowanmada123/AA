@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/boarding_page/secondboardingpage.dart';
+import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -69,7 +70,7 @@ class OnboardingPage extends StatelessWidget {
                       text: "DAFTAR",
                       color: const Color(0xff2D79F6),
                       ontap: () {
-                        
+                        bottomSheetWidget(heightFactor: 0.8, context: context, child: const RegisterPage());
                       },
                     ),
                     const SizedBox(
