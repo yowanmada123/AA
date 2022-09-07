@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,8 @@ class OScaffold extends StatelessWidget {
         backgroundColor: backgroundColor,
         // Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: OprimaryColor,
+          // Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           centerTitle: true,
           title: Text(

@@ -5,6 +5,7 @@ import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -111,12 +112,23 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                     children: [
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [Text(widget.item.name).titleText(), Text('0,1 Km')],
+                                        children: [
+                                          Text(widget.item.name).titleText(),
+                                          Container(
+                                              width: 65,
+                                              child: BaseButton(
+                                                ontap: () {},
+                                                text: "0,1 Km",
+                                                color: Color(0xff19204E),
+                                                outlineRadius: 15,
+                                                height: 28,
+                                              ))
+                                        ],
                                       ),
                                       Text(widget.item.region.name),
                                       Obx(
-                                        () => Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                          const SizedBox(height: 20),
+                                        () => Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                                          const SizedBox(height: 5),
                                           (cGlobal.selectProduct.isNotEmpty) ? Text(cGlobal.selectProduct.value.first.price.toCurrency()).pageTitleText() : Container(),
                                         ]),
                                       ),
@@ -150,25 +162,30 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                         height: 550,
                                         child: TabBarView(
                                           children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text("Page Subtitle - Nunito Bold 12").fieldTitleText(),
-                                                SizedBox(
-                                                  height: 12,
-                                                ),
-                                                ItemInfo(),
-                                                ItemInfo(),
-                                                ItemInfo(),
-                                                ItemInfo(),
-                                              ],
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 21),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text("Facilities").fieldTitleText(),
+                                                  const SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  const ItemInfo(info: "Parking Spot"),
+                                                  const ItemInfo(info: "Changing Rooms"),
+                                                  const ItemInfo(info: "Cafetaria"),
+                                                  const ItemInfo(info: "Cafetaria"),
+                                                ],
+                                              ),
                                             ),
                                             Column(
                                               children: [
                                                 Obx(
                                                   () => Container(
                                                     child: (loading.value)
-                                                        ? Center(
+                                                        ? const Center(
                                                             child: CircularProgressIndicator(),
                                                           )
                                                         : Padding(
@@ -336,20 +353,28 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
 }
 
 class ItemInfo extends StatelessWidget {
-  const ItemInfo({Key? key}) : super(key: key);
+  final String info;
+  const ItemInfo({Key? key, required this.info}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Icon(
-            Icons.circle,
-            size: 6,
-          ),
+        Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(
+                Icons.circle,
+                size: 6,
+              ),
+            ),
+            Text(info).regularText(),
+          ],
         ),
-        Text("Information Text - Nunito Regular 12").regularText(),
+        const SizedBox(
+          height: 8,
+        )
       ],
     );
   }

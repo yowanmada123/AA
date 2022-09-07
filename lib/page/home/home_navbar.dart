@@ -1,7 +1,8 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/home_page.dart';
+import 'package:boilerplate_flutter/page/profil/profile_page.dart';
+import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
@@ -14,8 +15,8 @@ class HomeNavbarButton extends StatelessWidget {
 
   final List<Widget> _children = [
     const HomePage(),
-    const HomePage(),
-    const HomePage(),
+    RegionListPage(),
+    const ProfilePage(),
   ];
 
   void onTabTapped(int index) {

@@ -79,7 +79,7 @@ class _PaymentOptionState extends State<PaymentOption> {
     return Column(
       children: [
         const OTitleHeader(
-          title: "Page Title - Nunito Bold 14",
+          title: "Pilih Metode Pembayaran",
         ),
         Expanded(
             child: Padding(
@@ -88,13 +88,13 @@ class _PaymentOptionState extends State<PaymentOption> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("FIELD TITLE - NUNITO BOLD 12").fieldTitleText(),
-                SizedBox(
+                const Text("Transfer virtual account").fieldTitleText(),
+                const SizedBox(
                   height: 12,
                 ),
                 Expanded(
                   child: (loading.value)
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
@@ -148,10 +148,10 @@ class ItemPayment extends StatelessWidget {
               ),
             ),
             Expanded(child: Text(data.name).regularText()),
-            Icon(Icons.arrow_right)
+            const Icon(Icons.arrow_right)
           ],
         ),
-        Divider()
+        const Divider()
       ],
     );
   }

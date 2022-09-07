@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 
 class OSearchWidget extends StatefulWidget {
   final String text;
@@ -24,6 +25,7 @@ class _OSearchWidgetState extends State<OSearchWidget> {
     final style = widget.text.isEmpty ? styleHint : styleActive;
     return Container(
       height: 42,
+      width: 400,
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
