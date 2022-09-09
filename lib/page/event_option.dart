@@ -8,16 +8,17 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-import '../../widget/base/form/form_scaffold.dart';
+import '../widget/base/form/form_scaffold.dart';
 
-class BookingVenuePage extends StatefulWidget {
-  const BookingVenuePage({Key? key}) : super(key: key);
+class EventOptionPage extends StatefulWidget {
+  
+  const EventOptionPage({Key? key}) : super(key: key);
 
   @override
-  State<BookingVenuePage> createState() => _BookingVenuePageState();
+  State<EventOptionPage> createState() => _EventOptionPageState();
 }
 
-class _BookingVenuePageState extends State<BookingVenuePage> {
+class _EventOptionPageState extends State<EventOptionPage> {
   int activeIndex = 0;
   final controller = CarouselController();
   @override

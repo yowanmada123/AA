@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/page/tournament/tournament_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../booking/booking_venue.dart';
+import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_calender.svg",
               name: "Booking",
               onTap: () {
-                Get.to(const BookingVenuePage());
+                Get.to(const EventOptionPage());
               },
             ),
             ItemWidget(
@@ -106,7 +107,9 @@ class _HomePageState extends State<HomePage> {
               description: "Find varies of coach blablabla",
               icon: "assets/ic/ic_trophy.svg",
               name: "Tournament",
-              onTap: () {},
+              onTap: () {
+                Get.to(const TournamentListPage());
+              },
             )
           ],
         ),

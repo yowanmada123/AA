@@ -7,6 +7,7 @@ enum FormType { text, email, phone, password, money, multiLine }
 
 class OFormText extends StatefulWidget {
   final String title;
+  final Color? titleColor;
   final String? hintText;
   final TextEditingController? controller;
   final bool isRequired;
@@ -25,7 +26,8 @@ class OFormText extends StatefulWidget {
     this.hintText,
     this.maxLines = 1,
     this.readOnly = false,
-    this.onTap, this.icon,
+    this.onTap,
+    this.icon, this.titleColor,
   }) : super(key: key);
 
   @override
@@ -88,7 +90,7 @@ class _OFormTextState extends State<OFormText> {
         ),
         Text(
           widget.title,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: (widget.titleColor == null) ? Theme.of(context).colorScheme.primary : widget.titleColor),
         ),
         TextFormField(
           onTap: widget.onTap,
@@ -100,12 +102,11 @@ class _OFormTextState extends State<OFormText> {
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),
-          
+
           // inputFormatters: maskFormat(formType),
           decoration: InputDecoration(
-            
             // border: InputBorder.none,
-            icon: (widget.icon == null) ?  null :   Icon(widget.icon),
+            icon: (widget.icon == null) ? null : Icon(widget.icon),
             hintText: widget.hintText ?? 'Masukkan ${widget.title.capitalizeText()}',
             // prefixIcon: (widget.icon == null) ?  null :   Icon(widget.icon),
             // hintStyle: TextStyle(fontSize: gstate.bodyTextSize)
