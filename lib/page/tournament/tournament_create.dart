@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
+import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
@@ -287,6 +288,93 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 numb: '4.',
               ),
               const SizedBox(
+                height: 24,
+              ),
+              Container(
+                height: 46,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      const Text("Add New Participants").pageTitleText().black()
+                    ],
+                  ),
+                  const Icon(Icons.arrow_forward_ios_sharp, size: 15,)
+                ]),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "VENUE BOOKING",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  SizedBox(
+                    width: Get.width,
+                    height: 46,
+                    child: GridView.builder(
+                        shrinkWrap: false,
+                        scrollDirection: Axis.vertical,
+                        itemCount: playsOffOption.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // ontap of each card, set the defined int to the grid view index
+                                venueBookingFormat = index;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: venueBookingFormat == index ? OprimaryColor : Colors.white,
+                                  border: Border.all(
+                                    color: venueBookingFormat == index ? OprimaryColor : Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8)),
+                              // check if the index is equal to the selected Card integer
+
+                              child: Expanded(
+                                child: Center(
+                                  child: Text(
+                                    playsOffOption[index],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: venueBookingFormat == index ? Colors.white : Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  )
+                ],
+              ),
+              const SizedBox(
                 height: 100,
               ),
             ],
@@ -298,7 +386,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
             BaseButton(
               height: 56,
               ontap: () {
-                Get.to(const AllScreen());
+                Get.to(const PlaceListPage());
               },
               text: "CREATE",
               outlineRadius: 0,
