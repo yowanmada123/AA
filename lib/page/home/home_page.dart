@@ -6,17 +6,19 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
+  
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.white.withOpacity(0.2)),
                       child: Center(
-                        child: const Text("Senin, 31 Januari 2022").white(),
+                        child: Text(DateFormat.yMMMMEEEEd().format(DateTime.now()),).white(),
                       ),
                     )
                   ],
@@ -77,9 +79,9 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Senin, 31 Januari 2022",
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      Text(
+                        DateFormat.yMMMMEEEEd().format(DateTime.now()),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                     ],
                   ),

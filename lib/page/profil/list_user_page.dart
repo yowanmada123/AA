@@ -77,7 +77,7 @@ class _ListUserPageState extends State<ListUserPage> {
           // height: 70,
           child: OSearchWidget(
             text: query,
-            hintText: 'Region Name',
+            hintText: 'Member Name',
             onChanged: (String) {},
           ),
         ),

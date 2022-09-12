@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/home_page.dart';
+import 'package:boilerplate_flutter/page/order/order_list_page.dart';
 import 'package:boilerplate_flutter/page/profil/profile_page.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class HomeNavbarButton extends StatelessWidget {
 
   final List<Widget> _children = [
     const HomePage(),
-    RegionListPage(),
+    OrderListPage(),
     const ProfilePage(),
   ];
 
@@ -70,7 +71,7 @@ class HomeNavbarButton extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: const Icon(Icons.menu, color: Colors.grey,),
                 // SvgPicture.asset("assets/ic/ic_home_inactive.svg"),
-                label: 'Activities',
+                label: 'Order',
 
                 activeIcon: Icon(Icons.menu, color: OprimaryColor),
                 // SvgPicture.asset("assets/ic/ic_home_active.svg"),

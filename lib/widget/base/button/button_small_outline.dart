@@ -39,7 +39,7 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                width: 2,
+                width: 1,
                 color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,
               ),
               borderRadius: const BorderRadius.all(
