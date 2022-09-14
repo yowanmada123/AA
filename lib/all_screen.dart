@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/booking/booking_list_grid.dart';
+import 'package:boilerplate_flutter/page/chat/chat_page.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/login/change_pass.dart';
+import 'package:boilerplate_flutter/page/timeline/timeline.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button.dart';
@@ -66,20 +69,35 @@ class _AllScreenState extends State<AllScreen> {
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
-            InkWell(
-              onTap: () {
+            TextButton(
+              onPressed: () {
                 Get.to(const OnboardingPage());
               },
               child: const Text("Masuk ke Onboarding", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
+            TextButton(
+              onPressed: () {
                 Get.to(const ChangePasswordPage());
               },
-              child: const Text("Ganti Password", style: TextStyle(color: Colors.blueAccent)).titleText(),
+              child: const Text("Ganti Password Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const TimelineWidget());
+              },
+              child: const Text("Timeline Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const ChatPage());
+              },
+              child: const Text("Chat Page", style: TextStyle(color: Colors.blueAccent)).titleText(),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.to(const BookingListGridPage());
+              },
+              child: const Text("2 grid Order", style: TextStyle(color: Colors.blueAccent)).titleText(),
             ),
             const Divider(),
             Text("Form :", style: TextStyle(color: Theme.of(context).colorScheme.primary)).titleText(),
@@ -164,7 +182,7 @@ class _AllScreenState extends State<AllScreen> {
                 OButtonSmallOutline(
                   title: "outline",
                   icon: "assets/ic/ic_filter.svg",
-                  onTap: () {}, 
+                  onTap: () {},
                   titleColor: OColorBrown,
                 ),
               ],
@@ -213,7 +231,8 @@ class _AllScreenState extends State<AllScreen> {
                 OCircleButtonOutline(
                   icon: "assets/ic/ic_filter.svg",
                   onTap: () {},
-                  iconColor: Theme.of(context).colorScheme.primary,                ),
+                  iconColor: Theme.of(context).colorScheme.primary,
+                ),
               ],
             ),
             const SizedBox(
@@ -439,7 +458,11 @@ class _AllScreenState extends State<AllScreen> {
           itemBuilder: (context, index, realIndex) {
             final urlImage = urlImages[index];
 
+<<<<<<< HEAD
             return buildImage(urlImage);
+=======
+            return buildImage(urlImage, index);
+>>>>>>> 2a7b2bc7a57404c6341cb83f12c52004df221335
           },
         ),
         const SizedBox(
@@ -464,11 +487,11 @@ class _AllScreenState extends State<AllScreen> {
   }
 
   Widget buildIndicator() => AnimatedSmoothIndicator(
-    activeIndex: activeIndex, 
-    count: urlImages.length,
-    effect: const JumpingDotEffect(
-      dotWidth: 10,
-      dotHeight: 10,
-    ),
-    );
+        activeIndex: activeIndex,
+        count: urlImages.length,
+        effect: const JumpingDotEffect(
+          dotWidth: 10,
+          dotHeight: 10,
+        ),
+      );
 }

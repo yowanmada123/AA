@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/main.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
@@ -30,11 +31,40 @@ class _BookingListPageState extends State<BookingListPage> {
   final loading = true.obs;
   final listPlace = <Place>[].obs;
   bool accept = false;
-
+  final cBooking = Get.put(BookingController());
   getData() async {
+    loading.value = true;
+    String filterRegion = "";
+    String priceFilter = "";
+    if (cBooking.selectRegion.value.isNotEmpty) {
+      filterRegion = '''
+        region:{
+                    name : 
+                    {
+                      iLike: "${cBooking.selectRegion.value}"
+                    } 
+                  }
+        ''';
+    }
+
+    if (cBooking.priceMin.value != 0 && cBooking.priceMax.value != 0) {
+      priceFilter = '''
+ products:{
+            price:{
+              between:{
+                lower: ${cBooking.priceMin.value}
+                upper:${cBooking.priceMax.value}
+              }
+            }
+          }
+          ''';
+    }
     String options = '''
       query {
-        places(filter: {}, paging: { limit: 100 }, sorting: []) {
+        places(filter: {
+          $filterRegion
+          $priceFilter
+        }, paging: { limit: 100 }, sorting: []) {
           pageInfo {
             hasNextPage
             hasPreviousPage
@@ -92,7 +122,9 @@ class _BookingListPageState extends State<BookingListPage> {
                     titleColor: OColorBrown,
                     icon: "assets/ic/ic_filter.svg",
                     onTap: () {
-                      ShowFilter(context);
+                      ShowFilter(context).then((value) {
+                        getData();
+                      });
                     },
                   ),
                 ),
@@ -118,6 +150,24 @@ class _BookingListPageState extends State<BookingListPage> {
                     )),
               ],
             ),
+          ),
+          Obx(
+            () => (Container(
+              child: (cBooking.selectRegion.value.isNotEmpty || cBooking.priceMin.value != 0 || cBooking.priceMax.value != 0)
+                  ? TextButton(
+                      onPressed: () {
+                        setState(() {
+                          cBooking.selectRegion.value = "";
+                          cBooking.priceMin.value = 0;
+                          cBooking.priceMax.value = 0;
+                        });
+                        getData();
+                      },
+                      child: Row(
+                        children: [Text("Hapus Filter"), Icon(Icons.close)],
+                      ))
+                  : Container(),
+            )),
           ),
           Expanded(
             child: Obx(
@@ -156,7 +206,7 @@ class _BookingListPageState extends State<BookingListPage> {
       ),
       builder: (context) {
         return Container(
-            height: 0.4 * MediaQuery.of(context).size.height,
+            height: 0.6 * MediaQuery.of(context).size.height,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -226,13 +276,18 @@ class _BookingListPageState extends State<BookingListPage> {
                                   Radius.circular(5),
                                 ),
                               ),
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.only(left: 7.0),
                                 child: TextField(
                                   maxLines: 1,
+                                  keyboardType: TextInputType.number,
                                   style: TextStyle(fontSize: 12),
                                   textAlignVertical: TextAlignVertical.center,
+                                  onChanged: (val) {
+                                    cBooking.priceMin.value = int.parse(val);
+                                  },
                                   decoration: InputDecoration(
+                                    hintText: "Min",
                                     filled: true,
                                     border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
                                     fillColor: Colors.white,
@@ -254,13 +309,18 @@ class _BookingListPageState extends State<BookingListPage> {
                                   Radius.circular(5),
                                 ),
                               ),
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.only(left: 7.0),
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   maxLines: 1,
                                   style: TextStyle(fontSize: 12),
                                   textAlignVertical: TextAlignVertical.center,
+                                  onChanged: (val) {
+                                    cBooking.priceMin.value = int.parse(val);
+                                  },
                                   decoration: InputDecoration(
+                                    hintText: "Max",
                                     filled: true,
                                     border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
                                     fillColor: Colors.white,

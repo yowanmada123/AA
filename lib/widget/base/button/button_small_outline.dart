@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/region/region_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -13,7 +14,7 @@ class OButtonSmallOutline extends StatefulWidget {
   final String icon;
   final Color? titleColor;
   final Function()? onTap;
-    OButtonSmallOutline({
+  OButtonSmallOutline({
     Key? key,
     required this.title,
     required this.icon,
@@ -74,15 +75,13 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
 }
 
 class ChoosePlaceButton extends StatefulWidget {
-
   @override
   State<ChoosePlaceButton> createState() => _ChoosePlaceButtonState();
 }
 
 class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
-
-  late String placeValue = "Jakarta";
-
+  // late String placeValue = "Jakarta";
+  final cBooking = Get.find<BookingController>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -98,9 +97,9 @@ class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 7.0, top: 1),
-          child: Text(
-            placeValue,
-          ),
+          child: Obx(() => Text(
+                cBooking.selectRegion.value,
+              )),
         ),
       ),
     );
@@ -111,9 +110,9 @@ class _ChoosePlaceButtonState extends State<ChoosePlaceButton> {
       context,
       MaterialPageRoute(builder: (context) => RegionListPage()),
     );
-    setState(() {
-      placeValue = result.name;
-    });
+    // setState(() {
+    //   placeValue = result.name;
+    // });
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$result')));
     // print(placeValue);
     // print(result);
