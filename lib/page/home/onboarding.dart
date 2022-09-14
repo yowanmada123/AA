@@ -99,38 +99,38 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        LogoDummy(),
-                        SizedBox(
+                        const LogoDummy(),
+                        const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Title Text",
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         ).titleText(),
-                        Text(
+                        const Text(
                           "Nunito Bold 24",
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         ).titleText(),
-                        SizedBox(
+                        const SizedBox(
                           height: 18,
                         ),
-                        Text(
+                        const Text(
                           "Text",
                           style: TextStyle(color: Colors.white),
                         ).regularText(),
-                        Text(
+                        const Text(
                           "Nunito regular 12",
                           style: TextStyle(color: Colors.white),
                         ).regularText(),
-                        SizedBox(
+                        const SizedBox(
                           height: 100,
                         ),
                         OButton(
                             title: "Login",
                             onPressed: () {
-                              bottomSheetWidget(heightFactor: 0.8, context: context, child: LoginPage());
+                              bottomSheetWidget(heightFactor: 0.8, context: context, child: const LoginPage());
                             }),
-                        SizedBox(
+                        const SizedBox(
                           height: 18,
                         ),
                         OButton(
@@ -140,7 +140,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             onPressed: () {
                               bottomSheetWidget(heightFactor: 0.8, context: context, child: RegisterPage());
                             }),
-                        Divider(
+                        const Divider(
                           color: Colors.white,
                         ),
                         OButton(

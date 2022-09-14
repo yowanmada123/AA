@@ -1,6 +1,13 @@
+import 'package:boilerplate_flutter/all_screen.dart';
+import 'package:boilerplate_flutter/page/booking/booking_list.dart';
+import 'package:boilerplate_flutter/page/login/login.dart';
+import 'package:boilerplate_flutter/page/login/register.dart';
+import 'package:boilerplate_flutter/page/place/place_form.dart';
+import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
+import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,13 +19,12 @@ import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-  
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +54,19 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(
                           width: 8,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text("One", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
-                            Text("Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            // bottomSheetWidget(heightFactor: 0.8, context: context, child: const RegisterPage());
+                            // Get.to(const AllScreen());
+                            bottomSheetWidget(heightFactor: 0.8, context: context, child: const LoginPage());
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text("One", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
+                              Text("Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -62,7 +75,9 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.white.withOpacity(0.2)),
                       child: Center(
-                        child: Text(DateFormat.yMMMMEEEEd().format(DateTime.now()),).white(),
+                        child: Text(
+                          DateFormat.yMMMMEEEEd().format(DateTime.now()),
+                        ).white(),
                       ),
                     )
                   ],
@@ -96,7 +111,10 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_calender.svg",
               name: "Booking",
               onTap: () {
-                Get.to(const EventOptionPage());
+                // Get.to(const PlaceFormPage());
+                Get.to(const BookingListPage());
+                // Get.to(const PlaceListPage());
+                // Get.to(const EventOptionPage());
               },
             ),
             ItemWidget(

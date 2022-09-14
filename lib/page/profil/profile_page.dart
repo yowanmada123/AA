@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
 import 'package:boilerplate_flutter/page/profil/list_user_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -69,7 +70,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Expanded(
                               child: BaseButton(
-                            ontap: () {},
+                            ontap: () {
+                              Get.to(const KYCFormPage());
+                            },
                             color: Colors.white,
                             text: "Add Member",
                             textColor: OprimaryColor,

@@ -208,7 +208,6 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                   ),
                                 ),
                               );
-
                               // Get.to(() => CameraExampleHome());
                             },
                             child: foto(fileIdCard, gstate)),
@@ -233,7 +232,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                         InkWell(
                                           onTap: () async {
                                             Navigator.pop(context);
-                                            File? file = await Get.to(() => CameraOverlay('profil'));
+                                            File? file = await Get.to(() => const CameraOverlay('profil'));
                                             if (file != null) {
                                               setState(() {
                                                 filePhoto = file;

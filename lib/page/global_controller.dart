@@ -7,8 +7,10 @@ import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
-const String mainbaseFile = 'http://103.186.0.33:3000/uploads/';
+// const String mainBaseUrl = 'http://103.186.0.33:3000/graphql';
+// const String mainbaseFile = 'http://103.186.0.33:3000/uploads/';
+const String mainBaseUrl = 'http://103.186.0.33:3003/graphql';
+const String mainbaseFile = 'http://103.186.0.33:3003/uploads/';
 
 class GlobalController extends GetxController {
   Future<GlobalController> init() async {
