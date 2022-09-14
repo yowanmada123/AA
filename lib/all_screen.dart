@@ -457,12 +457,7 @@ class _AllScreenState extends State<AllScreen> {
           itemCount: urlImages.length,
           itemBuilder: (context, index, realIndex) {
             final urlImage = urlImages[index];
-
-<<<<<<< HEAD
             return buildImage(urlImage);
-=======
-            return buildImage(urlImage, index);
->>>>>>> 2a7b2bc7a57404c6341cb83f12c52004df221335
           },
         ),
         const SizedBox(

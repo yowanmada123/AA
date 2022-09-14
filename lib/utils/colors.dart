@@ -14,8 +14,3 @@ const int statusWaiting = 0xffFCEDB9;
 const int statusDone = 0xffD8EDEB;
 const int statusExpired = 0xffFFD1DA;
 const int redBooked = 0xffEDE0DE;
-<<<<<<< HEAD
-=======
-const int black = 0xff000000;
-
->>>>>>> 2a7b2bc7a57404c6341cb83f12c52004df221335
