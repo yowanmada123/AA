@@ -67,7 +67,7 @@ class _KycListState extends State<KycList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
+      appBar: AppBar(title: const Text('Profile')),
       body: Obx(
         () => Container(
           child: (loading.value)

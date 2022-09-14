@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/model/tournament/tournament_rest.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
@@ -22,50 +23,39 @@ class TournamentListPage extends StatefulWidget {
 }
 
 class _TournamentListPageState extends State<TournamentListPage> {
-  List<Place> listPlace = [];
-  late String placeValue = "Jakarta";
-  final loading = false;
+  final listTurnament = <Turnaments>[].obs;
+  final loading = true.obs;
 
   getData() async {
     String options = '''
-      query listPlaces{
-        places(filter: {}, paging: { limit: 10 }, sorting: []) {
-          nodes {
-            address
-            description
-            distance
-            id
-            images
-            image_path
-            latitude
-            longitude
-            name
-            region {
-              name
-              id
-              type
-            }
-          }
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-          }
-        }
-      }
-    ''';
-
-    log("OYOY");
-    try {
-      Map<String, dynamic>? data = await GraphQLBase().query(options);
-      var list = data!['places']['nodes'] as List;
-      List<Place> newData = list.map((i) => Place.fromMap(i)).toList();
-      setState(() {
-        listPlace = newData;
-      });
-    } on Error catch (e, s) {
-      print(e);
-      print(s);
+      
+query listTurnament{
+  Turnaments(filter: {}, paging: { limit: 10 }, sorting: []) {
+    nodes {
+#       booking_time
+#       createdAt
+#       draw_size
+#       format
+      id
+#       match
+      name
+#       updatedAt
+#       veneu
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+    ''';
+    Map<String, dynamic>? data = await GraphQLBase().query(options);
+    var list = data!['Turnaments']['nodes'] as List;
+    List<Turnaments> newData = list.map((i) => Turnaments.fromMap(i)).toList();
+    log(newData.length.toString());
+    listTurnament.value = newData;
+    loading.value = false;
   }
 
   final gstate = Get.find<GlobalController>();
@@ -81,27 +71,30 @@ class _TournamentListPageState extends State<TournamentListPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "List Tournament",
-      backgroundColor: Color(redBooked),
+      backgroundColor: const Color(redBooked),
       body: Stack(children: [
-        Column(children: [
-          (loading == false)
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
-                  child: ListView.builder(
-                      itemCount: listPlace.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ItemPlace(
-                          item: listPlace[index],
-                          state: gstate,
-                          // onTap: () {
-                          //   // Get.to(ListHealtPage());
-                          // },
-                        );
-                      }),
-                ),
-        ]),
+        Obx(
+          () => Container(
+            child: (loading.value)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: listTurnament.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(listTurnament[index].name),
+                      );
+                      // Item(
+                      //   item: listTurnament[index],
+                      //   // state: gstate,
+                      //   // onTap: () {
+                      //   //   // Get.to(ListHealtPage());
+                      //   // },
+                      // );
+                    }),
+          ),
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -126,11 +119,15 @@ class _TournamentListPageState extends State<TournamentListPage> {
   }
 }
 
-class ItemPlace extends StatelessWidget {
-  final Place item;
-  final GlobalController state;
+class Item extends StatelessWidget {
+  final Turnaments item;
+  // final GlobalController state;
 
-  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
+  const Item({
+    Key? key,
+    required this.item,
+    // required this.state
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -139,15 +136,15 @@ class ItemPlace extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          cGlobal.selectPlace.clear();
-          // cGlobal.selectPlace.add(item);
-          cGlobal.selectPlace.clear();
-          cGlobal.selectProduct.clear();
-          cGlobal.selectPaymentMethods.clear();
-          cGlobal.selectScheduleTime.clear();
-          Get.to(UpdatePlacePage(
-            item: item,
-          ));
+          // cGlobal.selectPlace.clear();
+          // // cGlobal.selectPlace.add(item);
+          // cGlobal.selectPlace.clear();
+          // cGlobal.selectProduct.clear();
+          // cGlobal.selectPaymentMethods.clear();
+          // cGlobal.selectScheduleTime.clear();
+          // Get.to(UpdatePlacePage(
+          //   item: item,
+          // ));
         },
         child: Container(
             height: 200,
@@ -159,19 +156,20 @@ class ItemPlace extends StatelessWidget {
             child: Column(
               children: [
                 Stack(children: [
-                  Container(
-                    height: 100,
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(9),
-                      ),
-                      child: Image.network(
-                        item.images,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   height: 100,
+                  //   width: double.infinity,
+                  //   child: ClipRRect(
+                  //     borderRadius: const BorderRadius.all(
+                  //       Radius.circular(9),
+                  //     ),
+                  //     child:
+                  //     Image.network(
+                  //       item.images,
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     height: 100,
                     width: double.infinity,
@@ -203,23 +201,23 @@ class ItemPlace extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
-                                child: Expanded(
-                                  child: Text(item.description).titleText(),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
+                              //   child: Expanded(
+                              //     child: Text(item.description).titleText(),
+                              //   ),
+                              // ),
                             ],
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 15),
-                                child: Expanded(
-                                  child: Text(item.region.name).informationText(),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 10, bottom: 15),
+                              //   child: Expanded(
+                              //     child: Text(item.region.name).informationText(),
+                              //   ),
+                              // ),
                             ],
                           ),
                           Row(
@@ -229,9 +227,9 @@ class ItemPlace extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 8, right: 5),
                                 child: SvgPicture.asset("assets/ic/ic_location.svg"),
                               ),
-                              Expanded(
-                                child: Text(item.address).informationText(),
-                              ),
+                              // Expanded(
+                              //   child: Text(item.address).informationText(),
+                              // ),
                             ],
                           ),
                         ],

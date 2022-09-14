@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
+import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
 import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
@@ -121,7 +122,9 @@ class _HomePageState extends State<HomePage> {
               description: "Find varies of coach blablabla",
               icon: "assets/ic/ic_burble.svg",
               name: "Training",
-              onTap: () {},
+              onTap: () {
+                Get.to(KycList());
+              },
             ),
             ItemWidget(
               description: "Find varies of coach blablabla",

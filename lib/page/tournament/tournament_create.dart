@@ -7,6 +7,7 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
+import 'package:boilerplate_flutter/page/tournament/list_other_user_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
@@ -275,13 +276,16 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               ),
               ItemNama(
                 name: "Stephen Strange (Me)",
-                color: OprimaryColor, numb: '1.',
+                color: OprimaryColor,
+                numb: '1.',
               ),
               const ItemNama(
-                name: "Tommy Bong",numb: '2.',
+                name: "Tommy Bong",
+                numb: '2.',
               ),
               const ItemNama(
-                name: "Wanda Maximoff",numb: '3.',
+                name: "Wanda Maximoff",
+                numb: '3.',
               ),
               const ItemNama(
                 name: "Tony Stark",
@@ -293,24 +297,26 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               Container(
                 height: 46,
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey)
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset("assets/ic/ic_add_member.svg"),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      const Text("Add New Participants").pageTitleText().black()
-                    ],
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.grey)),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(ListOtherUserPage());
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        const Text("Add New Participants").pageTitleText().black()
+                      ],
+                    ),
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp, size: 15,)
+                  const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 15,
+                  )
                 ]),
               ),
               const SizedBox(
@@ -406,7 +412,8 @@ class ItemNama extends StatefulWidget {
   const ItemNama({
     Key? key,
     required this.name,
-    this.color, required this.numb,
+    this.color,
+    required this.numb,
   }) : super(key: key);
 
   @override
