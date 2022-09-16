@@ -58,7 +58,7 @@ class _EventOptionPageState extends State<EventOptionPage> {
                 Expanded(
                     child: BaseButton(
                   ontap: () {
-                    Get.to(const BookingListPage());
+                    Get.to(BookingListPage());
                   },
                   outlineColor: Colors.grey,
                   color: Colors.white,

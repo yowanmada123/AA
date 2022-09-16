@@ -38,7 +38,7 @@ class _BookingListGridPageState extends State<BookingListGridPage> {
                   padding: const EdgeInsets.all(10),
                   child: SvgPicture.asset("assets/ic/ic_location.svg"),
                 ),
-                Text("Ciputat, Tangerang Selatan, 15411, Jawa Barat"),
+                const Text("Ciputat, Tangerang Selatan, 15411, Jawa Barat"),
                 TextButton(onPressed: () {}, child: Text("Ganti"))
               ],
             ),
@@ -55,7 +55,7 @@ class _BookingListGridPageState extends State<BookingListGridPage> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               crossAxisCount: 2,
-              children: <Widget>[
+              children: const [
                 ItemPlace(),
                 ItemPlace(),
                 ItemPlace(),
@@ -129,7 +129,7 @@ class ItemPlace extends StatelessWidget {
                       Text(
                         "Rp559.000",
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Color(black)),
+                        style: TextStyle(color: Color(0xff000000)),
                       ).titleText(),
 
                       Expanded(child: Container()),

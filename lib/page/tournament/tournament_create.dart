@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
+import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/tournament/list_other_user_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
@@ -29,13 +32,16 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   late String placeValue = "Jakarta";
   final loading = false;
   final gstate = Get.find<GlobalController>();
-  final _nameController = TextEditingController(text: '');
+  TextEditingController nameController = TextEditingController();
+  TextEditingController drawSizeController = TextEditingController();
+  TextEditingController tournamentFormatController = TextEditingController();
+  TextEditingController matchFormatController = TextEditingController();
   int tournamentFormat = -1;
   int matchFormat = -1;
   int playsOffFormat = -1;
   int venueBookingFormat = -1;
-  List matchOption = ['Knockout', 'Group'];
-  List tournamentOption = ['Single', 'Double'];
+  List tournamentOption = ['Knockout', 'Group'];
+  List matchOption = ['Single', 'Double'];
   List playsOffOption = ['On', 'Off'];
   @override
   void initState() {
@@ -47,7 +53,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Create Tournament Detail",
-      backgroundColor: Color(redBooked),
+      backgroundColor: const Color(redBooked),
       body: Stack(children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -68,7 +74,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               OFormText(
                 title: "TOURNAMENT NAME",
                 titleColor: OTextPrimaryColor,
-                controller: _nameController,
+                controller: nameController,
                 formType: FormType.email,
                 hintText: "Tournament Name",
                 // icon: const IconData(0xf018, fontFamily: 'MaterialIcons'),
@@ -76,8 +82,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               OFormText(
                 title: "DRAW SIZE",
                 titleColor: OTextPrimaryColor,
-                controller: _nameController,
-                formType: FormType.email,
+                controller: drawSizeController,
                 hintText: "Number of Participants",
                 // icon: const IconData(0xf018, fontFamily: 'MaterialIcons'),
               ),
@@ -89,67 +94,6 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 children: [
                   Text(
                     "TOURNAMENT FORMAT",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                    width: Get.width,
-                    height: 46,
-                    child: GridView.builder(
-                        shrinkWrap: false,
-                        scrollDirection: Axis.vertical,
-                        itemCount: matchOption.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // ontap of each card, set the defined int to the grid view index
-                                matchFormat = index;
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: matchFormat == index ? OprimaryColor : Colors.white,
-                                  border: Border.all(
-                                    color: matchFormat == index ? OprimaryColor : Colors.grey,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8)),
-                              // check if the index is equal to the selected Card integer
-
-                              child: Expanded(
-                                child: Center(
-                                  child: Text(
-                                    matchOption[index],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: matchFormat == index ? Colors.white : Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "MATCH FORMAT",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
                   ),
                   const SizedBox(
@@ -192,6 +136,67 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: tournamentFormat == index ? Colors.white : Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "MATCH FORMAT",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    width: Get.width,
+                    height: 46,
+                    child: GridView.builder(
+                        shrinkWrap: false,
+                        scrollDirection: Axis.vertical,
+                        itemCount: matchOption.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // ontap of each card, set the defined int to the grid view index
+                                matchFormat = index;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: matchFormat == index ? OprimaryColor : Colors.white,
+                                  border: Border.all(
+                                    color: matchFormat == index ? OprimaryColor : Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8)),
+                              // check if the index is equal to the selected Card integer
+
+                              child: Expanded(
+                                child: Center(
+                                  child: Text(
+                                    matchOption[index],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: matchFormat == index ? Colors.white : Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -392,9 +397,11 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
             BaseButton(
               height: 56,
               ontap: () {
-                Get.to(const PlaceListPage());
+                // Alertx().error("Please Fill Draw Size with a number");
+                saveData();
+                // Get.to(const PlaceListPage());
               },
-              text: "CREATE",
+              text: "CONTINUE",
               outlineRadius: 0,
               color: OTextPrimaryColor,
             ),
@@ -402,6 +409,60 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
         )
       ]),
     );
+  }
+
+  String getTournamentFormat(int tournamentFormat) {
+    String format = '';
+    try {
+      if (tournamentFormat == 0) {
+        format = "Knockout";
+      } else if (tournamentFormat == 1) {
+        format = "Group";
+      }
+    } catch (e, s) {
+      Alertx().error("Please Fill Tournament Format");
+    }
+    return format;
+  }
+
+  String getMatchFormat(int matchFormat) {
+    String format = '';
+    try {
+      if (matchFormat == 0) {
+        format = "Single";
+      } else if (matchFormat == 1) {
+        format = "Double";
+      }
+    } catch (e, s) {
+      Alertx().error("Please Fill Match Format");
+    }
+    return format;
+  }
+
+  Future<void> saveData() async {
+    int drawSize = 1;
+    if (nameController.text == null) {
+      Alertx().error("Please Fill The Tournament Name");
+    } else if (drawSizeController.text == null) {
+      Alertx().error("Please Fill The Draw Size");
+    } else {
+      try {
+        drawSize = int.parse(drawSizeController.text);
+        log(drawSize.toString());
+      } catch (e, s) {
+        Alertx().error("Please Fill The Draw Size with a Number");
+      }
+
+      String tournament = getTournamentFormat(tournamentFormat);
+      String match = getMatchFormat(matchFormat);
+      log(nameController.text);
+
+      log(tournament);
+      log(match);
+
+      CreateDataTournament createData = CreateDataTournament(drawSize: drawSize, format: tournament, match: match, name: nameController.text);
+      Get.to(BookingListPage(createData: createData,));
+    }
   }
 }
 

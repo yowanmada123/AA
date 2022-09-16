@@ -1,27 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/main.dart';
-import 'package:boilerplate_flutter/model/place/place_res.dart';
-import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
-import 'package:boilerplate_flutter/page/booking/booking_info.dart';
-import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
-import 'package:boilerplate_flutter/utils/colors.dart';
-import 'package:boilerplate_flutter/widget/base/appbar.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
-import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import 'package:boilerplate_flutter/graphql_base.dart';
+import 'package:boilerplate_flutter/main.dart';
+import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
+import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
+import 'package:boilerplate_flutter/page/booking/booking_info.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/base/appbar.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_checkbox_filter.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
+import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
+import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
+
 class BookingListPage extends StatefulWidget {
-  const BookingListPage({Key? key}) : super(key: key);
+  CreateDataTournament? createData;
+  BookingListPage({
+    Key? key,
+    this.createData,
+  }) : super(key: key);
 
   @override
   State<BookingListPage> createState() => _BookingListPageState();
@@ -164,7 +171,7 @@ class _BookingListPageState extends State<BookingListPage> {
                         getData();
                       },
                       child: Row(
-                        children: [Text("Hapus Filter"), Icon(Icons.close)],
+                        children: const [Text("Hapus Filter"), Icon(Icons.close)],
                       ))
                   : Container(),
             )),
@@ -182,6 +189,7 @@ class _BookingListPageState extends State<BookingListPage> {
                           return ItemPlace(
                             item: listPlace[index],
                             state: gstate,
+                            createData: widget.createData!,
                             // onTap: () {
                             //   // Get.to(ListHealtPage());
                             // },
@@ -458,9 +466,10 @@ class _BookingListPageState extends State<BookingListPage> {
 }
 
 class ItemPlace extends StatelessWidget {
+  final CreateDataTournament createData;
   final Place item;
   final GlobalController state;
-  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state, required this.createData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -511,6 +520,7 @@ class ItemPlace extends StatelessWidget {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
+                  createData.product?.id = item.id;
                   cGlobal.selectPlace.clear();
                   cGlobal.selectPlace.add(item);
                   cGlobal.selectPlace.clear();
@@ -519,6 +529,7 @@ class ItemPlace extends StatelessWidget {
                   cGlobal.selectScheduleTime.clear();
                   Get.to(BookingInfo(
                     item: item,
+                    createData: createData,
                   ));
                 },
                 child: ClipRRect(

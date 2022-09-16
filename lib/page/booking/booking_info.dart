@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule.dart';
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -14,8 +15,9 @@ import '../../widget/base/button/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {
+  CreateDataTournament? createData;
   final Place item;
-  const BookingInfo({Key? key, required this.item}) : super(key: key);
+  BookingInfo({Key? key, required this.item, this.createData}) : super(key: key);
 
   @override
   State<BookingInfo> createState() => _BookingInfoState();

@@ -96,4 +96,6 @@ class GlobalController extends GetxController {
     log(data);
     return data;
   }
+
+  
 }

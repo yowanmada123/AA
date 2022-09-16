@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           OButton(
               title: "Booking",
               onPressed: () {
-                Get.to(const BookingListPage());
+                Get.to(BookingListPage());
               }),
           OButton(
               title: "List Transaction",

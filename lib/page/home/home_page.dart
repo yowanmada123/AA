@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
               name: "Booking",
               onTap: () {
                 // Get.to(const PlaceFormPage());
-                Get.to(const BookingListPage());
+                Get.to(BookingListPage());
                 // Get.to(const PlaceListPage());
                 // Get.to(const EventOptionPage());
               },
