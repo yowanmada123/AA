@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/payment/payment_list.dart';
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
@@ -16,7 +17,8 @@ import '../profil/list_profil.dart';
 import 'payment_controller.dart';
 
 class PaymentOption extends StatefulWidget {
-  const PaymentOption({Key? key}) : super(key: key);
+  final CreateDataTournament? createData;
+  const PaymentOption({Key? key, this.createData}) : super(key: key);
 
   @override
   State<PaymentOption> createState() => _PaymentOptionState();
@@ -110,10 +112,11 @@ class _PaymentOptionState extends State<PaymentOption> {
                                   Get.offAll(HomePage());
                                   Get.to(PaymentDetailPage(
                                     transactionId: transactioId,
+                                    createData: widget.createData,
                                   ));
                                 }
                               },
-                              child: ItemPayment(
+                              child: ItemPayment( 
                                 data: listPaymentMethods[index],
                               ),
                             );

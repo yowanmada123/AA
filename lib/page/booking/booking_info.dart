@@ -1,4 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/product.dart';
@@ -7,15 +12,13 @@ import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+
 import '../../model/place/place_res.dart';
 import '../../widget/base/button/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {
-  CreateDataTournament? createData;
+  final CreateDataTournament? createData;
   final Place item;
   BookingInfo({Key? key, required this.item, this.createData}) : super(key: key);
 
@@ -208,6 +211,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                           selectProduct.value = index;
                                                                           cGlobal.selectProduct.clear();
                                                                           cGlobal.selectProduct.add(listProduct[index]);
+                                                                          widget.createData?.product = listProduct[index];
                                                                         },
                                                                         child: Obx(
                                                                           () => Container(
@@ -222,7 +226,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                        ),
+                                                                        ),  
                                                                       ),
                                                                     );
                                                                   }),
@@ -240,6 +244,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                       itemBuilder: (BuildContext context, int index) {
                                                         return OpeningHour(
                                                           schedule: listSchedule[index],
+                                                          createData: widget.createData,
                                                         );
                                                       }),
                                                 )),
@@ -293,6 +298,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
               onPressed: () {
                 Get.to(BookingDate(
                   product: listProduct[selectProduct.value],
+                  createData: widget.createData,                    
                 ));
               }),
         ));
@@ -383,12 +389,15 @@ class ItemInfo extends StatelessWidget {
 }
 
 class OpeningHour extends StatelessWidget {
+  CreateDataTournament? createData;
   final Schedule schedule;
-  const OpeningHour({
+  OpeningHour({
     Key? key,
+    this.createData,
     required this.schedule,
   }) : super(key: key);
 
+  
   @override
   Widget build(BuildContext context) {
     String name = schedule.dayname ?? "";
@@ -415,7 +424,7 @@ class OpeningHour extends StatelessWidget {
               child: Center(
                   child: Text(
                 dayName,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               )),
             ),
             Text('${schedule.startTime} - ${schedule.endTime}'),

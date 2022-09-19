@@ -449,7 +449,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
       try {
         drawSize = int.parse(drawSizeController.text);
         log(drawSize.toString());
-      } catch (e, s) {
+      } catch (e) {
         Alertx().error("Please Fill The Draw Size with a Number");
       }
 

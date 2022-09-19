@@ -10,7 +10,8 @@ class CreateDataTournament {
   Profile? profile;
   String? phoneNumber;
   Product? product;
-  String? schedule;
+  String? scheduleDate;
+  String? scheduleTime;
 
-  CreateDataTournament({required this.drawSize,required this.format, required this.match,required this.name,  this.paymentMethod, this.profile, this.phoneNumber, this.product, this.schedule,});
+  CreateDataTournament({required this.drawSize,required this.format, required this.match,required this.name,  this.paymentMethod, this.profile, this.phoneNumber, this.product, this.scheduleDate, this.scheduleTime});
 }

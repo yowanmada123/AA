@@ -285,16 +285,16 @@ class _BookingListPageState extends State<BookingListPage> {
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 7.0),
+                                padding: const EdgeInsets.only(left: 7.0),
                                 child: TextField(
                                   maxLines: 1,
                                   keyboardType: TextInputType.number,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                   textAlignVertical: TextAlignVertical.center,
                                   onChanged: (val) {
                                     cBooking.priceMin.value = int.parse(val);
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: "Min",
                                     filled: true,
                                     border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -327,7 +327,7 @@ class _BookingListPageState extends State<BookingListPage> {
                                   onChanged: (val) {
                                     cBooking.priceMin.value = int.parse(val);
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: "Max",
                                     filled: true,
                                     border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),

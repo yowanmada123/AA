@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule_time.dart';
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -16,8 +17,9 @@ import '../../widget/base/form/form_scaffold.dart';
 import '../../widget/base/button/button_bar.dart';
 
 class BookingDate extends StatefulWidget {
+  final CreateDataTournament? createData;
   final Product product;
-  BookingDate({Key? key, required this.product}) : super(key: key);
+  const BookingDate({Key? key, required this.product, this.createData}) : super(key: key);
 
   @override
   State<BookingDate> createState() => _BookingDateState();
@@ -126,6 +128,8 @@ class _BookingDateState extends State<BookingDate> {
                         cGlobal.selectScheduleTime.add(listScheduleTime[index]);
                         cGlobal.selectScheduleDate.value = _selectedDay.toyyyyMMdd();
                         cGlobal.refresh();
+                        widget.createData?.scheduleDate = _selectedDay.toyyyyMMdd();
+                        widget.createData?.scheduleTime = listScheduleTime[index] as String?;
                       },
                       child: (listScheduleTime[index].booking)
                           ? BookingTimeButtonBooked(
@@ -145,6 +149,7 @@ class _BookingDateState extends State<BookingDate> {
               isEnable: (cGlobal.selectScheduleTime.isNotEmpty),
               onPressed: () {
                 // Get.to(BookingDate());
+                
                 bottomSheetWidget(heightFactor: 0.9, context: context, child: PaymentOption());
               }),
         ));
