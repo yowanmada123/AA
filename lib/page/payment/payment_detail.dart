@@ -1,3 +1,4 @@
+import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -7,8 +8,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 class PaymentDetailPage extends StatefulWidget {
+  final CreateDataTournament? createData;
   final String transactionId;
-  const PaymentDetailPage({Key? key, required this.transactionId}) : super(key: key);
+  const PaymentDetailPage({Key? key, required this.transactionId, this.createData}) : super(key: key);
 
   @override
   State<PaymentDetailPage> createState() => _PaymentDetailPageState();
@@ -43,16 +45,16 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
                                 child: Icon(Icons.info_rounded),
                               ),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Information Text - Nunito Regular 12").regularText(),
-                                    SizedBox(
+                                    const Text("Information Text - Nunito Regular 12").regularText(),
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     Row(
@@ -65,12 +67,12 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text("Pembayaran").fieldTitleText().brown(),
+                      const Text("Pembayaran").fieldTitleText().brown(),
                       Text(cGlobal.selectPaymentMethods.first.name).regularBigText(),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
@@ -86,16 +88,16 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                           Expanded(flex: 1, child: Text(cGlobal.phone).titleText()),
                           Expanded(
                               flex: 1,
-                              child: Text(
+                              child: const Text(
                                 "INTERACTIVE TEXT - Nunito Bold 12",
                                 textAlign: TextAlign.end,
                               ).fieldTitleText())
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text("Venue Booking").fieldTitleText().brown(),
+                      const Text("Venue Booking").fieldTitleText().brown(),
                       Row(
                         children: [
                           Expanded(
@@ -119,33 +121,33 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                               ).regularBigText()),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
                         children: [
                           Expanded(
                               flex: 1,
-                              child: Text(
+                              child: const Text(
                                 "Processing Fee",
                               ).regularBigText()),
                           Expanded(
                               flex: 1,
-                              child: Text(
+                              child: const Text(
                                 "-",
                                 textAlign: TextAlign.end,
                               ).regularBigText()),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Divider(),
+                      const Divider(),
                       Row(
                         children: [
                           Expanded(
                               flex: 1,
-                              child: Text(
+                              child: const Text(
                                 "Total",
                               ).regularBigText()),
                           Expanded(
@@ -167,7 +169,7 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
+                    children: [const  Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
                   ),
                 )
               ],
