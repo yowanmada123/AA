@@ -116,7 +116,7 @@ class _PaymentOptionState extends State<PaymentOption> {
                                   ));
                                 }
                               },
-                              child: ItemPayment( 
+                              child: ItemPayment(
                                 data: listPaymentMethods[index],
                               ),
                             );
@@ -129,6 +129,60 @@ class _PaymentOptionState extends State<PaymentOption> {
       ],
     );
   }
+}
+
+Future<void> createTournament() async {
+  String option = '''
+    mutation createTurnament{
+      createTurnament(	
+        input: {
+          draw_size: 1
+          format: "Knockout"
+          match: "Group"
+          name: "TURKISH MATCH"
+          payment_method: "BNI_QRIS"
+          people: [
+            {
+              people_id: "1b83696a-8040-4450-abf0-d0523fb463f0"
+            }
+          ]
+          phone_number: "08223544899774"
+          product: [
+            {
+              product_id: "dd1da2cd-3d96-49cb-84f6-9035131bdf86"
+              scheduled_date: "19/02/2022"
+              scheduled_time: "18.00"
+            }
+          ]
+        }
+      ){
+        __typename
+        
+        ... on Error{
+          message
+        }
+        ... on ErrorResponse{
+          message
+        }
+        ... on Success{
+          message
+        }
+        ... on SuccessResponse{
+          message
+        }
+        ... on InvalidInputError{
+          message
+        }
+      }
+    }
+    ''';
+    try{
+            Map<String, dynamic>? res = await GraphQLBase().mutate(option);
+
+    }on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
 }
 
 class ItemPayment extends StatelessWidget {

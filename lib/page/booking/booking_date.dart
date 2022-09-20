@@ -130,6 +130,7 @@ class _BookingDateState extends State<BookingDate> {
                         cGlobal.refresh();
                         widget.createData?.scheduleDate = _selectedDay.toyyyyMMdd();
                         widget.createData?.scheduleTime = listScheduleTime[index] as String?;
+                        // widget.createData?.product?.schedules.
                       },
                       child: (listScheduleTime[index].booking)
                           ? BookingTimeButtonBooked(
@@ -149,8 +150,8 @@ class _BookingDateState extends State<BookingDate> {
               isEnable: (cGlobal.selectScheduleTime.isNotEmpty),
               onPressed: () {
                 // Get.to(BookingDate());
-                
-                bottomSheetWidget(heightFactor: 0.9, context: context, child: PaymentOption());
+
+                bottomSheetWidget(heightFactor: 0.9, context: context, child: PaymentOption(createData: widget.createData,));
               }),
         ));
   }

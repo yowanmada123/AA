@@ -47,25 +47,23 @@ class _OButtonSmallOutlineState extends State<OButtonSmallOutline> {
                 Radius.circular(12),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SvgPicture.asset(widget.icon),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: SvgPicture.asset(widget.icon),
+                ),
+                const SizedBox(width: 8,),
+                Text(
+                  widget.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,
                   ),
-                  Expanded(
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: widget.titleColor ?? Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ).fieldTitleText(),
-                  )
-                ],
-              ),
+                ).fieldTitleText()
+              ],
             ),
           ),
         ),

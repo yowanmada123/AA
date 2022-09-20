@@ -22,6 +22,10 @@ class OScaffold extends StatelessWidget {
         backgroundColor: backgroundColor,
         // Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ), 
           backgroundColor: OprimaryColor,
           // Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,

@@ -14,7 +14,8 @@ class BaseButton extends StatelessWidget {
   final Color? outlineColor;
   final double? outlineRadius;
   final double? height;
-  const BaseButton({Key? key, this.icon, this.text, this.color, required this.ontap, this.textColor, this.image, this.iconSvg, this.outlineColor, this.outlineRadius, this.height}) : super(key: key);
+  final double? width;
+  const BaseButton({Key? key, this.icon, this.text, this.color, required this.ontap, this.textColor, this.image, this.iconSvg, this.outlineColor, this.outlineRadius, this.height, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class BaseButton extends StatelessWidget {
       onTap: ontap,
       child: Container(
         height: (height == null) ? 48 : height,
-        width: Get.width,
+        width: (height == null) ? Get.width : width,
         decoration: BoxDecoration(color: (color == null) ? const Color(0xff2D79F6) : color, borderRadius: BorderRadius.circular((outlineRadius == null) ? 8 : outlineRadius!), border: Border.all(color: (outlineColor == null) ? Colors.transparent : outlineColor!)),
         child: Center(
           child: (icon == null && image == null && iconSvg == null)
@@ -34,15 +35,11 @@ class BaseButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    (image == null)
-                        ? (iconSvg == null)
-                            ? Icon(icon)
-                            : Image.asset(iconSvg!)
-                        : Image.asset(
-                            image!,
-                            width: 24,
-                            height: 24,
-                          ),
+                    if (image == null) ...[
+                      if (iconSvg == null) ...[Icon(icon)] else ...[SvgPicture.asset(iconSvg!)]
+                    ] else ...[
+                      Image.asset(iconSvg!)
+                    ],
                     const SizedBox(
                       width: 8,
                     ),

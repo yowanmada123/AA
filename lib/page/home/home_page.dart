@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_list.dart';
+import 'package:boilerplate_flutter/page/training/trainer_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/popup/bottom_sheet.dart';
@@ -123,7 +124,7 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_burble.svg",
               name: "Training",
               onTap: () {
-                Get.to(KycList());
+                Get.to(ListTrainerPage());
               },
             ),
             ItemWidget(
