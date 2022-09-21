@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -24,10 +25,8 @@ import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 
 class BookingListPage extends StatefulWidget {
-  CreateDataTournament? createData;
   BookingListPage({
     Key? key,
-    this.createData,
   }) : super(key: key);
 
   @override
@@ -189,7 +188,7 @@ class _BookingListPageState extends State<BookingListPage> {
                           return ItemPlace(
                             item: listPlace[index],
                             state: gstate,
-                            createData: widget.createData!,
+                            // createData: widget.createData!,
                             // onTap: () {
                             //   // Get.to(ListHealtPage());
                             // },
@@ -466,14 +465,15 @@ class _BookingListPageState extends State<BookingListPage> {
 }
 
 class ItemPlace extends StatelessWidget {
-  final CreateDataTournament createData;
+  // final CreateDataTournament? createData;
   final Place item;
   final GlobalController state;
-  const ItemPlace({Key? key, required this.item, required this.state, required this.createData}) : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cGlobal = Get.find<GlobalController>();
+    final ctournament = Get.put(TournamentController());
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -520,7 +520,7 @@ class ItemPlace extends StatelessWidget {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  createData.product?.id = item.id;
+                  // createData!.product!.id = item.id;
                   cGlobal.selectPlace.clear();
                   cGlobal.selectPlace.add(item);
                   cGlobal.selectPlace.clear();
@@ -529,7 +529,7 @@ class ItemPlace extends StatelessWidget {
                   cGlobal.selectScheduleTime.clear();
                   Get.to(BookingInfo(
                     item: item,
-                    createData: createData,
+                    // createData: createData,
                   ));
                 },
                 child: ClipRRect(

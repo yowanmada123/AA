@@ -1,6 +1,9 @@
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_list.dart';
+import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/profil/list_user_page.dart';
+import 'package:boilerplate_flutter/page/welcome/welcome_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -18,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final cGlobal = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +150,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: BaseButton(
                   outlineRadius: 0,
-                  ontap: () {},
+                  ontap: () {
+                    cGlobal.logout();
+                    Get.offAll(const WelcomingPage());
+                  },
                   color: Colors.white,
                   textColor: const Color(0xff99A4AB),
                   text: "Log out",

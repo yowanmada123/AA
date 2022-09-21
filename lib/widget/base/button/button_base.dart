@@ -36,9 +36,10 @@ class BaseButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (image == null) ...[
-                      if (iconSvg == null) ...[Icon(icon)] else ...[SvgPicture.asset(iconSvg!)]
+                      if (iconSvg == null) ...[Icon(icon)] 
+                      else ...[SvgPicture.asset(iconSvg!)]
                     ] else ...[
-                      Image.asset(iconSvg!)
+                      Image.asset(image!, width: 24, height: 24,)
                     ],
                     const SizedBox(
                       width: 8,

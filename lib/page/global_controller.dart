@@ -62,6 +62,11 @@ class GlobalController extends GetxController {
     token = getToken() ?? '';
   }
 
+  logout() {
+    final box = GetStorage();
+    box.remove("token");
+  }
+
   String? getToken() {
     final box = GetStorage();
     String? token = box.read('token');
@@ -96,6 +101,4 @@ class GlobalController extends GetxController {
     log(data);
     return data;
   }
-
-  
 }

@@ -10,6 +10,7 @@ import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/tournament/list_other_user_page.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -28,10 +29,11 @@ class TournamentCreatePage extends StatefulWidget {
 }
 
 class _TournamentCreatePageState extends State<TournamentCreatePage> {
-  List<Place> listPlace = [];
-  late String placeValue = "Jakarta";
+  // List<Place> listPlace = [];
+  // late String placeValue = "Jakarta";
   final loading = false;
   final gstate = Get.find<GlobalController>();
+  final ctournament = Get.put(TournamentController());
   TextEditingController nameController = TextEditingController();
   TextEditingController drawSizeController = TextEditingController();
   TextEditingController tournamentFormatController = TextEditingController();
@@ -75,7 +77,6 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 title: "TOURNAMENT NAME",
                 titleColor: OTextPrimaryColor,
                 controller: nameController,
-                formType: FormType.email,
                 hintText: "Tournament Name",
                 // icon: const IconData(0xf018, fontFamily: 'MaterialIcons'),
               ),
@@ -250,7 +251,6 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                   ),
                                   borderRadius: BorderRadius.circular(8)),
                               // check if the index is equal to the selected Card integer
-
                               child: Expanded(
                                 child: Center(
                                   child: Text(
@@ -397,9 +397,12 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
             BaseButton(
               height: 56,
               ontap: () {
-                // Alertx().error("Please Fill Draw Size with a number");
+                // print(nameController.text);
+                // print(drawSizeController.text);
+                // log(nameController.toString());
+                // log(nameController.text);
                 saveData();
-                // Get.to(const PlaceListPage());
+                Get.to(BookingListPage());
               },
               text: "CONTINUE",
               outlineRadius: 0,
@@ -409,6 +412,20 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
         )
       ]),
     );
+  }
+
+  String getVenueType(int venueBookingFormat) {
+    String format = '';
+    try {
+      if (tournamentFormat == 0) {
+        format = "On";
+      } else if (tournamentFormat == 1) {
+        format = "Off";
+      }
+    } catch (e, s) {
+      Alertx().error("Please Fill Venue Type");
+    }
+    return format;
   }
 
   String getTournamentFormat(int tournamentFormat) {
@@ -439,7 +456,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     return format;
   }
 
-  Future<void> saveData() async {
+  saveData() {
     int drawSize = 1;
     if (nameController.text == null) {
       Alertx().error("Please Fill The Tournament Name");
@@ -453,15 +470,26 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
         Alertx().error("Please Fill The Draw Size with a Number");
       }
 
-      String tournament = getTournamentFormat(tournamentFormat);
-      String match = getMatchFormat(matchFormat);
+      String formatTournament = getTournamentFormat(tournamentFormat);
+      String formatMatch = getMatchFormat(matchFormat);
+      String venueType = getVenueType(venueBookingFormat);
+
       log(nameController.text);
+      log(drawSize.toString());
+      log(formatTournament);
+      log(formatMatch);
+      log(venueType);
 
-      log(tournament);
-      log(match);
+      ctournament.tournamentdata.name = nameController.text;
+      ctournament.tournamentdata.drawSize = drawSize;
+      ctournament.tournamentdata.tournamentFormat = formatTournament;
+      ctournament.tournamentdata.matchFormat = formatMatch;
 
-      CreateDataTournament createData = CreateDataTournament(drawSize: drawSize, format: tournament, match: match, name: nameController.text);
-      Get.to(BookingListPage(createData: createData,));
+      log(ctournament.tournamentdata.name.toString());
+      log(ctournament.tournamentdata.drawSize.toString());
+      log(ctournament.tournamentdata.tournamentFormat.toString());
+      log(ctournament.tournamentdata.matchFormat.toString());
+
     }
   }
 }

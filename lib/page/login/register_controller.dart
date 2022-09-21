@@ -27,15 +27,13 @@ class RegisterController extends GetxController {
   Future<void> signUpEmail() async {
     String q = '''
       mutation {
-        register(
-          input: {      
-            email: "$email"
-            password: "$password"
-          }
-        )   {
+      register(
+        input: {
+          email: "$email", 
+          password: "$password" }){
         __typename
-        ... on Success
-        {
+        
+        ... on SuccessResponse{
           message
         }
       }

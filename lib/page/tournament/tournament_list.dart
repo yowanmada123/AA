@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/model/tournament/tournament_rest.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_create.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -25,30 +26,29 @@ class TournamentListPage extends StatefulWidget {
 class _TournamentListPageState extends State<TournamentListPage> {
   final listTurnament = <Turnaments>[].obs;
   final loading = true.obs;
+  final gstate = Get.find<GlobalController>();
 
   getData() async {
     String options = '''
-      
-query listTurnament{
-  Turnaments(filter: {}, paging: { limit: 10 }, sorting: []) {
-    nodes {
-#       booking_time
-#       createdAt
-#       draw_size
-#       format
-      id
-#       match
-      name
-#       updatedAt
-#       veneu
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-    }
-  }
-}
-
+      query listTurnament{
+        Turnaments(filter: {}, paging: { limit: 10 }, sorting: []) {
+          nodes {
+      #       booking_time
+      #       createdAt
+      #       draw_size
+      #       format
+            id
+      #       match
+            name
+      #       updatedAt
+      #       veneu
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(options);
     var list = data!['Turnaments']['nodes'] as List;
@@ -58,7 +58,7 @@ query listTurnament{
     loading.value = false;
   }
 
-  final gstate = Get.find<GlobalController>();
+  
 
   @override
   void initState() {
