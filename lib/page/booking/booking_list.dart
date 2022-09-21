@@ -529,7 +529,6 @@ class ItemPlace extends StatelessWidget {
                   cGlobal.selectScheduleTime.clear();
                   Get.to(BookingInfo(
                     item: item,
-                    // createData: createData,
                   ));
                 },
                 child: ClipRRect(

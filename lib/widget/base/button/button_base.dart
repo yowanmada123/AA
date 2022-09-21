@@ -29,7 +29,7 @@ class BaseButton extends StatelessWidget {
           child: (icon == null && image == null && iconSvg == null)
               ? Text(
                   text!,
-                  style: TextStyle(color: (textColor == null) ? Colors.white : textColor),
+                    style: TextStyle(color: (textColor == null) ? Colors.white : textColor),
                 ).pageTitleText()
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,

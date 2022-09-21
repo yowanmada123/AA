@@ -45,6 +45,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   List tournamentOption = ['Knockout', 'Group'];
   List matchOption = ['Single', 'Double'];
   List playsOffOption = ['On', 'Off'];
+  List venueBookingOption = ['On', 'Off'];
   @override
   void initState() {
     // TODO: implement initState
@@ -370,7 +371,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                               child: Expanded(
                                 child: Center(
                                   child: Text(
-                                    playsOffOption[index],
+                                    venueBookingOption[index],
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: venueBookingFormat == index ? Colors.white : Colors.black,
@@ -397,10 +398,6 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
             BaseButton(
               height: 56,
               ontap: () {
-                // print(nameController.text);
-                // print(drawSizeController.text);
-                // log(nameController.toString());
-                // log(nameController.text);
                 saveData();
                 Get.to(BookingListPage());
               },
@@ -414,12 +411,26 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     );
   }
 
+String getPlaysOffFormat(int playsOffFOrmat) {
+    String format = '';
+    try {
+      if (playsOffFOrmat == 0) {
+        format = "On";
+      } else if (playsOffFOrmat == 1) {
+        format = "Off";
+      }
+    } catch (e, s) {
+      Alertx().error("Please Fill The 3RD PlaysOffs");
+    }
+    return format;
+  }
+
   String getVenueType(int venueBookingFormat) {
     String format = '';
     try {
-      if (tournamentFormat == 0) {
+      if (venueBookingFormat == 0) {
         format = "On";
-      } else if (tournamentFormat == 1) {
+      } else if (venueBookingFormat == 1) {
         format = "Off";
       }
     } catch (e, s) {
@@ -465,20 +476,23 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     } else {
       try {
         drawSize = int.parse(drawSizeController.text);
-        log(drawSize.toString());
       } catch (e) {
         Alertx().error("Please Fill The Draw Size with a Number");
       }
 
       String formatTournament = getTournamentFormat(tournamentFormat);
       String formatMatch = getMatchFormat(matchFormat);
+      String formatPlaysOff = getPlaysOffFormat(playsOffFormat);
       String venueType = getVenueType(venueBookingFormat);
 
       log(nameController.text);
       log(drawSize.toString());
       log(formatTournament);
       log(formatMatch);
+      log(formatPlaysOff);
+      log("=============");
       log(venueType);
+      log("=============");
 
       ctournament.tournamentdata.name = nameController.text;
       ctournament.tournamentdata.drawSize = drawSize;
