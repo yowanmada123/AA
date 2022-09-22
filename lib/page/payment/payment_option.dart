@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
 import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
@@ -17,21 +18,20 @@ import '../profil/list_profil.dart';
 import 'payment_controller.dart';
 
 class PaymentOption extends StatefulWidget {
-  final CreateDataTournament? createData;
-  const PaymentOption({Key? key, this.createData}) : super(key: key);
+  const PaymentOption({Key? key, }) : super(key: key);
 
   @override
   State<PaymentOption> createState() => _PaymentOptionState();
 }
 
 class _PaymentOptionState extends State<PaymentOption> {
+  
   final listPaymentMethods = <PaymentMethods>[].obs;
   final loading = true.obs;
 
   getData() async {
     loading.value = true;
     String options = '''
-     
        query {
             userPaymentMethods {
               ... on UserPaymentMethod {
@@ -68,7 +68,7 @@ class _PaymentOptionState extends State<PaymentOption> {
 
   final cGlobal = Get.find<GlobalController>();
   final cPayment = Get.put(PaymentController());
-
+  final cTournament = Get.put(TournamentController());
   @override
   void initState() {
     // TODO: implement initState
@@ -107,12 +107,20 @@ class _PaymentOptionState extends State<PaymentOption> {
                                 log("tap pay");
                                 cGlobal.selectPaymentMethods.clear();
                                 cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
+                                log(listPaymentMethods[index].id);
+                                cTournament.tournamentdata.paymentMethod = listPaymentMethods[index].id;
                                 String? transactioId = await cPayment.createpayment();
                                 if (transactioId != null) {
-                                  Get.offAll(HomePage());
+                                  log(cTournament.tournamentdata.name.toString());
+                                  log(cTournament.tournamentdata.drawSize.toString());
+                                  log(cTournament.tournamentdata.tournamentFormat.toString());
+                                  log(cTournament.tournamentdata.matchFormat.toString());
+                                  log(cTournament.tournamentdata.product.toString());
+                                  log(cTournament.tournamentdata.scheduleDate.toString());
+                                  log(cTournament.tournamentdata.scheduleTime.toString());
+                                  createTournament(cTournament);
                                   Get.to(PaymentDetailPage(
                                     transactionId: transactioId,
-                                    createData: widget.createData,
                                   ));
                                 }
                               },
@@ -131,16 +139,17 @@ class _PaymentOptionState extends State<PaymentOption> {
   }
 }
 
-Future<void> createTournament() async {
+Future<void> createTournament(TournamentController cTournament) async {
+  
   String option = '''
     mutation createTurnament{
       createTurnament(	
         input: {
-          draw_size: 1
-          format: "Knockout"
-          match: "Group"
-          name: "TURKISH MATCH"
-          payment_method: "BNI_QRIS"
+          draw_size: $cTournament.tournamentdata.drawSize
+          format: "$cTournament.tournamentdata.tournamentFormat"
+          match: "$cTournament.tournamentdata.matchFormat"
+          name: "$cTournament.tournamentdata.name"
+          payment_method: "$cTournament.tournamentdata.paymentMethod"
           people: [
             {
               people_id: "1b83696a-8040-4450-abf0-d0523fb463f0"
@@ -149,9 +158,9 @@ Future<void> createTournament() async {
           phone_number: "08223544899774"
           product: [
             {
-              product_id: "dd1da2cd-3d96-49cb-84f6-9035131bdf86"
-              scheduled_date: "19/02/2022"
-              scheduled_time: "18.00"
+              product_id: "$cTournament.tournamentdata.product"
+              scheduled_date: "$cTournament.tournamentdata.scheduleDate"
+              scheduled_time: "$cTournament.tournamentdata.scheduleTime"
             }
           ]
         }
@@ -176,13 +185,20 @@ Future<void> createTournament() async {
       }
     }
     ''';
-    try{
-            Map<String, dynamic>? res = await GraphQLBase().mutate(option);
+  try {
+    
+    Map<String, dynamic>? res = await GraphQLBase().mutate(option);
+    if (res != null) {
+        log(res.toString());
+        final successMessage = res['createTurnament'][0]['Success'];
+        log(successMessage);
+        Get.offAll(const HomePage());
+      }
+  } on Error catch (e, s) {
+    print(e);
+    print(s);
+  }
 
-    }on Error catch (e, s) {
-      print(e);
-      print(s);
-    }
 }
 
 class ItemPayment extends StatelessWidget {

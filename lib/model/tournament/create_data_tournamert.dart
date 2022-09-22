@@ -9,7 +9,7 @@ class CreateDataTournament {
   String? paymentMethod;
   Profile? profile;
   String? phoneNumber;
-  Product? product;
+  String? product;
   String? scheduleDate;
   String? scheduleTime;
 

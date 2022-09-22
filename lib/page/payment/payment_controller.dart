@@ -1,17 +1,18 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:get/get.dart';
 
 import '../../graphql_base.dart';
 
 class PaymentController extends GetxController {
   final cGlobal = Get.find<GlobalController>();
-
+  
   Future<String?> createpayment() async {
     String payment_method = cGlobal.selectPaymentMethods.first.id;
     String phone_number = "";
-    String product_id = cGlobal.selectProduct.first.id;
+    String? product_id = cGlobal.selectProduct.first.id;
     String scheduled_date = cGlobal.selectScheduleDate.value;
     String scheduled_time = cGlobal.selectScheduleTime.first.schedule;
 

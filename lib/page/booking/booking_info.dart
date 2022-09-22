@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,9 +19,8 @@ import '../../widget/base/button/button_bar.dart';
 import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {
-  final CreateDataTournament? createData;
   final Place item;
-  BookingInfo({Key? key, required this.item, this.createData}) : super(key: key);
+  BookingInfo({Key? key, required this.item}) : super(key: key);
 
   @override
   State<BookingInfo> createState() => _BookingInfoState();
@@ -29,14 +29,13 @@ class BookingInfo extends StatefulWidget {
 class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final cGlobal = Get.find<GlobalController>();
-
+  final cTournament = Get.put(TournamentController());
   final loading = true.obs;
   final selectProduct = 0.obs;
   final listProduct = <Product>[].obs;
   final listSchedule = <Schedule>[].obs;
   getData() async {
     String options = '''
-     
         query {
           products(filter: {}, paging: { limit: 20 }, sorting: []) {
             pageInfo {
@@ -211,7 +210,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                           selectProduct.value = index;
                                                                           cGlobal.selectProduct.clear();
                                                                           cGlobal.selectProduct.add(listProduct[index]);
-                                                                          widget.createData?.product = listProduct[index];
+                                                                          // widget.createData?.product = listProduct[index];
                                                                         },
                                                                         child: Obx(
                                                                           () => Container(
@@ -226,7 +225,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                        ),  
+                                                                        ),
                                                                       ),
                                                                     );
                                                                   }),
@@ -244,7 +243,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                       itemBuilder: (BuildContext context, int index) {
                                                         return OpeningHour(
                                                           schedule: listSchedule[index],
-                                                          createData: widget.createData,
+                                                          // createData: widget.createData,
                                                         );
                                                       }),
                                                 )),
@@ -296,9 +295,15 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
               title: "BOOK NOW",
               isEnable: (cGlobal.selectProduct.isNotEmpty),
               onPressed: () {
+                cTournament.tournamentdata.product = listProduct[selectProduct.value].id;
+                log(cTournament.tournamentdata.name.toString());
+                log(cTournament.tournamentdata.drawSize.toString());
+                log(cTournament.tournamentdata.tournamentFormat.toString());
+                log(cTournament.tournamentdata.matchFormat.toString());
+                log(cTournament.tournamentdata.product.toString());
                 Get.to(BookingDate(
                   product: listProduct[selectProduct.value],
-                  createData: widget.createData,                    
+                  
                 ));
               }),
         ));
@@ -397,7 +402,6 @@ class OpeningHour extends StatelessWidget {
     required this.schedule,
   }) : super(key: key);
 
-  
   @override
   Widget build(BuildContext context) {
     String name = schedule.dayname ?? "";

@@ -33,7 +33,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   // late String placeValue = "Jakarta";
   final loading = false;
   final gstate = Get.find<GlobalController>();
-  final ctournament = Get.put(TournamentController());
+  final cTournament = Get.put(TournamentController());
   TextEditingController nameController = TextEditingController();
   TextEditingController drawSizeController = TextEditingController();
   TextEditingController tournamentFormatController = TextEditingController();
@@ -494,15 +494,15 @@ String getPlaysOffFormat(int playsOffFOrmat) {
       log(venueType);
       log("=============");
 
-      ctournament.tournamentdata.name = nameController.text;
-      ctournament.tournamentdata.drawSize = drawSize;
-      ctournament.tournamentdata.tournamentFormat = formatTournament;
-      ctournament.tournamentdata.matchFormat = formatMatch;
+      cTournament.tournamentdata.name = nameController.text;
+      cTournament.tournamentdata.drawSize = drawSize;
+      cTournament.tournamentdata.tournamentFormat = formatTournament;
+      cTournament.tournamentdata.matchFormat = formatMatch;
 
-      log(ctournament.tournamentdata.name.toString());
-      log(ctournament.tournamentdata.drawSize.toString());
-      log(ctournament.tournamentdata.tournamentFormat.toString());
-      log(ctournament.tournamentdata.matchFormat.toString());
+      log(cTournament.tournamentdata.name.toString());
+      log(cTournament.tournamentdata.drawSize.toString());
+      log(cTournament.tournamentdata.tournamentFormat.toString());
+      log(cTournament.tournamentdata.matchFormat.toString());
 
     }
   }

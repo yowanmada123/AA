@@ -10,7 +10,7 @@ import 'schedule.dart';
 class Product {
   final String createdAt;
   final String description;
-  late final String id;
+  String? id;
   final Place place;
   final String name;
   final int price;
@@ -19,7 +19,7 @@ class Product {
   Product({
     required this.createdAt,
     required this.description,
-    required this.id,
+    this.id,
     required this.place,
     required this.name,
     required this.price,

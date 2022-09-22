@@ -8,9 +8,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 class PaymentDetailPage extends StatefulWidget {
-  final CreateDataTournament? createData;
   final String transactionId;
-  const PaymentDetailPage({Key? key, required this.transactionId, this.createData}) : super(key: key);
+  const PaymentDetailPage({Key? key, required this.transactionId}) : super(key: key);
 
   @override
   State<PaymentDetailPage> createState() => _PaymentDetailPageState();

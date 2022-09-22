@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -102,7 +102,7 @@ class _BookingListPageState extends State<BookingListPage> {
   }
 
   final gstate = Get.find<GlobalController>();
-
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -468,7 +468,11 @@ class ItemPlace extends StatelessWidget {
   // final CreateDataTournament? createData;
   final Place item;
   final GlobalController state;
-  const ItemPlace({Key? key, required this.item, required this.state, }) : super(key: key);
+  ItemPlace({
+    Key? key,
+    required this.item,
+    required this.state,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -520,7 +524,6 @@ class ItemPlace extends StatelessWidget {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  // createData!.product!.id = item.id;
                   cGlobal.selectPlace.clear();
                   cGlobal.selectPlace.add(item);
                   cGlobal.selectPlace.clear();
