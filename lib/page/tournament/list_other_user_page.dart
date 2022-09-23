@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
+import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
@@ -23,6 +25,8 @@ class ListOtherUserPage extends StatefulWidget {
 class _ListOtherUserPageState extends State<ListOtherUserPage> {
   final loading = true.obs;
   final listProfile = <Profile>[].obs;
+  final cTournament = Get.put(TournamentController());
+
   String query = '';
   @override
   void initState() {
@@ -72,72 +76,101 @@ class _ListOtherUserPageState extends State<ListOtherUserPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Member List",
-      body: Column(children: [
-        Container(
-          width: Get.width,
-          // height: 70,
-          child: OSearchWidget(
-            text: query,
-            hintText: 'Member Name',
-            onChanged: (String) {},
+      body: Stack(children: [
+        Column(children: [
+          Container(
+            width: Get.width,
+            // height: 70,
+            child: OSearchWidget(
+              text: query,
+              hintText: 'Member Name',
+              onChanged: (String) {},
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xffD8D8D8))),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Row(
-                children: [
-                  SvgPicture.asset("assets/ic/ic_add_member.svg"),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Add New Member").pageTitleText().black(),
-                      const SizedBox(
-                        width: 2,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xffD8D8D8))),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Add New Member").pageTitleText().black(),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        SizedBox(width: 207, child: const Text("Fill in new member details to add new member").regularText().black()),
+                      ],
+                    )
+                  ],
+                ),
+                const Icon(Icons.keyboard_arrow_right_outlined)
+              ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Obx(
+            () => Container(
+              child: (loading.value)
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      child: SizedBox(
+                        width: Get.width,
+                        // height: Get.height,
+                        child: ListView.builder(
+                            itemCount: listProfile.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    cTournament.selectedProfiles.length;
+                                  });
+                                },
+                                child: ItemNama(
+                                  item: listProfile[index],
+                                ),
+                              );
+                            }),
                       ),
-                      SizedBox(width: 207, child: const Text("Fill in new member details to add new member").regularText().black()),
-                    ],
-                  )
+                    ),
+            ),
+          ),
+          // const SizedBox(height: ,),
+        ]),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              height: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Total Member Selected:").regularText().black(),
+                  Text("${cTournament.selectedProfiles.length} Name").pageTitleText().black(),
                 ],
               ),
-              const Icon(Icons.keyboard_arrow_right_outlined)
-            ]),
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Obx(
-          () => Container(
-            child: (loading.value)
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Expanded(
-                    child: SizedBox(
-                      width: Get.width,
-                      // height: Get.height,
-                      child: ListView.builder(
-                          itemCount: listProfile.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ItemNama(
-                              item: listProfile[index],
-                              // onTap: () {
-                              //   // Get.to(ListHealtPage());
-                              // },
-                            );
-                          }),
-                    ),
-                  ),
-          ),
-        ),
-        // const SizedBox(height: ,),
+            ),
+            BaseButton(
+              ontap: () {},
+              text: "CONTINUE",
+              color: Colors.grey,
+              outlineRadius: 0,
+            )
+          ],
+        )
       ]),
     );
   }
@@ -156,16 +189,11 @@ class ItemNama extends StatefulWidget {
 
 class _ItemNamaState extends State<ItemNama> {
   bool isCheck = false;
+  final cTournament = Get.put(TournamentController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Get.to(
-        //   KYCEditFormPage(
-        //     profile: widget.item,
-        //   ),
-        // );
-      },
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -175,49 +203,82 @@ class _ItemNamaState extends State<ItemNama> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                    Expanded(
-                      child: OSquareCheckBox(
-                        text: "",
-                        accept: isCheck,
-                        color: OTextsecondaryColor,
-                        fungsi: (val) {
-                          setState(() {
-                            isCheck = !isCheck;
-                          });
-                        },
-                      ),
+                Expanded(
+                  child: OSquareCheckBox(
+                    text: "",
+                    accept: isCheck,
+                    color: OTextsecondaryColor,
+                    fungsi: (val) {
+                      setState(() {
+                        isCheck = !isCheck;
+                        (isCheck == true)
+                            ? cTournament.selectedProfiles.add(Profile(
+                                identityNumber: widget.item.identityNumber,
+                                identityType: widget.item.identityType,
+                                address: widget.item.address,
+                                createdAt: widget.item.createdAt,
+                                dateOfBirth: widget.item.dateOfBirth,
+                                placeOfBirth: widget.item.placeOfBirth,
+                                email: widget.item.email,
+                                fullname: widget.item.fullname,
+                                gender: widget.item.gender,
+                                id: widget.item.id,
+                                phone: widget.item.phone,
+                                updatedAt: widget.item.updatedAt,
+                                identityPhoto: widget.item.identityPhoto,
+                                profilePhoto: widget.item.profilePhoto,
+                              ))
+                            : cTournament.selectedProfiles.remove(Profile(
+                                identityNumber: widget.item.identityNumber,
+                                identityType: widget.item.identityType,
+                                address: widget.item.address,
+                                createdAt: widget.item.createdAt,
+                                dateOfBirth: widget.item.dateOfBirth,
+                                placeOfBirth: widget.item.placeOfBirth,
+                                email: widget.item.email,
+                                fullname: widget.item.fullname,
+                                gender: widget.item.gender,
+                                id: widget.item.id,
+                                phone: widget.item.phone,
+                                updatedAt: widget.item.updatedAt,
+                                identityPhoto: widget.item.identityPhoto,
+                                profilePhoto: widget.item.profilePhoto,
+                              ));
+                      });
+                    },
+                  ),
+                ),
+                CircleAvatar(
+                  backgroundColor: Colors.grey[350],
+                  radius: 20,
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 19,
+                    child: Icon(
+                      Icons.person_outline_rounded,
+                      color: Colors.grey,
                     ),
-                    CircleAvatar(
-                      backgroundColor: Colors.grey[350],
-                      radius: 20,
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 19,
-                        child: Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(item.id),
+                    Text(widget.item.email).titleText(),
                     const SizedBox(
-                      width: 8,
+                      height: 4,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Text(item.id),
-                        Text(widget.item.email).titleText(),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        const Text(
-                          "082335645799",
-                          style: TextStyle(fontSize: 10),
-                        )
-                        // Text(widget.item.id).informationText(),
-                      ],
-                    ),
-                
+                    const Text(
+                      "082335645799",
+                      style: TextStyle(fontSize: 10),
+                    )
+                    // Text(widget.item.id).informationText(),
+                  ],
+                ),
+
                 // GestureDetector(
                 //     onTap: () => Get.to(
                 //           KYCEditFormPage(

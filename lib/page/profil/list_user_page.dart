@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
+import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
@@ -81,32 +82,37 @@ class _ListUserPageState extends State<ListUserPage> {
             onChanged: (String) {},
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xffD8D8D8))),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Row(
-                children: [
-                  SvgPicture.asset("assets/ic/ic_add_member.svg"),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Add New Member").pageTitleText().black(),
-                      const SizedBox(
-                        width: 2,
-                      ),
-                      SizedBox(width: 207, child: const Text("Fill in new member details to add new member").regularText().black()),
-                    ],
-                  )
-                ],
-              ),
-              const Icon(Icons.keyboard_arrow_right_outlined)
-            ]),
+        GestureDetector(
+          onTap: (){
+            Get.to(const KYCFormPage());
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xffD8D8D8))),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Add New Member").pageTitleText().black(),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        SizedBox(width: 207, child: const Text("Fill in new member details to add new member").regularText().black()),
+                      ],
+                    )
+                  ],
+                ),
+                const Icon(Icons.keyboard_arrow_right_outlined)
+              ]),
+            ),
           ),
         ),
         const SizedBox(

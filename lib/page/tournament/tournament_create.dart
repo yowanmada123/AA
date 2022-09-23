@@ -4,6 +4,7 @@ import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
+import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
@@ -34,6 +35,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   final loading = false;
   final gstate = Get.find<GlobalController>();
   final cTournament = Get.put(TournamentController());
+  final listChoosedProfile = <Profile>[].obs;
   TextEditingController nameController = TextEditingController();
   TextEditingController drawSizeController = TextEditingController();
   TextEditingController tournamentFormatController = TextEditingController();
@@ -50,13 +52,46 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // getUserData();
   }
+
+  // getUserData() async {
+  //   String q = '''
+  //     query user{
+  //       user(id: "c45f95d1-a9a7-40dc-a5fc-7973cc4708cd") 
+  //         {
+  //             createdAt
+  //             email
+  //             id
+  //             isActive
+  //           }
+  //         }
+  //     ''';
+  //   try{
+  //     Map<String, dynamic>? res = await GraphQLBase().query(q);
+  //     if (res != null) {
+  //       log(res.toString());
+  //       final userId = res['user'][0]['token'];
+  //       log(token);
+  //       // cGlobal.setToken(token);
+  //       // // if (res['loginByEmail'][0]['user']['profiles'].lenght > 0) {
+  //       // //   cGlobal.setPhone(res['loginByEmail'][0]['user']['profiles'][0]['phone']);
+  //       // // }
+  //       // Get.offAll(HomeNavbarButton());
+  //     }
+  //   }on Error catch (e, s) {
+  //     print(e);
+  //     print(s);
+  //   }
+    
+    
+  // }
 
   @override
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Create Tournament Detail",
-      backgroundColor: const Color(redBooked),
+      backgroundColor: Colors.white,
       body: Stack(children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -280,6 +315,30 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               const SizedBox(
                 height: 16,
               ),
+              // Obx(
+              //   () => Container(
+              //     child: (loading.value)
+              //         ? const Center(
+              //             child: CircularProgressIndicator(),
+              //           )
+              //         : Expanded(
+              //             child: SizedBox(
+              //               width: Get.width,
+              //               // height: Get.height,
+              //               child: ListView.builder(
+              //                   itemCount: listProfile.length,
+              //                   itemBuilder: (BuildContext context, int index) {
+              //                     return ItemNama(
+              //                       item: listProfile[index],
+              //                       // onTap: () {
+              //                       //   // Get.to(ListHealtPage());
+              //                       // },
+              //                     );
+              //                   }),
+              //             ),
+              //           ),
+              //   ),
+              // ),
               ItemNama(
                 name: "Stephen Strange (Me)",
                 color: OprimaryColor,
@@ -300,16 +359,16 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               const SizedBox(
                 height: 24,
               ),
-              Container(
-                height: 46,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.grey)),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(ListOtherUserPage());
-                    },
-                    child: Row(
+              GestureDetector(
+                onTap: (){
+                  Get.to(ListOtherUserPage());
+                },
+                child: Container(
+                  height: 46,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.grey)),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    Row(
                       children: [
                         SvgPicture.asset("assets/ic/ic_add_member.svg"),
                         const SizedBox(
@@ -318,12 +377,12 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                         const Text("Add New Participants").pageTitleText().black()
                       ],
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    size: 15,
-                  )
-                ]),
+                    const Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      size: 15,
+                    )
+                  ]),
+                ),
               ),
               const SizedBox(
                 height: 40,

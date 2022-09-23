@@ -30,18 +30,18 @@ class _TournamentListPageState extends State<TournamentListPage> {
 
   getData() async {
     String options = '''
-      query listTurnament{
+      query listTournament{
         Turnaments(filter: {}, paging: { limit: 10 }, sorting: []) {
           nodes {
-      #       booking_time
-      #       createdAt
-      #       draw_size
-      #       format
+            booking_time
+            createdAt
+            draw_size
+            format
             id
-      #       match
+            match
             name
-      #       updatedAt
-      #       veneu
+            updatedAt
+            veneu
           }
           pageInfo {
             hasNextPage
@@ -58,13 +58,13 @@ class _TournamentListPageState extends State<TournamentListPage> {
     loading.value = false;
   }
 
-  
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    print("object");
+    log("getData");
   }
 
   @override

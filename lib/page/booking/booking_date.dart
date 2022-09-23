@@ -63,7 +63,7 @@ class _BookingDateState extends State<BookingDate> {
     Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
     if (data!['getSchedule'][0]['__typename'] != 'Error') {
       log(data.toString());
-      var list = data['getSchedule'][0]['nodes'] as List;
+      var list  = data['getSchedule'][0]['nodes'] as List;
       if (list.isNotEmpty) {
         List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
         log(newData.length.toString());

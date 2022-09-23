@@ -188,7 +188,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                                             if (image != null) {
                                               setState(() {
                                                 fileIdCard = File(image.path);
-                                              });                                  
+                                              });
                                               if (jenisIdentitas == "KTP") {
                                                 print("KTP KTP KTP");
                                                 ocr(fileIdCard!);
@@ -427,6 +427,7 @@ class _KYCFormPageState extends State<KYCFormPage> {
                   log("emailController.text =${emailController.text}");
                   log("phoneNumberController.text =${phoneNumberController.text}");
                   log("addressController.text =${addressController.text}");
+                  Get.back();
                 }
               },
               // color: Color(primaryDark),
@@ -447,12 +448,12 @@ class _KYCFormPageState extends State<KYCFormPage> {
         addressController.text = ocr.address;
         identityNumberController.text = ocr.identityNumber;
         try {
-          try{
+          try {
             var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
             birthDateControllerDisplay = dateTime2.toDateHuman();
             birthDateController = dateTime2;
-          }catch (e) {}
-          
+          } catch (e) {}
+
           if (ocr.gender.toLowerCase() == "male") {
             genderController = "L";
           } else if (ocr.gender.toLowerCase() == "female") {
@@ -479,11 +480,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
         identityNumberController.text = ocr.identityNumber;
 
         try {
-          try{
+          try {
             var dateTime2 = DateFormat('dd-MM-yyyy').parse(ocr.dateOfBirth);
             birthDateControllerDisplay = dateTime2.toDateHuman();
             birthDateController = dateTime2;
-          }catch (e) {}
+          } catch (e) {}
 
           if (ocr.gender.toLowerCase() == "male") {
             genderController = "L";
@@ -562,11 +563,11 @@ class _KYCFormPageState extends State<KYCFormPage> {
         Alertx().error(dataUser['createProfile']['message']);
       }
       if (isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Data Berhasil Disimpan')),
-      );
-      // Get.offAll(SuccesPage());
-      Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Data Berhasil Disimpan')),
+        );
+        // Get.offAll(SuccesPage());
+        Get.back();
       }
     } on Error catch (e, s) {
       print(e);

@@ -6,6 +6,7 @@ import 'package:boilerplate_flutter/page/login/login.dart';
 import 'package:boilerplate_flutter/page/login/register.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_create.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_list.dart';
 import 'package:boilerplate_flutter/page/training/trainer_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_trophy.svg",
               name: "Tournament",
               onTap: () {
-                Get.to(const TournamentListPage());
+                Get.to(const TournamentCreatePage());
               },
             )
           ],

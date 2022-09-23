@@ -127,34 +127,35 @@ class RegisterController extends GetxController {
   Future<void> loginByEmail() async {
     String q = '''
      mutation {
-  loginByEmail(
-    input: {        
-      email: "$email"
-      password: "$password"
-    }
-  ) {
-    ... on AuthUserResponse {
-      token
-      user {
-          id
-        
-          email
+      loginByEmail(
+        input: {        
+          email: "$email"
+          password: "$password"
+        }
+      ) 
+      {
+        ... on AuthUserResponse {
+          token
+          user {
+              id
+            
+              email
+            __typename
+          }
+          __typename
+        }
+        ... on AuthUserResponse {
+            user{
+              id
+              email
+            }
+          token
+            
+        }
+      
         __typename
       }
-      __typename
     }
-    ... on AuthUserResponse {
-        user{
-          id
-          email
-        }
-      token
-        
-    }
-   
-    __typename
-  }
-}
     ''';
     try {
       Map<String, dynamic>? res = await GraphQLBase().mutate(q);
