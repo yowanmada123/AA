@@ -1,5 +1,6 @@
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/lib_color_schemes.g.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/loading_screen.dart';
@@ -19,6 +20,7 @@ void main() {
 appInit() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put<GlobalController>(GlobalController());
+  Get.put<BookController>(BookController());
   await GetStorage.init();
   runApp(const MyApp());
 }

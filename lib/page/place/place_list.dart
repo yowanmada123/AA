@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
@@ -110,6 +111,7 @@ class ItemPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cGlobal = Get.find<GlobalController>();
+    final cBook = Get.find<BookController>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
@@ -120,6 +122,8 @@ class ItemPlace extends StatelessWidget {
           cGlobal.selectProduct.clear();
           cGlobal.selectPaymentMethods.clear();
           cGlobal.selectScheduleTime.clear();
+          cBook.selectPlace.clear();
+          cBook.selectPlace.add(item);
           Get.to(ChoseLocation(
             item: item,
           ));

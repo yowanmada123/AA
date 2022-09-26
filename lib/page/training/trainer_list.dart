@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/model/user/trainer.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
@@ -31,9 +33,10 @@ class ListTrainerPage extends StatefulWidget {
 
 class _ListTrainerPageState extends State<ListTrainerPage> {
   final loading = true.obs;
-  final listProfile = <Profile>[].obs;
+  final listTrainers = <Trainers>[].obs;
   String query = '';
-  final cBooking = Get.put(BookingController());
+
+  final cBook = Get.find<BookController>();
   @override
   void initState() {
     super.initState();
@@ -43,22 +46,14 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
   getData() async {
     String q = '''
   query {
-    profiles(filter: {}, paging: { limit: 10 }, sorting: []) {
+    Trainers(filter: {}, paging: { limit: 10 }, sorting: []) {
       nodes {
-        identityNumber
-        identityType
-        address
         createdAt
-        dateOfBirth
-        placeOfBirth
-        email
-        fullname
-        gender
         id
-        phone
+        image_url
+        name
+        price
         updatedAt
-        identityPhoto
-        profilePhoto
       }
       pageInfo {
         hasNextPage
@@ -69,12 +64,12 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
 
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(q);
-    var list = data!['profiles']['nodes'] as List;
-    List<Profile> newData = list.map((i) => Profile.fromMap(i)).toList();
+    var list = data!['Trainers']['nodes'] as List;
+    List<Trainers> newData = list.map((i) => Trainers.fromMap(i)).toList();
     log(newData.length.toString());
-    listProfile.value = newData;
+    listTrainers.value = newData;
     log(newData.toString());
-    log(listProfile.length.toString());
+    log(listTrainers.length.toString());
     loading.value = false;
   }
 
@@ -214,10 +209,10 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                       width: Get.width,
                       // height: Get.height,
                       child: ListView.builder(
-                          itemCount: listProfile.length,
+                          itemCount: listTrainers.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ItemTrainer(
-                              item: listProfile[index],
+                              item: listTrainers[index],
                               // onTap: () {
                               // Get.to(ListHealtPage());
                               // },
@@ -511,7 +506,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
 }
 
 class ItemTrainer extends StatefulWidget {
-  final Profile item;
+  final Trainers item;
   const ItemTrainer({
     Key? key,
     required this.item,
@@ -525,6 +520,7 @@ class _ItemTrainerState extends State<ItemTrainer> {
   bool isCheck = false;
   @override
   Widget build(BuildContext context) {
+    final cBook = Get.find<BookController>();
     return GestureDetector(
       onTap: () {},
       child: Column(
@@ -557,23 +553,27 @@ class _ItemTrainerState extends State<ItemTrainer> {
                               const SizedBox(
                                 width: 6,
                               ),
-                              const Text("Tony Stark").descriptionText().black()
+                              Text(widget.item.name.toString())
+                                  .descriptionText()
+                                  .black()
                             ],
                           ),
-                          const Text("Dokter Umum").regularText().gray(),
+                          const Text("Sub title").regularText().gray(),
                           Padding(
                             padding: const EdgeInsets.only(right: 16),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("RS Medistra").regularText().gray(),
+                                const Text("Diskripsi").regularText().gray(),
                                 Container(
                                     width: 80,
                                     height: 32,
                                     child: BaseButton(
                                       ontap: () {
                                         // Get.to(DetailTrainerPage());
-                                        Get.to(const PlaceListPage());
+                                        cBook.selectTrainner.clear();
+                                         cBook.selectTrainner.add(widget.item);
+                                        Get.to( PlaceListPage());
                                       },
                                       text: "PILIH",
                                       color: OTextsecondaryColor,
@@ -585,7 +585,9 @@ class _ItemTrainerState extends State<ItemTrainer> {
                           const SizedBox(
                             height: 14,
                           ),
-                          const Text("Rp123.000").pageTitleText().black(),
+                          Text(widget.item.price.toString())
+                              .pageTitleText()
+                              .black(),
                         ],
                       ),
                     ),

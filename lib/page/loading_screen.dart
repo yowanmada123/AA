@@ -32,6 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     //todo load from box;
     await cGlobal.initState();
     if (cGlobal.token.isNotEmpty) {
+      // log(cGlobal.token);
       // Get.offAll(WelcomingPage());
       Get.offAll(HomeNavbarButton());
     } else {

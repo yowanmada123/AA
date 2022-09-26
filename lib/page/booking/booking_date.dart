@@ -4,6 +4,7 @@ import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/product/product.dart';
 import 'package:boilerplate_flutter/model/product/schedule_time.dart';
 import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
@@ -60,12 +61,14 @@ class _BookingDateState extends State<BookingDate> {
 
     ''';
     log(options.toString());
-    Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
+    Map<String, dynamic>? data =
+        await GraphQLBase().query(options, showLoading: false);
     if (data!['getSchedule'][0]['__typename'] != 'Error') {
       log(data.toString());
-      var list  = data['getSchedule'][0]['nodes'] as List;
+      var list = data['getSchedule'][0]['nodes'] as List;
       if (list.isNotEmpty) {
-        List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
+        List<ScheduleTime> newData =
+            list.map((i) => ScheduleTime.fromMap(i)).toList();
         log(newData.length.toString());
         listScheduleTime.value = newData;
         log(newData.toString());
@@ -88,6 +91,7 @@ class _BookingDateState extends State<BookingDate> {
     getData(_selectedDay);
   }
 
+  final cBook = Get.find<BookController>();
   @override
   Widget build(BuildContext context) {
     return OScaffold(
@@ -107,7 +111,8 @@ class _BookingDateState extends State<BookingDate> {
                 return isSameDay(_selectedDay, day);
               },
               headerVisible: true,
-              headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+              headerStyle: const HeaderStyle(
+                  formatButtonVisible: false, titleCentered: true),
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   _selectedDay = selectedDay;
@@ -127,15 +132,22 @@ class _BookingDateState extends State<BookingDate> {
                       onTap: () {
                         cGlobal.selectScheduleTime.clear();
                         cGlobal.selectScheduleTime.add(listScheduleTime[index]);
-                        cGlobal.selectScheduleDate.value = _selectedDay.toyyyyMMdd();
+                        cGlobal.selectScheduleDate.value =
+                            _selectedDay.toyyyyMMdd();
                         cGlobal.refresh();
                         log("-------------------------------");
                         log(cGlobal.selectScheduleDate.value);
                         log("-------------------------------");
                         log(listScheduleTime[index].schedule);
                         log("-------------------------------");
-                        cTournament.tournamentdata.scheduleDate = _selectedDay.toyyyyMMdd();
-                        cTournament.tournamentdata.scheduleTime = listScheduleTime[index].schedule;
+                        cTournament.tournamentdata.scheduleDate =
+                            _selectedDay.toyyyyMMdd();
+                        cTournament.tournamentdata.scheduleTime =
+                            listScheduleTime[index].schedule;
+                        cBook.scheduleDate.value =
+                            cGlobal.selectScheduleDate.value;
+                        cBook.scheduleTime.value =
+                            listScheduleTime[index].schedule;
                       },
                       child: (listScheduleTime[index].booking)
                           ? BookingTimeButtonBooked(
@@ -154,14 +166,24 @@ class _BookingDateState extends State<BookingDate> {
               title: "BOOK NOW",
               isEnable: (cGlobal.selectScheduleTime.isNotEmpty),
               onPressed: () {
-                log(cTournament.tournamentdata.name.toString());
-                log(cTournament.tournamentdata.drawSize.toString());
-                log(cTournament.tournamentdata.tournamentFormat.toString());
-                log(cTournament.tournamentdata.matchFormat.toString());
-                log(cTournament.tournamentdata.product.toString());
-                log(cTournament.tournamentdata.scheduleDate.toString());
-                log(cTournament.tournamentdata.scheduleTime.toString());
-                bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+                // log(cTournament.tournamentdata.name.toString());
+                // log(cTournament.tournamentdata.drawSize.toString());
+                // log(cTournament.tournamentdata.tournamentFormat.toString());
+                // log(cTournament.tournamentdata.matchFormat.toString());
+                // log(cTournament.tournamentdata.product.toString());
+                // log(cTournament.tournamentdata.scheduleDate.toString());
+                // log(cTournament.tournamentdata.scheduleTime.toString());
+                log(cBook.selectTrainner.first.toString());
+                log(cBook.selectPlace.first.toString());
+                log(cBook.selectLong.value.toString());
+                log(cBook.selectLat.value.toString());
+                log(cBook.selectProduct.first.toString());
+                log(cBook.scheduleDate.value.toString());
+                log(cBook.scheduleTime.value.toString());
+                bottomSheetWidget(
+                    heightFactor: 0.9,
+                    context: context,
+                    child: const PaymentOption());
               }),
         ));
   }
@@ -189,7 +211,9 @@ class _BookingTimeButtonState extends State<BookingTimeButton> {
             width: double.infinity,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: (cGlobal.selectScheduleTime.value.first == widget.data) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
+              color: (cGlobal.selectScheduleTime.value.first == widget.data)
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(

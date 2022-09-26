@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
   MapController mapController = MapController();
   LatLng point = LatLng(-6.20, 106.81);
   List<LatLng> tappedPoints = [];
-
+  final cBook = Get.find<BookController>();
   @override
   void initState() {
     super.initState();
@@ -39,6 +40,8 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
       log('hi');
       point = LatLng(widget.latitude!, widget.longitude!);
       tappedPoints.add(point);
+      cBook.selectLat = widget.latitude! as RxDouble;
+      cBook.selectLong = widget.longitude! as RxDouble;
     } else {
       cekPermision();
     }
@@ -122,6 +125,8 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
     if (currentLocation.latitude != null) {
       log("currentLocation.accuracy ${currentLocation.accuracy}");
       await setMarker(currentLocation.latitude, currentLocation.longitude);
+      cBook.selectLat = currentLocation.latitude as RxDouble;
+      cBook.selectLong = currentLocation.longitude as RxDouble;
       // if (currentLocation.accuracy < 30) {
       getAddressFromLatLong(
           currentLocation.latitude, currentLocation.longitude, true);

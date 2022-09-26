@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/model/place/region_res.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
 import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
@@ -34,7 +35,7 @@ class _ChoseLocationState extends State<ChoseLocation> {
   final gstate = Get.find<GlobalController>();
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   TextEditingController alamat = TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
     return OScaffold(
@@ -90,6 +91,7 @@ class _ChoseLocationState extends State<ChoseLocation> {
           // Theme.of(context).colorScheme.onPrimaryContainer,
           onPressed: () {
             log(widget.item.toString());
+           
             Get.to(BookingInfo(
               item: widget.item ??
                   Place(
