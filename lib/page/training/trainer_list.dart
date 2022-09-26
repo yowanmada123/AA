@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/trainer.dart';
 import 'package:boilerplate_flutter/page/book_controller.dart';
+import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -114,7 +115,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                     titleColor: OColorBrown,
                     icon: "assets/ic/ic_nav.svg",
                     onTap: () {
-                      Get.to(PlaceListPage());
+                      // Get.to(PlaceListPage());
                     },
                   )),
             ],
@@ -254,7 +255,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
+                      padding: const EdgeInsets.only(
+                          top: 18.0, right: 18.0, left: 18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,7 +265,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: SvgPicture.asset("assets/ic/ic_close.svg")),
+                              child:
+                                  SvgPicture.asset("assets/ic/ic_close.svg")),
                           const Text(
                             "Filter",
                             style: TextStyle(color: Color(0xff19204E)),
@@ -302,7 +305,10 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                             children: [
                               Text(
                                 "TRAINING TYPE",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OprimaryColor),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: OprimaryColor),
                               ),
                               const SizedBox(
                                 height: 12,
@@ -314,13 +320,19 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                                     shrinkWrap: false,
                                     scrollDirection: Axis.vertical,
                                     itemCount: trainingOption.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisSpacing: 10,
                                       crossAxisSpacing: 10,
                                       crossAxisCount: 2,
-                                      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                                      childAspectRatio: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                          (MediaQuery.of(context).size.height /
+                                              8),
                                     ),
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -330,18 +342,25 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: trainingType == index ? OprimaryColor : Colors.white,
+                                              color: trainingType == index
+                                                  ? OprimaryColor
+                                                  : Colors.white,
                                               border: Border.all(
-                                                color: trainingType == index ? OprimaryColor : Colors.grey,
+                                                color: trainingType == index
+                                                    ? OprimaryColor
+                                                    : Colors.grey,
                                               ),
-                                              borderRadius: BorderRadius.circular(8)),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
                                           child: Expanded(
                                             child: Center(
                                               child: Text(
                                                 trainingOption[index],
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  color: trainingType == index ? Colors.white : Colors.black,
+                                                  color: trainingType == index
+                                                      ? Colors.white
+                                                      : Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -397,7 +416,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                    padding:
+                        const EdgeInsets.only(left: 18.0, right: 18, top: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,12 +540,16 @@ class _ItemTrainerState extends State<ItemTrainer> {
                               Container(
                                 width: 8,
                                 height: 8,
-                                decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle),
                               ),
                               const SizedBox(
                                 width: 6,
                               ),
-                              Text(widget.item.name.toString()).descriptionText().black()
+                              Text(widget.item.name.toString())
+                                  .descriptionText()
+                                  .black()
                             ],
                           ),
                           const Text("Sub title").regularText().gray(),
@@ -543,7 +567,7 @@ class _ItemTrainerState extends State<ItemTrainer> {
                                         // Get.to(DetailTrainerPage());
                                         cBook.selectTrainner.clear();
                                         cBook.selectTrainner.add(widget.item);
-                                        Get.to(PlaceListPage());
+                                        Get.to(BookingListPage());
                                       },
                                       text: "PILIH",
                                       color: OTextsecondaryColor,
@@ -555,7 +579,9 @@ class _ItemTrainerState extends State<ItemTrainer> {
                           const SizedBox(
                             height: 14,
                           ),
-                          Text(widget.item.price.toString()).pageTitleText().black(),
+                          Text(widget.item.price.toString())
+                              .pageTitleText()
+                              .black(),
                         ],
                       ),
                     ),

@@ -39,8 +39,19 @@ class BookController extends GetxController {
   }
 
   submitBooking() {
-    if (bookingType == BookingType.veneu) {
-      bookingVenue();
+    log(bookingType.toString());
+    switch (bookingType) {
+      case BookingType.veneu:
+        bookingVenue();
+        break;
+      case BookingType.trainer:
+        // bookingTrainer();
+        log(selectProduct.first.name);
+        break;
+      case BookingType.tournament:
+        // bookingTurnament();
+        break;
+      default:
     }
   }
 
@@ -77,15 +88,60 @@ class BookController extends GetxController {
 
 ''';
     log(data);
-    // try {
-    //   Map<String, dynamic>? res = await GraphQLBase().mutate(data);
-    //   if (res != null) {
-    //     return res["createTransaction"][0]["transactionId"];
-    //   }
-    // } on Error catch (e, s) {
-    //   print(e);
-    //   print(s);
-    // }
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(data);
+      if (res != null) {
+        return res["createTransaction"][0]["transactionId"];
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+    return null;
+  }
+
+  Future<String?> bookinTrainer() async {
+    String payment_method = paymentMethods.id;
+    String phone_number = "";
+    String? product_id = product.id;
+    String scheduled_date = bookingDateTime[0].date.toyyyyMMdd();
+    String scheduled_time = bookingDateTime[0].time.schedule;
+
+    String data = '''
+              mutation {
+                createTransaction(
+                  input: {
+                    payment_method: "$payment_method"
+                    phone_number: "085259737334"
+                    product_id: "$product_id"
+                    scheduled_date: "$scheduled_date"
+                    scheduled_time: "$scheduled_time"
+                  }
+                ) {
+                  __typename
+                 ... on Error{
+                    message
+                  }
+                  ... on  SuccessCreateTransaction{
+                    transactionId
+                  }
+                  ... on InvalidInputError{
+                    message
+                  }
+                }
+              }
+
+''';
+    log(data);
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(data);
+      if (res != null) {
+        return res["createTransaction"][0]["transactionId"];
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
     return null;
   }
 }
