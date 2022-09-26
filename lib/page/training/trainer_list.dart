@@ -81,8 +81,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Choose Trainer",
-      body: Column(
-        children: [
+      body: Column(children: [
         Container(
           width: Get.width,
           // height: 70,
@@ -93,117 +92,116 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: OButtonSmallOutline(
+                  title: "Filter",
+                  titleColor: OColorBrown,
+                  icon: "assets/ic/ic_filter.svg",
+                  onTap: () {
+                    ShowFilter(context).then((value) {
+                      getData();
+                    });
+                  },
+                ),
+              ),
+              Expanded(
                   flex: 1,
                   child: OButtonSmallOutline(
-                    title: "Filter",
+                    title: "Sort By",
                     titleColor: OColorBrown,
-                    icon: "assets/ic/ic_filter.svg",
+                    icon: "assets/ic/ic_sort.svg",
                     onTap: () {
-                      ShowFilter(context).then((value) {
-                        getData();
-                      });
+                      SortBy(context);
                     },
-                  ),
-                ),
-                Expanded(
-                    flex: 1,
-                    child: OButtonSmallOutline(
-                      title: "Sort By",
-                      titleColor: OColorBrown,
-                      icon: "assets/ic/ic_sort.svg",
-                      onTap: () {
-                        SortBy(context);
-                      },
-                    )),
-                Expanded(
-                    flex: 1,
-                    child: OButtonSmallOutline(
-                      title: "Maps",
-                      titleColor: OColorBrown,
-                      icon: "assets/ic/ic_nav.svg",
-                      onTap: () {
-                        Get.to(const ChoseLocation());
-                      },
-                    )),
-              ],
-            ),
-          ),
-        const SizedBox(
-          height: 15,
-        ),
-        GestureDetector(
-          onTap: (){
-            Get.to(DetailTrainerPage());
-          },
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Image.asset("assets/images/trainer1.png",width: 120,
-                  height: 120,),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      shape: BoxShape.circle),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const Text("Tony Stark").descriptionText().black()
-                                ],
-                              ),
-                              const Text("Dokter Umum").regularText().gray(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("RS Medistra").regularText().gray(),
-                                    Container(
-                                      width: 80,
-                                      height: 32,
-                                      child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              const Text("Rp123.000").pageTitleText().black(),
-                            ],
-                          ),
-                        ),
-                        
-                        const Divider()     
-                      ],
-                    ),
-                  ),
-                  
-                  
-                ],
-              ),
-              
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: OButtonSmallOutline(
+                    title: "Maps",
+                    titleColor: OColorBrown,
+                    icon: "assets/ic/ic_nav.svg",
+                    onTap: () {
+                      Get.to(const ChoseLocation());
+                    },
+                  )),
             ],
           ),
         ),
-        
+        const SizedBox(
+          height: 15,
+        ),
+        // GestureDetector(
+        //   onTap: (){
+        //     Get.to(DetailTrainerPage());
+        //   },
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         children: [
+        //           Image.asset("assets/images/trainer1.png",width: 120,
+        //           height: 120,),
+        //           Expanded(
+        //             child: Column(
+        //               children: [
+        //                 Padding(
+        //                   padding: const EdgeInsets.all(8.0),
+        //                   child: Column(
+        //                     mainAxisAlignment: MainAxisAlignment.start,
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: [
+        //                       Row(
+        //                         children: [
+        //                           Container(
+        //                             width: 8,
+        //                             height: 8,
+        //                             decoration: const BoxDecoration(
+        //                               color: Colors.green,
+        //                               shape: BoxShape.circle),
+        //                           ),
+        //                           const SizedBox(
+        //                             width: 6,
+        //                           ),
+        //                           const Text("Tony Stark").descriptionText().black()
+        //                         ],
+        //                       ),
+        //                       const Text("Dokter Umum").regularText().gray(),
+        //                       Padding(
+        //                         padding: const EdgeInsets.only(right: 16),
+        //                         child: Row(
+        //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                           children: [
+        //                             const Text("RS Medistra").regularText().gray(),
+        //                             Container(
+        //                               width: 80,
+        //                               height: 32,
+        //                               child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
+        //                           ],
+        //                         ),
+        //                       ),
+        //                       const SizedBox(
+        //                         height: 14,
+        //                       ),
+        //                       const Text("Rp123.000").pageTitleText().black(),
+        //                     ],
+        //                   ),
+        //                 ),
+
+        //                 const Divider()
+        //               ],
+        //             ),
+        //           ),
+
+        //         ],
+        //       ),
+
+        //     ],
+        //   ),
+        // ),
+
         Obx(
           () => Container(
             child: (loading.value)
@@ -220,7 +218,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                             return ItemTrainer(
                               item: listProfile[index],
                               // onTap: () {
-                              //   // Get.to(ListHealtPage());
+                              // Get.to(ListHealtPage());
                               // },
                             );
                           }),
@@ -244,22 +242,21 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
         ),
       ),
       builder: (context) {
-        return Stack(
-          children:[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                BaseButton(
-                  ontap: (){},
-                  text: "TERAPKAN",
-                  textColor: Colors.white,
-                  color: OTextsecondaryColor,
-                  outlineRadius: 0,
-                ),
-              ],
-            ),
-            Container(
+        return Stack(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BaseButton(
+                ontap: () {},
+                text: "TERAPKAN",
+                textColor: Colors.white,
+                color: OTextsecondaryColor,
+                outlineRadius: 0,
+              ),
+            ],
+          ),
+          Container(
               height: 0.6 * MediaQuery.of(context).size.height,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -268,7 +265,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
+                      padding: const EdgeInsets.only(
+                          top: 18.0, right: 18.0, left: 18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,7 +275,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: SvgPicture.asset("assets/ic/ic_close.svg")),
+                              child:
+                                  SvgPicture.asset("assets/ic/ic_close.svg")),
                           const Text(
                             "Filter",
                             style: TextStyle(color: Color(0xff19204E)),
@@ -295,32 +294,31 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
+                          Row(children: [
+                            Expanded(
                                 child: OFormText(
-                                  title: "MINIMUM PRICE", 
-                                  titleColor: OprimaryColor,
-                                  hintText: "Rp",
-                              )
-                              ),
-                              const SizedBox(width: 48),
-                              Expanded(
+                              title: "MINIMUM PRICE",
+                              titleColor: OprimaryColor,
+                              hintText: "Rp",
+                            )),
+                            const SizedBox(width: 48),
+                            Expanded(
                                 child: OFormText(
-                                  title: "MAXIMUM PRICE", 
-                                  titleColor: OprimaryColor,
-                                  hintText: "Rp",
-                              )
-                              ),
-                            ]
-                          ),
+                              title: "MAXIMUM PRICE",
+                              titleColor: OprimaryColor,
+                              hintText: "Rp",
+                            )),
+                          ]),
                           const SizedBox(height: 42),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "TRAINING TYPE",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OprimaryColor),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: OprimaryColor),
                               ),
                               const SizedBox(
                                 height: 12,
@@ -332,13 +330,19 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                                     shrinkWrap: false,
                                     scrollDirection: Axis.vertical,
                                     itemCount: trainingOption.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisSpacing: 10,
                                       crossAxisSpacing: 10,
                                       crossAxisCount: 2,
-                                      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                                      childAspectRatio: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                          (MediaQuery.of(context).size.height /
+                                              8),
                                     ),
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -348,18 +352,25 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: trainingType == index ? OprimaryColor : Colors.white,
+                                              color: trainingType == index
+                                                  ? OprimaryColor
+                                                  : Colors.white,
                                               border: Border.all(
-                                                color: trainingType == index ? OprimaryColor : Colors.grey,
+                                                color: trainingType == index
+                                                    ? OprimaryColor
+                                                    : Colors.grey,
                                               ),
-                                              borderRadius: BorderRadius.circular(8)),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
                                           child: Expanded(
                                             child: Center(
                                               child: Text(
                                                 trainingOption[index],
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  color: trainingType == index ? Colors.white : Colors.black,
+                                                  color: trainingType == index
+                                                      ? Colors.white
+                                                      : Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -389,8 +400,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                   ],
                 ),
               )),
-          ] 
-        );
+        ]);
       },
     );
   }
@@ -416,7 +426,8 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                    padding:
+                        const EdgeInsets.only(left: 18.0, right: 18, top: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -514,71 +525,77 @@ class _ItemTrainerState extends State<ItemTrainer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Column(
-          children: [
-            Row(
-              children: [
-                Image.asset("assets/images/trainer1.png",width: 120,
-                height: 120,),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: const BoxDecoration(
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                "assets/images/trainer1.png",
+                width: 120,
+                height: 120,
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle),
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                const Text("Tony Stark").descriptionText().black()
-                              ],
-                            ),
-                            const Text("Dokter Umum").regularText().gray(),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("RS Medistra").regularText().gray(),
-                                  Container(
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              const Text("Tony Stark").descriptionText().black()
+                            ],
+                          ),
+                          const Text("Dokter Umum").regularText().gray(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("RS Medistra").regularText().gray(),
+                                Container(
                                     width: 80,
                                     height: 32,
-                                    child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
-                                ],
-                              ),
+                                    child: BaseButton(
+                                      ontap: () {
+                                        // Get.to(DetailTrainerPage());
+                                        Get.to(const ChoseLocation());
+                                      },
+                                      text: "PILIH",
+                                      color: OTextsecondaryColor,
+                                      textColor: Colors.white,
+                                    ))
+                              ],
                             ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            const Text("Rp123.000").pageTitleText().black(),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          const Text("Rp123.000").pageTitleText().black(),
+                        ],
                       ),
-                      
-                      const Divider()     
-                    ],
-                  ),
+                    ),
+                    const Divider()
+                  ],
                 ),
-                
-                
-              ],
-            ),
-            
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
