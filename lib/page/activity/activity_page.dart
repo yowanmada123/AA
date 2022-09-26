@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/page/activity/activity_order_detail_page.dart';
+import 'package:boilerplate_flutter/page/activity/activity_payment_detail_page.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/order/order_detail.dart';
@@ -62,84 +64,84 @@ class _ActivityPageState extends State<ActivityPage> {
         body: TabBarView(
           children: <Widget>[
             /////////////////////ONGOING////////////////
-            isEmpthy 
-            ? 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset("assets/ic/ic_empthy_activity.svg"),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Text("Aktivitas Kosong").black().titleText(),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  width: 257,
-                  child: const Text("Anda belum mempunyai aktifitas, silakan pilih pada halamam beranda", textAlign: TextAlign.center).black().regularBigText()),
-              ],
-            ) 
-            :
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              child: Container(
-                child: ListView(
-                  children: const [
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       flex: 1,
-                    //       child: OButtonSmallOutline(
-                    //         title: "Filter",
-                    //         titleColor: OColorBrown,
-                    //         icon: "assets/ic/ic_filter.svg",
-                    //         onTap: () {
-                    //           // ShowFilter(context);
-                    //         },
-                    //       ),
-                    //     ),
-                    //     Expanded(
-                    //         flex: 1,
-                    //         child: OButtonSmallOutline(
-                    //           title: "Sort By",
-                    //           titleColor: OColorBrown,
-                    //           icon: "assets/ic/ic_sort.svg",
-                    //           onTap: () {
-                    //             // SortBy(context);
-                    //           },
-                    //         )),
-                    //   ],
-                    // ),
-                    // const SizedBox(
-                    //   height: 12,
-                    // ),
-                    ItemOrder(
-                      isActive: true,
+            isEmpthy
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/ic/ic_empthy_activity.svg"),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text("Aktivitas Kosong").black().titleText(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(width: 257, child: const Text("Anda belum mempunyai aktifitas, silakan pilih pada halamam beranda", textAlign: TextAlign.center).black().regularBigText()),
+                    ],
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    child: Container(
+                      child: ListView(
+                        children: [
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       flex: 1,
+                          //       child: OButtonSmallOutline(
+                          //         title: "Filter",
+                          //         titleColor: OColorBrown,
+                          //         icon: "assets/ic/ic_filter.svg",
+                          //         onTap: () {
+                          //           // ShowFilter(context);
+                          //         },
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //         flex: 1,
+                          //         child: OButtonSmallOutline(
+                          //           title: "Sort By",
+                          //           titleColor: OColorBrown,
+                          //           icon: "assets/ic/ic_sort.svg",
+                          //           onTap: () {
+                          //             // SortBy(context);
+                          //           },
+                          //         )),
+                          //   ],
+                          // ),
+                          // const SizedBox(
+                          //   height: 12,
+                          // ),
+                          GestureDetector(
+                            onTap: (() => Get.to(const DetailActivityOrderPage())),
+                            child: const ItemWaitingOrder(
+                              iconSvg: "assets/ic/ic_burble_red.svg",
+                              customer: "3 Orang",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          const ItemWaitingOrder(
+                            iconSvg: "assets/ic/ic_calender_red.svg", customer: 'Stephen Strange',
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          const ItemWaitingOrder(
+                            iconSvg: "assets/ic/ic_trophy_red_bg.svg", customer: 'Yowanda',
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    ItemOrder(
-                      isActive: false,
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    ItemOrder(
-                      isActive: false,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             /////////////////////COMPLETED////////////////
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               child: Container(
                 child: ListView(
-                  children: const [
+                  children: [
                     // Row(
                     //   children: [
                     //     Expanded(
@@ -168,19 +170,22 @@ class _ActivityPageState extends State<ActivityPage> {
                     // const SizedBox(
                     //   height: 12,
                     // ),
-                    ItemOrder(
-                      isActive: true,
+                    GestureDetector(
+                      onTap: (() => Get.to(const DetailPaymentActivityPage())),
+                      child: const ItemOrder(
+                        isActive: true,
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    ItemOrder(
+                    const ItemOrder(
                       isActive: false,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    ItemOrder(
+                    const ItemOrder(
                       isActive: false,
                     ),
                   ],
@@ -193,6 +198,7 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 }
+
 class WaitingOrder extends StatefulWidget {
   const WaitingOrder({super.key});
 
@@ -333,6 +339,138 @@ class _ItemOrderState extends State<ItemOrder> {
                   ),
                 )
               : Container()
+        ],
+      ),
+    );
+  }
+}
+
+class ItemWaitingOrder extends StatefulWidget {
+  final String iconSvg;
+  final String customer;
+  const ItemWaitingOrder({
+    Key? key,
+    required this.iconSvg, required this.customer,
+  }) : super(key: key);
+
+  @override
+  State<ItemWaitingOrder> createState() => _ItemWaitingOrderState();
+}
+
+class _ItemWaitingOrderState extends State<ItemWaitingOrder> {
+  bool isCheck = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 229,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: 32,
+            width: Get.width,
+            decoration: const BoxDecoration(
+                color: Color(0xffFCEDB9),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  topLeft: Radius.circular(8),
+                )),
+            child: Center(
+              child: const Text("Menunggu Pembayaran").black().informationText(),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: const Color(statusExpired),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: SvgPicture.asset(widget.iconSvg)),
+                const SizedBox(
+                  width: 12,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "TANGGAL & WAKTU",
+                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      ).gray(),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("03/02/2022 11:00 - 13:00").black().regularText(),
+                          const Text("LIHAT DETAIL").red().fieldTitleText(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        "JENIS LAYANAN",
+                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      ).gray(),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      const Text("Training").black().regularText(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        "PENJADWALAN UNTUK",
+                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      ).gray(),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(widget.customer).black().regularText(),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 44),
+            child: BaseButton(
+              height: 40,
+              ontap: () {
+                Get.to(OrderDetailPage());
+              },
+              text: "CARA PEMBAYARAN",
+              color: OTextsecondaryColor,
+            ),
+          )
         ],
       ),
     );
