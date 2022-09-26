@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
   MapController mapController = MapController();
   LatLng point = LatLng(-6.20, 106.81);
   List<LatLng> tappedPoints = [];
-
+  final cBook = Get.find<BookController>();
   @override
   void initState() {
     super.initState();
@@ -37,37 +38,46 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
       log('hi');
       point = LatLng(widget.latitude!, widget.longitude!);
       tappedPoints.add(point);
+      cBook.selectLat = widget.latitude! as RxDouble;
+      cBook.selectLong = widget.longitude! as RxDouble;
     } else {
       cekPermision();
     }
   }
 
   cekPermision() async {
-    // _serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    // if (!_serviceEnabled) {
-    //   await Geolocator.openLocationSettings();
-    //   return Future.error('Location services are disabled.');
-    // }
+    var _serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!_serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
+    }
 
     _permissionGranted = await Geolocator.checkPermission();
 
     log(_permissionGranted.toString());
     if (_permissionGranted == LocationPermission.denied || _permissionGranted == LocationPermission.unableToDetermine) {
-      bool isAllow = await Alertx().confirmDialog(title: 'Permission location', desc: 'Medilab need to access current location to enable find nearest medilab medical facility', onPressed2: (){}, onPressed: (){});
-      if (isAllow) {
-        _permissionGranted = await Geolocator.requestPermission();
-        log(_permissionGranted.toString());
+      bool isAllow = await Alertx().confirmDialog(
+          title: 'Permission location',
+          desc: 'Medilab need to access current location to enable find nearest medilab medical facility',
+          onPressed2: () async {
+            _permissionGranted = await Geolocator.requestPermission();
+            log(_permissionGranted.toString());
 
-        if (_permissionGranted == LocationPermission.always || _permissionGranted == LocationPermission.whileInUse) {
-          getLocation();
-        } else {
-          Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
-        }
-      } else {
-        Get.back();
-        Get.snackbar('Required permission', 'Harap beri akses lokasi');
-        // Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
-      }
+            if (_permissionGranted == LocationPermission.always || _permissionGranted == LocationPermission.whileInUse) {
+              getLocation();
+            } else {
+              Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
+            }
+          },
+          onPressed: () {
+            Get.back();
+            Get.snackbar('Required permission', 'Harap beri akses lokasi');
+          });
+      // if (isAllow) {
+      // } else {
+
+      //   // Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
+      // }
     } else if (_permissionGranted == LocationPermission.deniedForever) {
       Alertx().error('Harap beri akses lokasi dari pengaturan aplikasi');
     } else if (_permissionGranted == LocationPermission.always || _permissionGranted == LocationPermission.whileInUse) {
@@ -107,6 +117,8 @@ class BaseMapOpenStreetState extends State<BaseMapOpenStreet> {
     if (currentLocation.latitude != null) {
       log("currentLocation.accuracy ${currentLocation.accuracy}");
       await setMarker(currentLocation.latitude, currentLocation.longitude);
+      cBook.selectLat.value = currentLocation.latitude;
+      cBook.selectLong.value = currentLocation.longitude;
       // if (currentLocation.accuracy < 30) {
       getAddressFromLatLong(currentLocation.latitude, currentLocation.longitude, true);
       // }

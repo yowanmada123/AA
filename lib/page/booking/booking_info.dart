@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,7 +21,7 @@ import '../../widget/extention/base_ext.dart';
 
 class BookingInfo extends StatefulWidget {
   final Place item;
-  BookingInfo({Key? key, required this.item}) : super(key: key);
+  const BookingInfo({Key? key, required this.item}) : super(key: key);
 
   @override
   State<BookingInfo> createState() => _BookingInfoState();
@@ -29,6 +30,7 @@ class BookingInfo extends StatefulWidget {
 class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final cGlobal = Get.find<GlobalController>();
+  final booking = Get.find<BookController>();
   final cTournament = Get.put(TournamentController());
   final loading = true.obs;
   final selectProduct = 0.obs;
@@ -85,6 +87,8 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
     log(listProduct.length.toString());
     loading.value = false;
   }
+
+  final cBook = Get.find<BookController>();
 
   @override
   void initState() {
@@ -210,6 +214,8 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                           selectProduct.value = index;
                                                                           cGlobal.selectProduct.clear();
                                                                           cGlobal.selectProduct.add(listProduct[index]);
+                                                                          cBook.selectProduct.clear();
+                                                                          cBook.selectProduct.add(listProduct[index]);
                                                                           // widget.createData?.product = listProduct[index];
                                                                         },
                                                                         child: Obx(
@@ -295,6 +301,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
               title: "BOOK NOW",
               isEnable: (cGlobal.selectProduct.isNotEmpty),
               onPressed: () {
+                booking.product = listProduct[selectProduct.value];
                 cTournament.tournamentdata.product = listProduct[selectProduct.value].id;
                 log(cTournament.tournamentdata.name.toString());
                 log(cTournament.tournamentdata.drawSize.toString());
@@ -303,7 +310,6 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                 log(cTournament.tournamentdata.product.toString());
                 Get.to(BookingDate(
                   product: listProduct[selectProduct.value],
-                  
                 ));
               }),
         ));

@@ -19,17 +19,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../book_controller.dart';
 import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key,}) : super(key: key);
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
+  final booking = Get.put(BookController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +67,10 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             // bottomSheetWidget(heightFactor: 0.8, context: context, child: const RegisterPage());
                             // Get.to(const AllScreen());
-                            bottomSheetWidget(heightFactor: 0.8, context: context, child: const LoginPage());
+                            // bottomSheetWidget(
+                            //     heightFactor: 0.8,
+                            //     context: context,
+                            //     child: const LoginPage());
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,8 +123,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_calender.svg",
               name: "Booking",
               onTap: () {
-                // Get.to(const PlaceFormPage());
-                Get.to(BookingListPage());
+                booking.bookingType = BookingType.veneu;
+                Get.to(() => BookingListPage());
                 // Get.to(const PlaceListPage());
                 // Get.to(const EventOptionPage());
               },
@@ -127,7 +134,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_burble.svg",
               name: "Training",
               onTap: () {
-                Get.to(ListTrainerPage());
+                booking.bookingType = BookingType.trainer;
+                Get.to(() => const ListTrainerPage());
               },
             ),
             ItemWidget(
@@ -135,7 +143,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_trophy.svg",
               name: "Tournament",
               onTap: () {
-                Get.to(const TournamentCreatePage());
+                booking.bookingType = BookingType.tournament;
+                Get.to(() => const TournamentCreatePage());
               },
             )
           ],
@@ -146,9 +155,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               const SizedBox(
                 height: 86,
+                // width: double.infinity,
               ),
               Stack(children: [
-                SvgPicture.asset("assets/ic/ic_card.svg"),
+                SvgPicture.asset(
+                  "assets/ic/ic_card.svg",
+                  // width: Get.width,
+                  // height: 100,
+                  // fit: BoxFit.cover,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
                   child: Column(
@@ -247,14 +262,14 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
                         description,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ).black(),
                     ],
                   )

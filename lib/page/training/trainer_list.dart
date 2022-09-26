@@ -1,19 +1,15 @@
 import 'dart:developer';
 
-import 'package:boilerplate_flutter/model/user/profile.dart';
-import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
-import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
-import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
-import 'package:boilerplate_flutter/page/training/training_detail.dart';
+import 'package:boilerplate_flutter/model/user/trainer.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
+import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
 import 'package:boilerplate_flutter/widget/base/form/form.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_radio_filter.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
-import 'package:boilerplate_flutter/widget/base/form/form_text.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +18,7 @@ import 'package:get/get.dart';
 import '../../graphql_base.dart';
 
 class ListTrainerPage extends StatefulWidget {
-  ListTrainerPage({Key? key}) : super(key: key);
+  const ListTrainerPage({Key? key}) : super(key: key);
 
   @override
   State<ListTrainerPage> createState() => _ListTrainerPageState();
@@ -30,9 +26,10 @@ class ListTrainerPage extends StatefulWidget {
 
 class _ListTrainerPageState extends State<ListTrainerPage> {
   final loading = true.obs;
-  final listProfile = <Profile>[].obs;
+  final listTrainers = <Trainers>[].obs;
   String query = '';
-  final cBooking = Get.put(BookingController());
+
+  final cBook = Get.find<BookController>();
   @override
   void initState() {
     super.initState();
@@ -42,22 +39,14 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
   getData() async {
     String q = '''
   query {
-    profiles(filter: {}, paging: { limit: 10 }, sorting: []) {
+    Trainers(filter: {}, paging: { limit: 10 }, sorting: []) {
       nodes {
-        identityNumber
-        identityType
-        address
         createdAt
-        dateOfBirth
-        placeOfBirth
-        email
-        fullname
-        gender
         id
-        phone
+        image_url
+        name
+        price
         updatedAt
-        identityPhoto
-        profilePhoto
       }
       pageInfo {
         hasNextPage
@@ -68,12 +57,12 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
 
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(q);
-    var list = data!['profiles']['nodes'] as List;
-    List<Profile> newData = list.map((i) => Profile.fromMap(i)).toList();
+    var list = data!['Trainers']['nodes'] as List;
+    List<Trainers> newData = list.map((i) => Trainers.fromMap(i)).toList();
     log(newData.length.toString());
-    listProfile.value = newData;
+    listTrainers.value = newData;
     log(newData.toString());
-    log(listProfile.length.toString());
+    log(listTrainers.length.toString());
     loading.value = false;
   }
 
@@ -81,8 +70,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Choose Trainer",
-      body: Column(
-        children: [
+      body: Column(children: [
         Container(
           width: Get.width,
           // height: 70,
@@ -93,117 +81,116 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: OButtonSmallOutline(
+                  title: "Filter",
+                  titleColor: OColorBrown,
+                  icon: "assets/ic/ic_filter.svg",
+                  onTap: () {
+                    ShowFilter(context).then((value) {
+                      getData();
+                    });
+                  },
+                ),
+              ),
+              Expanded(
                   flex: 1,
                   child: OButtonSmallOutline(
-                    title: "Filter",
+                    title: "Sort By",
                     titleColor: OColorBrown,
-                    icon: "assets/ic/ic_filter.svg",
+                    icon: "assets/ic/ic_sort.svg",
                     onTap: () {
-                      ShowFilter(context).then((value) {
-                        getData();
-                      });
+                      SortBy(context);
                     },
-                  ),
-                ),
-                Expanded(
-                    flex: 1,
-                    child: OButtonSmallOutline(
-                      title: "Sort By",
-                      titleColor: OColorBrown,
-                      icon: "assets/ic/ic_sort.svg",
-                      onTap: () {
-                        SortBy(context);
-                      },
-                    )),
-                Expanded(
-                    flex: 1,
-                    child: OButtonSmallOutline(
-                      title: "Maps",
-                      titleColor: OColorBrown,
-                      icon: "assets/ic/ic_nav.svg",
-                      onTap: () {
-                        Get.to(const ChoseLocation());
-                      },
-                    )),
-              ],
-            ),
-          ),
-        const SizedBox(
-          height: 15,
-        ),
-        GestureDetector(
-          onTap: (){
-            Get.to(DetailTrainerPage());
-          },
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Image.asset("assets/images/trainer1.png",width: 120,
-                  height: 120,),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      shape: BoxShape.circle),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const Text("Tony Stark").descriptionText().black()
-                                ],
-                              ),
-                              const Text("Dokter Umum").regularText().gray(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("RS Medistra").regularText().gray(),
-                                    Container(
-                                      width: 80,
-                                      height: 32,
-                                      child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              const Text("Rp123.000").pageTitleText().black(),
-                            ],
-                          ),
-                        ),
-                        
-                        const Divider()     
-                      ],
-                    ),
-                  ),
-                  
-                  
-                ],
-              ),
-              
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: OButtonSmallOutline(
+                    title: "Maps",
+                    titleColor: OColorBrown,
+                    icon: "assets/ic/ic_nav.svg",
+                    onTap: () {
+                      Get.to(PlaceListPage());
+                    },
+                  )),
             ],
           ),
         ),
-        
+        const SizedBox(
+          height: 15,
+        ),
+        // GestureDetector(
+        //   onTap: (){
+        //     Get.to(DetailTrainerPage());
+        //   },
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         children: [
+        //           Image.asset("assets/images/trainer1.png",width: 120,
+        //           height: 120,),
+        //           Expanded(
+        //             child: Column(
+        //               children: [
+        //                 Padding(
+        //                   padding: const EdgeInsets.all(8.0),
+        //                   child: Column(
+        //                     mainAxisAlignment: MainAxisAlignment.start,
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: [
+        //                       Row(
+        //                         children: [
+        //                           Container(
+        //                             width: 8,
+        //                             height: 8,
+        //                             decoration: const BoxDecoration(
+        //                               color: Colors.green,
+        //                               shape: BoxShape.circle),
+        //                           ),
+        //                           const SizedBox(
+        //                             width: 6,
+        //                           ),
+        //                           const Text("Tony Stark").descriptionText().black()
+        //                         ],
+        //                       ),
+        //                       const Text("Dokter Umum").regularText().gray(),
+        //                       Padding(
+        //                         padding: const EdgeInsets.only(right: 16),
+        //                         child: Row(
+        //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                           children: [
+        //                             const Text("RS Medistra").regularText().gray(),
+        //                             Container(
+        //                               width: 80,
+        //                               height: 32,
+        //                               child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
+        //                           ],
+        //                         ),
+        //                       ),
+        //                       const SizedBox(
+        //                         height: 14,
+        //                       ),
+        //                       const Text("Rp123.000").pageTitleText().black(),
+        //                     ],
+        //                   ),
+        //                 ),
+
+        //                 const Divider()
+        //               ],
+        //             ),
+        //           ),
+
+        //         ],
+        //       ),
+
+        //     ],
+        //   ),
+        // ),
+
         Obx(
           () => Container(
             child: (loading.value)
@@ -215,12 +202,12 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                       width: Get.width,
                       // height: Get.height,
                       child: ListView.builder(
-                          itemCount: listProfile.length,
+                          itemCount: listTrainers.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ItemTrainer(
-                              item: listProfile[index],
+                              item: listTrainers[index],
                               // onTap: () {
-                              //   // Get.to(ListHealtPage());
+                              // Get.to(ListHealtPage());
                               // },
                             );
                           }),
@@ -244,22 +231,21 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
         ),
       ),
       builder: (context) {
-        return Stack(
-          children:[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                BaseButton(
-                  ontap: (){},
-                  text: "TERAPKAN",
-                  textColor: Colors.white,
-                  color: OTextsecondaryColor,
-                  outlineRadius: 0,
-                ),
-              ],
-            ),
-            Container(
+        return Stack(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BaseButton(
+                ontap: () {},
+                text: "TERAPKAN",
+                textColor: Colors.white,
+                color: OTextsecondaryColor,
+                outlineRadius: 0,
+              ),
+            ],
+          ),
+          Container(
               height: 0.6 * MediaQuery.of(context).size.height,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -295,25 +281,21 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
+                          Row(children: [
+                            Expanded(
                                 child: OFormText(
-                                  title: "MINIMUM PRICE", 
-                                  titleColor: OprimaryColor,
-                                  hintText: "Rp",
-                              )
-                              ),
-                              const SizedBox(width: 48),
-                              Expanded(
+                              title: "MINIMUM PRICE",
+                              titleColor: OprimaryColor,
+                              hintText: "Rp",
+                            )),
+                            const SizedBox(width: 48),
+                            Expanded(
                                 child: OFormText(
-                                  title: "MAXIMUM PRICE", 
-                                  titleColor: OprimaryColor,
-                                  hintText: "Rp",
-                              )
-                              ),
-                            ]
-                          ),
+                              title: "MAXIMUM PRICE",
+                              titleColor: OprimaryColor,
+                              hintText: "Rp",
+                            )),
+                          ]),
                           const SizedBox(height: 42),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,8 +371,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                   ],
                 ),
               )),
-          ] 
-        );
+        ]);
       },
     );
   }
@@ -499,7 +480,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
 }
 
 class ItemTrainer extends StatefulWidget {
-  final Profile item;
+  final Trainers item;
   const ItemTrainer({
     Key? key,
     required this.item,
@@ -513,72 +494,79 @@ class _ItemTrainerState extends State<ItemTrainer> {
   bool isCheck = false;
   @override
   Widget build(BuildContext context) {
+    final cBook = Get.find<BookController>();
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Column(
-          children: [
-            Row(
-              children: [
-                Image.asset("assets/images/trainer1.png",width: 120,
-                height: 120,),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                "assets/images/trainer1.png",
+                width: 120,
+                height: 120,
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text(widget.item.name.toString()).descriptionText().black()
+                            ],
+                          ),
+                          const Text("Sub title").regularText().gray(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                const Text("Diskripsi").regularText().gray(),
                                 Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle),
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                const Text("Tony Stark").descriptionText().black()
-                              ],
-                            ),
-                            const Text("Dokter Umum").regularText().gray(),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("RS Medistra").regularText().gray(),
-                                  Container(
                                     width: 80,
                                     height: 32,
-                                    child: BaseButton(ontap: (){}, text: "PILIH", color: OTextsecondaryColor, textColor: Colors.white,))
-                                ],
-                              ),
+                                    child: BaseButton(
+                                      ontap: () {
+                                        // Get.to(DetailTrainerPage());
+                                        cBook.selectTrainner.clear();
+                                        cBook.selectTrainner.add(widget.item);
+                                        Get.to(PlaceListPage());
+                                      },
+                                      text: "PILIH",
+                                      color: OTextsecondaryColor,
+                                      textColor: Colors.white,
+                                    ))
+                              ],
                             ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            const Text("Rp123.000").pageTitleText().black(),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Text(widget.item.price.toString()).pageTitleText().black(),
+                        ],
                       ),
-                      
-                      const Divider()     
-                    ],
-                  ),
+                    ),
+                    const Divider()
+                  ],
                 ),
-                
-                
-              ],
-            ),
-            
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

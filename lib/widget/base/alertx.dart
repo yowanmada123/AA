@@ -55,13 +55,18 @@ class Alertx {
     ));
   }
 
-  Future<dynamic> confirmDialog({String title = '', desc = '', required Function() onPressed, required Function() onPressed2, }) async {
+  Future<dynamic> confirmDialog({
+    String title = '',
+    desc = '',
+    required Function() onPressed,
+    required Function() onPressed2,
+  }) async {
     return Get.dialog(Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
-        height: 170,
+        height: 200,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -86,19 +91,18 @@ class Alertx {
                       child: Text('Tidak'),
                     ),
                     onTap: () {
-                      
                       Get.back(result: false);
                     },
                   )),
                   Flexible(
                     child: OButton(
-                        title: 'Ya',
-                        // color: Colors.green,
-                        onPressed: onPressed2,
-                        // () {
-                        //   Get.back(result: true);
-                        // }
-                        ),
+                      title: 'Ya',
+                      // color: Colors.green,
+                      onPressed: onPressed2,
+                      // () {
+                      //   Get.back(result: true);
+                      // }
+                    ),
                   ),
                 ],
               )
