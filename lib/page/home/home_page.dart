@@ -22,14 +22,15 @@ import 'package:intl/intl.dart';
 import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key,}) : super(key: key);
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +43,8 @@ class _HomePageState extends State<HomePage> {
               width: Get.width,
               decoration: BoxDecoration(color: OprimaryColor),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,13 +65,24 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             // bottomSheetWidget(heightFactor: 0.8, context: context, child: const RegisterPage());
                             // Get.to(const AllScreen());
-                            bottomSheetWidget(heightFactor: 0.8, context: context, child: const LoginPage());
+                            // bottomSheetWidget(
+                            //     heightFactor: 0.8,
+                            //     context: context,
+                            //     child: const LoginPage());
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
-                              Text("One", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
-                              Text("Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
+                              Text("One",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white)),
+                              Text("Event",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white)),
                             ],
                           ),
                         ),
@@ -78,7 +91,9 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 28,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.white.withOpacity(0.2)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white.withOpacity(0.2)),
                       child: Center(
                         child: Text(
                           DateFormat.yMMMMEEEEd().format(DateTime.now()),
@@ -101,7 +116,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         DateFormat.yMMMMEEEEd().format(DateTime.now()),
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                     ],
                   ),
@@ -146,11 +162,18 @@ class _HomePageState extends State<HomePage> {
             children: [
               const SizedBox(
                 height: 86,
+                // width: double.infinity,
               ),
               Stack(children: [
-                SvgPicture.asset("assets/ic/ic_card.svg"),
+                SvgPicture.asset(
+                  "assets/ic/ic_card.svg",
+                  // width: Get.width,
+                  // height: 100,
+                  // fit: BoxFit.cover,
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 12),
                   child: Column(
                     children: [
                       Row(
@@ -170,11 +193,15 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Stephen Strange").pageTitleText().white(),
+                              const Text("Stephen Strange")
+                                  .pageTitleText()
+                                  .white(),
                               const SizedBox(
                                 height: 2,
                               ),
-                              const Text("StephenStrange@gmail.com").descriptionText().white(),
+                              const Text("StephenStrange@gmail.com")
+                                  .descriptionText()
+                                  .white(),
                             ],
                           ),
                         ],
@@ -185,19 +212,23 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(
+                              backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(
+                              backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(
+                              backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(
+                              backgroundColor: Colors.white, radius: 2),
                           // const SizedBox(width: 2,),
                         ],
                       )
@@ -218,7 +249,13 @@ class ItemWidget extends StatelessWidget {
   final String name;
   final String description;
   final Function() onTap;
-  const ItemWidget({Key? key, required this.icon, required this.name, required this.description, required this.onTap}) : super(key: key);
+  const ItemWidget(
+      {Key? key,
+      required this.icon,
+      required this.name,
+      required this.description,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +266,8 @@ class ItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 15),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 21.0, vertical: 15),
               height: 67,
               width: Get.width,
               decoration: BoxDecoration(
@@ -247,7 +285,8 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                       const SizedBox(
                         height: 5,
