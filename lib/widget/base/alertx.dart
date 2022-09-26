@@ -66,7 +66,7 @@ class Alertx {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
-        height: 190,
+        height: 200,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

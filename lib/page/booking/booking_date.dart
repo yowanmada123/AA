@@ -33,6 +33,7 @@ class _BookingDateState extends State<BookingDate> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   final cGlobal = Get.find<GlobalController>();
+  final booking = Get.find<BookController>();
 
   getData(DateTime tmpDate) async {
     String dateString = tmpDate.toyyyyMMdd();
@@ -61,14 +62,12 @@ class _BookingDateState extends State<BookingDate> {
 
     ''';
     log(options.toString());
-    Map<String, dynamic>? data =
-        await GraphQLBase().query(options, showLoading: false);
+    Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
     if (data!['getSchedule'][0]['__typename'] != 'Error') {
       log(data.toString());
       var list = data['getSchedule'][0]['nodes'] as List;
       if (list.isNotEmpty) {
-        List<ScheduleTime> newData =
-            list.map((i) => ScheduleTime.fromMap(i)).toList();
+        List<ScheduleTime> newData = list.map((i) => ScheduleTime.fromMap(i)).toList();
         log(newData.length.toString());
         listScheduleTime.value = newData;
         log(newData.toString());
@@ -111,8 +110,7 @@ class _BookingDateState extends State<BookingDate> {
                 return isSameDay(_selectedDay, day);
               },
               headerVisible: true,
-              headerStyle: const HeaderStyle(
-                  formatButtonVisible: false, titleCentered: true),
+              headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   _selectedDay = selectedDay;
@@ -130,24 +128,21 @@ class _BookingDateState extends State<BookingDate> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
-                        cGlobal.selectScheduleTime.clear();
-                        cGlobal.selectScheduleTime.add(listScheduleTime[index]);
-                        cGlobal.selectScheduleDate.value =
-                            _selectedDay.toyyyyMMdd();
-                        cGlobal.refresh();
-                        log("-------------------------------");
-                        log(cGlobal.selectScheduleDate.value);
-                        log("-------------------------------");
-                        log(listScheduleTime[index].schedule);
-                        log("-------------------------------");
-                        cTournament.tournamentdata.scheduleDate =
-                            _selectedDay.toyyyyMMdd();
-                        cTournament.tournamentdata.scheduleTime =
-                            listScheduleTime[index].schedule;
-                        cBook.scheduleDate.value =
-                            cGlobal.selectScheduleDate.value;
-                        cBook.scheduleTime.value =
-                            listScheduleTime[index].schedule;
+                        booking.toggleSchedule(BookingTimeDate(date: _selectedDay, time: listScheduleTime[index]));
+                        booking.refresh();
+                        // cGlobal.selectScheduleTime.clear();
+                        // cGlobal.selectScheduleTime.add(listScheduleTime[index]);
+                        // cGlobal.selectScheduleDate.value = _selectedDay.toyyyyMMdd();
+                        // cGlobal.refresh();
+                        // log("-------------------------------");
+                        // log(cGlobal.selectScheduleDate.value);
+                        // log("-------------------------------");
+                        // log(listScheduleTime[index].schedule);
+                        // log("-------------------------------");
+                        // cTournament.tournamentdata.scheduleDate = _selectedDay.toyyyyMMdd();
+                        // cTournament.tournamentdata.scheduleTime = listScheduleTime[index].schedule;
+                        // cBook.scheduleDate.value = cGlobal.selectScheduleDate.value;
+                        // cBook.scheduleTime.value = listScheduleTime[index].schedule;
                       },
                       child: (listScheduleTime[index].booking)
                           ? BookingTimeButtonBooked(
@@ -155,6 +150,7 @@ class _BookingDateState extends State<BookingDate> {
                             )
                           : BookingTimeButton(
                               data: listScheduleTime[index],
+                              date: _selectedDay,
                             ),
                     );
                   }),
@@ -166,24 +162,24 @@ class _BookingDateState extends State<BookingDate> {
               title: "BOOK NOW",
               isEnable: (cGlobal.selectScheduleTime.isNotEmpty),
               onPressed: () {
-                // log(cTournament.tournamentdata.name.toString());
-                // log(cTournament.tournamentdata.drawSize.toString());
-                // log(cTournament.tournamentdata.tournamentFormat.toString());
-                // log(cTournament.tournamentdata.matchFormat.toString());
-                // log(cTournament.tournamentdata.product.toString());
-                // log(cTournament.tournamentdata.scheduleDate.toString());
-                // log(cTournament.tournamentdata.scheduleTime.toString());
-                log(cBook.selectTrainner.first.toString());
-                log(cBook.selectPlace.first.toString());
-                log(cBook.selectLong.value.toString());
-                log(cBook.selectLat.value.toString());
-                log(cBook.selectProduct.first.toString());
-                log(cBook.scheduleDate.value.toString());
-                log(cBook.scheduleTime.value.toString());
-                bottomSheetWidget(
-                    heightFactor: 0.9,
-                    context: context,
-                    child: const PaymentOption());
+                booking.product =
+                    // log(cTournament.tournamentdata.name.toString());
+                    // log(cTournament.tournamentdata.drawSize.toString());
+                    // log(cTournament.tournamentdata.tournamentFormat.toString());
+                    // log(cTournament.tournamentdata.matchFormat.toString());
+                    // log(cTournament.tournamentdata.product.toString());
+                    // log(cTournament.tournamentdata.scheduleDate.toString());
+                    // log(cTournament.tournamentdata.scheduleTime.toString());
+
+                    // log(cBook.selectTrainner.first.toString());
+                    // log(cBook.selectPlace.first.toString());
+                    // log(cBook.selectLong.value.toString());
+                    // log(cBook.selectLat.value.toString());
+                    // log(cBook.selectProduct.first.toString());
+                    // log(cBook.scheduleDate.value.toString());
+                    // log(cBook.scheduleTime.value.toString());
+
+                    bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
               }),
         ));
   }
@@ -191,9 +187,11 @@ class _BookingDateState extends State<BookingDate> {
 
 class BookingTimeButton extends StatefulWidget {
   final ScheduleTime data;
+  final DateTime date;
   const BookingTimeButton({
     Key? key,
     required this.data,
+    required this.date,
   }) : super(key: key);
 
   @override
@@ -203,17 +201,15 @@ class BookingTimeButton extends StatefulWidget {
 class _BookingTimeButtonState extends State<BookingTimeButton> {
   @override
   Widget build(BuildContext context) {
-    final cGlobal = Get.find<GlobalController>();
+    final booking = Get.find<BookController>();
     bool selectTime = false;
 
-    return Obx(() => (cGlobal.selectScheduleTime.isNotEmpty)
+    return Obx(() => (booking.bookingDateTime.isNotEmpty)
         ? Container(
             width: double.infinity,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: (cGlobal.selectScheduleTime.value.first == widget.data)
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.primaryContainer,
+              color: (booking.bookingDateTime.contains(BookingTimeDate(date: widget.date, time: widget.data))) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(

@@ -19,6 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../book_controller.dart';
 import '../event_option.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,6 +32,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final booking = Get.put(BookController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +46,7 @@ class _HomePageState extends State<HomePage> {
               width: Get.width,
               decoration: BoxDecoration(color: OprimaryColor),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,16 +75,8 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
-                              Text("One",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white)),
-                              Text("Event",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white)),
+                              Text("One", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
+                              Text("Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
                             ],
                           ),
                         ),
@@ -91,9 +85,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 28,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white.withOpacity(0.2)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.white.withOpacity(0.2)),
                       child: Center(
                         child: Text(
                           DateFormat.yMMMMEEEEd().format(DateTime.now()),
@@ -116,8 +108,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         DateFormat.yMMMMEEEEd().format(DateTime.now()),
-                        style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                     ],
                   ),
@@ -132,8 +123,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_calender.svg",
               name: "Booking",
               onTap: () {
-                // Get.to(const PlaceFormPage());
-                Get.to(BookingListPage());
+                booking.bookingType = BookingType.veneu;
+                Get.to(() => BookingListPage());
                 // Get.to(const PlaceListPage());
                 // Get.to(const EventOptionPage());
               },
@@ -143,7 +134,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_burble.svg",
               name: "Training",
               onTap: () {
-                Get.to(ListTrainerPage());
+                booking.bookingType = BookingType.trainer;
+                Get.to(() => const ListTrainerPage());
               },
             ),
             ItemWidget(
@@ -151,7 +143,8 @@ class _HomePageState extends State<HomePage> {
               icon: "assets/ic/ic_trophy.svg",
               name: "Tournament",
               onTap: () {
-                Get.to(const TournamentCreatePage());
+                booking.bookingType = BookingType.tournament;
+                Get.to(() => const TournamentCreatePage());
               },
             )
           ],
@@ -172,8 +165,7 @@ class _HomePageState extends State<HomePage> {
                   // fit: BoxFit.cover,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
                   child: Column(
                     children: [
                       Row(
@@ -193,15 +185,11 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Stephen Strange")
-                                  .pageTitleText()
-                                  .white(),
+                              const Text("Stephen Strange").pageTitleText().white(),
                               const SizedBox(
                                 height: 2,
                               ),
-                              const Text("StephenStrange@gmail.com")
-                                  .descriptionText()
-                                  .white(),
+                              const Text("StephenStrange@gmail.com").descriptionText().white(),
                             ],
                           ),
                         ],
@@ -212,23 +200,19 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          CircleAvatar(
-                              backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(
-                              backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(
-                              backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
                           SizedBox(
                             width: 8,
                           ),
-                          CircleAvatar(
-                              backgroundColor: Colors.white, radius: 2),
+                          CircleAvatar(backgroundColor: Colors.white, radius: 2),
                           // const SizedBox(width: 2,),
                         ],
                       )
@@ -249,13 +233,7 @@ class ItemWidget extends StatelessWidget {
   final String name;
   final String description;
   final Function() onTap;
-  const ItemWidget(
-      {Key? key,
-      required this.icon,
-      required this.name,
-      required this.description,
-      required this.onTap})
-      : super(key: key);
+  const ItemWidget({Key? key, required this.icon, required this.name, required this.description, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -266,8 +244,7 @@ class ItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 21.0, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 15),
               height: 67,
               width: Get.width,
               decoration: BoxDecoration(
@@ -285,15 +262,14 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ).black(),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
                         description,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ).black(),
                     ],
                   )

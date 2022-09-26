@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/graphql_base.dart';
-import 'package:boilerplate_flutter/model/payment/payment_list.dart';
+import 'package:boilerplate_flutter/model/payment/payment_methods.dart';
 import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/home/onboarding.dart';
@@ -14,18 +14,20 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
+import '../book_controller.dart';
 import '../profil/list_profil.dart';
 import 'payment_controller.dart';
 
 class PaymentOption extends StatefulWidget {
-  const PaymentOption({Key? key, }) : super(key: key);
+  const PaymentOption({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<PaymentOption> createState() => _PaymentOptionState();
 }
 
 class _PaymentOptionState extends State<PaymentOption> {
-  
   final listPaymentMethods = <PaymentMethods>[].obs;
   final loading = true.obs;
 
@@ -67,8 +69,8 @@ class _PaymentOptionState extends State<PaymentOption> {
   }
 
   final cGlobal = Get.find<GlobalController>();
-  final cPayment = Get.put(PaymentController());
-  final cTournament = Get.put(TournamentController());
+  final booking = Get.find<BookController>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -105,24 +107,26 @@ class _PaymentOptionState extends State<PaymentOption> {
                             return InkWell(
                               onTap: () async {
                                 log("tap pay");
-                                cGlobal.selectPaymentMethods.clear();
-                                cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
-                                log(listPaymentMethods[index].id);
-                                cTournament.tournamentdata.paymentMethod = listPaymentMethods[index].id;
-                                String? transactioId = await cPayment.createpayment();
-                                if (transactioId != null) {
-                                  log(cTournament.tournamentdata.name.toString());
-                                  log(cTournament.tournamentdata.drawSize.toString());
-                                  log(cTournament.tournamentdata.tournamentFormat.toString());
-                                  log(cTournament.tournamentdata.matchFormat.toString());
-                                  log(cTournament.tournamentdata.product.toString());
-                                  log(cTournament.tournamentdata.scheduleDate.toString());
-                                  log(cTournament.tournamentdata.scheduleTime.toString());
-                                  createTournament(cTournament);
-                                  Get.to(PaymentDetailPage(
-                                    transactionId: transactioId,
-                                  ));
-                                }
+                                booking.paymentMethods = listPaymentMethods[index];
+                                // cGlobal.selectPaymentMethods.clear();
+                                // cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
+                                // log(listPaymentMethods[index].id);
+                                // cTournament.tournamentdata.paymentMethod = listPaymentMethods[index].id;
+                                // String? transactioId = await cPayment.createpayment();
+                                // if (transactioId != null) {
+                                // log(cTournament.tournamentdata.name.toString());
+                                // log(cTournament.tournamentdata.drawSize.toString());
+                                // log(cTournament.tournamentdata.tournamentFormat.toString());
+                                // log(cTournament.tournamentdata.matchFormat.toString());
+                                // log(cTournament.tournamentdata.product.toString());
+                                // log(cTournament.tournamentdata.scheduleDate.toString());
+                                // log(cTournament.tournamentdata.scheduleTime.toString());
+                                // createTournament(cTournament);
+                                //   Get.to(PaymentDetailPage(
+                                //     transactionId: transactioId,
+                                //   ));
+                                // }
+                                booking.submitBooking();
                               },
                               child: ItemPayment(
                                 data: listPaymentMethods[index],
@@ -140,7 +144,6 @@ class _PaymentOptionState extends State<PaymentOption> {
 }
 
 Future<void> createTournament(TournamentController cTournament) async {
-  
   String option = '''
     mutation createTurnament{
       createTurnament(	
@@ -186,19 +189,17 @@ Future<void> createTournament(TournamentController cTournament) async {
     }
     ''';
   try {
-    
     Map<String, dynamic>? res = await GraphQLBase().mutate(option);
     if (res != null) {
-        log(res.toString());
-        final successMessage = res['createTurnament'][0]['Success'];
-        log(successMessage);
-        Get.offAll(const HomePage());
-      }
+      log(res.toString());
+      final successMessage = res['createTurnament'][0]['Success'];
+      log(successMessage);
+      Get.offAll(const HomePage());
+    }
   } on Error catch (e, s) {
     print(e);
     print(s);
   }
-
 }
 
 class ItemPayment extends StatelessWidget {
