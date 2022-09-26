@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           OButton(
               title: "Maps",
               onPressed: () {
-                Get.to(const ChoseLocation());
+                Get.to(ChoseLocation());
               }),
           OButton(
               title: "List Place",

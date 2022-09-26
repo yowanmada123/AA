@@ -4,6 +4,7 @@ import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/training/training_detail.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -125,7 +126,7 @@ class _ListTrainerPageState extends State<ListTrainerPage> {
                     titleColor: OColorBrown,
                     icon: "assets/ic/ic_nav.svg",
                     onTap: () {
-                      Get.to(const ChoseLocation());
+                      Get.to(PlaceListPage());
                     },
                   )),
             ],
@@ -572,7 +573,7 @@ class _ItemTrainerState extends State<ItemTrainer> {
                                     child: BaseButton(
                                       ontap: () {
                                         // Get.to(DetailTrainerPage());
-                                        Get.to(const ChoseLocation());
+                                        Get.to(const PlaceListPage());
                                       },
                                       text: "PILIH",
                                       color: OTextsecondaryColor,

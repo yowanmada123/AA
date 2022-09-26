@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/model/place/place_res.dart';
+import 'package:boilerplate_flutter/model/place/region_res.dart';
 import 'package:boilerplate_flutter/page/booking/booking_date.dart';
+import 'package:boilerplate_flutter/page/booking/booking_info.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 // import 'package:boilerplate_flutter/pages/booking/list_user_page.dart';
 
@@ -17,8 +20,10 @@ import 'package:get/get.dart';
 import '../../widget/base/form/form_scaffold.dart';
 
 class ChoseLocation extends StatefulWidget {
-  const ChoseLocation({
+  Place? item;
+  ChoseLocation({
     Key? key,
+    this.item,
   }) : super(key: key);
 
   @override
@@ -84,7 +89,19 @@ class _ChoseLocationState extends State<ChoseLocation> {
           color: const Color(0xFF21005D),
           // Theme.of(context).colorScheme.onPrimaryContainer,
           onPressed: () {
-            // Get.to(BookingDate());
+            log(widget.item.toString());
+            Get.to(BookingInfo(
+              item: widget.item ??
+                  Place(
+                      address: "",
+                      description: '',
+                      id: '',
+                      images: '',
+                      latitude: 0,
+                      longitude: 0,
+                      name: '',
+                      region: Region(id: "", name: '', type: '')),
+            ));
           }),
     );
   }

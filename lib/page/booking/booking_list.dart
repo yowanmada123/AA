@@ -102,7 +102,7 @@ class _BookingListPageState extends State<BookingListPage> {
   }
 
   final gstate = Get.find<GlobalController>();
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -151,7 +151,7 @@ class _BookingListPageState extends State<BookingListPage> {
                       titleColor: OColorBrown,
                       icon: "assets/ic/ic_nav.svg",
                       onTap: () {
-                        Get.to(const ChoseLocation());
+                        Get.to(ChoseLocation());
                       },
                     )),
               ],
@@ -159,7 +159,9 @@ class _BookingListPageState extends State<BookingListPage> {
           ),
           Obx(
             () => (Container(
-              child: (cBooking.selectRegion.value.isNotEmpty || cBooking.priceMin.value != 0 || cBooking.priceMax.value != 0)
+              child: (cBooking.selectRegion.value.isNotEmpty ||
+                      cBooking.priceMin.value != 0 ||
+                      cBooking.priceMax.value != 0)
                   ? TextButton(
                       onPressed: () {
                         setState(() {
@@ -170,7 +172,10 @@ class _BookingListPageState extends State<BookingListPage> {
                         getData();
                       },
                       child: Row(
-                        children: const [Text("Hapus Filter"), Icon(Icons.close)],
+                        children: const [
+                          Text("Hapus Filter"),
+                          Icon(Icons.close)
+                        ],
                       ))
                   : Container(),
             )),
@@ -221,7 +226,8 @@ class _BookingListPageState extends State<BookingListPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
+                    padding: const EdgeInsets.only(
+                        top: 18.0, right: 18.0, left: 18.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +259,8 @@ class _BookingListPageState extends State<BookingListPage> {
                           children: [
                             Text(
                               "LOCATION",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
                             ).titleText(),
                           ],
                         ),
@@ -265,7 +272,8 @@ class _BookingListPageState extends State<BookingListPage> {
                           children: [
                             Text(
                               "PRICE RANGE",
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
                             ).titleText(),
                           ],
                         ),
@@ -278,7 +286,10 @@ class _BookingListPageState extends State<BookingListPage> {
                               height: 24,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
+                                border: Border.all(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                    width: 0.5),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -296,7 +307,10 @@ class _BookingListPageState extends State<BookingListPage> {
                                   decoration: const InputDecoration(
                                     hintText: "Min",
                                     filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     fillColor: Colors.white,
                                     contentPadding: EdgeInsets.zero,
                                   ),
@@ -311,7 +325,10 @@ class _BookingListPageState extends State<BookingListPage> {
                               height: 24,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: Theme.of(context).colorScheme.outline, width: 0.5),
+                                border: Border.all(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                    width: 0.5),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -329,7 +346,10 @@ class _BookingListPageState extends State<BookingListPage> {
                                   decoration: const InputDecoration(
                                     hintText: "Max",
                                     filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     fillColor: Colors.white,
                                     contentPadding: EdgeInsets.zero,
                                   ),
@@ -382,7 +402,8 @@ class _BookingListPageState extends State<BookingListPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                    padding:
+                        const EdgeInsets.only(left: 18.0, right: 18, top: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -500,16 +521,20 @@ class ItemPlace extends StatelessWidget {
                       Text(
                         item.name,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
                       ).titleText(),
-                      Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
+                      Text(item.region.name,
+                              style: TextStyle(color: OColorBrown))
+                          .informationText(),
                       Expanded(child: Container()),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                            child:
+                                SvgPicture.asset("assets/ic/ic_location.svg"),
                           ),
                           Expanded(
                             child: Text(item.address).informationText(),

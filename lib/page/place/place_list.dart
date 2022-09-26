@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
+import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
@@ -90,11 +91,11 @@ class _PlaceListPageState extends State<PlaceListPage> {
               // },
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(const PlaceFormPage()),
-        child: const Icon(Icons.add),
-        // child: Obx(() => Icon(GlobalController.to.isDark ? Icons.dark_mode : Icons.light_mode)),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => Get.to(const PlaceFormPage()),
+      //   child: const Icon(Icons.add),
+      //   // child: Obx(() => Icon(GlobalController.to.isDark ? Icons.dark_mode : Icons.light_mode)),
+      // ),
     );
   }
 }
@@ -103,7 +104,8 @@ class ItemPlace extends StatelessWidget {
   final Place item;
   final GlobalController state;
 
-  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -118,18 +120,19 @@ class ItemPlace extends StatelessWidget {
           cGlobal.selectProduct.clear();
           cGlobal.selectPaymentMethods.clear();
           cGlobal.selectScheduleTime.clear();
-          Get.to(UpdatePlacePage(
+          Get.to(ChoseLocation(
             item: item,
           ));
         },
         child: Container(
-            height: 200,
+            // height: 200,
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(
                   Radius.circular(9),
                 )),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(children: [
                   Container(
@@ -161,111 +164,50 @@ class ItemPlace extends StatelessWidget {
                         Text(
                           item.name,
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
                         ).titleText(),
                       ],
                     ),
                   ),
                 ]),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      flex: 8,
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
-                                child: Expanded(
-                                  child: Text(item.description).titleText(),
-                                ),
-                              ),
-                            ],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, top: 10.0, bottom: 2),
+                            child: Text(item.description).titleText(),
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 15),
-                                child: Expanded(
-                                  child: Text(item.region.name).informationText(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8, right: 5),
-                                child: SvgPicture.asset("assets/ic/ic_location.svg"),
-                              ),
-                              Expanded(
-                                child: Text(item.address).informationText(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                barrierDismissible: true,
-                                context: context,
-                                builder: (c) => AlertDialog(
-                                  title: Container(),
-                                  content: Container(
-                                    color: Colors.white,
-                                    // height: 80,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text("Are You Sure Want To Delete The Data ?"),
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "No",
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                deleteItem();
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text("Yes"),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Icon(Icons.delete),
-                          )
-                        ],
-                      ),
-                    )
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, bottom: 15),
+                          child: Expanded(
+                            child: Text(item.region.name).informationText(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8, right: 5),
+                          child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                        ),
+                        Expanded(
+                          child: Text(item.address).informationText(),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
