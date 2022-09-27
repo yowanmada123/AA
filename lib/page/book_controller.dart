@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:get/get.dart';
 
 import 'package:boilerplate_flutter/model/place/place_res.dart';
@@ -10,6 +11,7 @@ import 'package:boilerplate_flutter/widget/extention/ext_date.dart';
 
 import '../graphql_base.dart';
 import '../model/payment/payment_methods.dart';
+import '../model/tournament/create_data_tournamert.dart';
 
 enum BookingType { veneu, trainer, tournament }
 
@@ -23,11 +25,14 @@ class BookController extends GetxController {
   var selectLong = 0.0.obs;
   var selectLat = 0.0.obs;
   var selectProduct = <Product>[].obs;
+  var profile = <Profile>[].obs;
   var bookingDateTime = <BookingTimeDate>[].obs;
 
   late PaymentMethods paymentMethods;
   late Product product;
   late BookingType bookingType;
+
+  CreateDataTournament? createDataTournament;
 
   void toggleSchedule(BookingTimeDate bookingTimeDate) {
     if (bookingDateTime.contains(bookingTimeDate)) {
@@ -35,7 +40,6 @@ class BookController extends GetxController {
     } else {
       bookingDateTime.add(bookingTimeDate);
     }
-    print(bookingDateTime);
   }
 
   submitBooking() {

@@ -5,13 +5,13 @@ import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/place/place_res.dart';
 import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/page/tournament/list_other_user_page.dart';
-import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -34,7 +34,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   // late String placeValue = "Jakarta";
   final loading = false;
   final gstate = Get.find<GlobalController>();
-  final cTournament = Get.put(TournamentController());
+  final booking = Get.find<BookController>();
   final listChoosedProfile = <Profile>[].obs;
   TextEditingController nameController = TextEditingController();
   TextEditingController drawSizeController = TextEditingController();
@@ -58,7 +58,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   // getUserData() async {
   //   String q = '''
   //     query user{
-  //       user(id: "c45f95d1-a9a7-40dc-a5fc-7973cc4708cd") 
+  //       user(id: "c45f95d1-a9a7-40dc-a5fc-7973cc4708cd")
   //         {
   //             createdAt
   //             email
@@ -83,8 +83,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   //     print(e);
   //     print(s);
   //   }
-    
-    
+
   // }
 
   @override
@@ -360,7 +359,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 height: 24,
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Get.to(ListOtherUserPage());
                 },
                 child: Container(
@@ -470,7 +469,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     );
   }
 
-String getPlaysOffFormat(int playsOffFOrmat) {
+  String getPlaysOffFormat(int playsOffFOrmat) {
     String format = '';
     try {
       if (playsOffFOrmat == 0) {
@@ -544,25 +543,13 @@ String getPlaysOffFormat(int playsOffFOrmat) {
       String formatPlaysOff = getPlaysOffFormat(playsOffFormat);
       String venueType = getVenueType(venueBookingFormat);
 
-      log(nameController.text);
-      log(drawSize.toString());
-      log(formatTournament);
-      log(formatMatch);
-      log(formatPlaysOff);
-      log("=============");
-      log(venueType);
-      log("=============");
+      CreateDataTournament data = CreateDataTournament();
+      data.name = nameController.text;
+      data.drawSize = drawSize;
+      data.tournamentFormat = formatTournament;
+      data.matchFormat = formatMatch;
 
-      cTournament.tournamentdata.name = nameController.text;
-      cTournament.tournamentdata.drawSize = drawSize;
-      cTournament.tournamentdata.tournamentFormat = formatTournament;
-      cTournament.tournamentdata.matchFormat = formatMatch;
-
-      log(cTournament.tournamentdata.name.toString());
-      log(cTournament.tournamentdata.drawSize.toString());
-      log(cTournament.tournamentdata.tournamentFormat.toString());
-      log(cTournament.tournamentdata.matchFormat.toString());
-
+      booking.createDataTournament = data;
     }
   }
 }
