@@ -11,6 +11,7 @@ import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/place/place_edit.dart';
 import 'package:boilerplate_flutter/page/place/place_form.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
+import 'package:boilerplate_flutter/page/profil/list_user_page.dart';
 import 'package:boilerplate_flutter/page/tournament/list_other_user_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/alertx.dart';
@@ -34,7 +35,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
   // late String placeValue = "Jakarta";
   final loading = false;
   final gstate = Get.find<GlobalController>();
-  final booking = Get.find<BookController>();
+  final cBooking = Get.find<BookController>();
   final listChoosedProfile = <Profile>[].obs;
   TextEditingController nameController = TextEditingController();
   TextEditingController drawSizeController = TextEditingController();
@@ -118,6 +119,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               OFormText(
                 title: "DRAW SIZE",
                 titleColor: OTextPrimaryColor,
+                formType: FormType.money,
                 controller: drawSizeController,
                 hintText: "Number of Participants",
                 // icon: const IconData(0xf018, fontFamily: 'MaterialIcons'),
@@ -130,7 +132,10 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 children: [
                   Text(
                     "TOURNAMENT FORMAT",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: OTextPrimaryColor),
                   ),
                   const SizedBox(
                     height: 12,
@@ -146,7 +151,8 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 8),
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -158,9 +164,13 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: tournamentFormat == index ? OprimaryColor : Colors.white,
+                                  color: tournamentFormat == index
+                                      ? OprimaryColor
+                                      : Colors.white,
                                   border: Border.all(
-                                    color: tournamentFormat == index ? OprimaryColor : Colors.grey,
+                                    color: tournamentFormat == index
+                                        ? OprimaryColor
+                                        : Colors.grey,
                                   ),
                                   borderRadius: BorderRadius.circular(8)),
                               // check if the index is equal to the selected Card integer
@@ -171,7 +181,9 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                     tournamentOption[index],
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: tournamentFormat == index ? Colors.white : Colors.black,
+                                      color: tournamentFormat == index
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -191,7 +203,10 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 children: [
                   Text(
                     "MATCH FORMAT",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: OTextPrimaryColor),
                   ),
                   const SizedBox(
                     height: 12,
@@ -207,7 +222,8 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 8),
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -219,9 +235,13 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: matchFormat == index ? OprimaryColor : Colors.white,
+                                  color: matchFormat == index
+                                      ? OprimaryColor
+                                      : Colors.white,
                                   border: Border.all(
-                                    color: matchFormat == index ? OprimaryColor : Colors.grey,
+                                    color: matchFormat == index
+                                        ? OprimaryColor
+                                        : Colors.grey,
                                   ),
                                   borderRadius: BorderRadius.circular(8)),
                               // check if the index is equal to the selected Card integer
@@ -232,7 +252,9 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                     matchOption[index],
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: matchFormat == index ? Colors.white : Colors.black,
+                                      color: matchFormat == index
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -252,7 +274,10 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 children: [
                   Text(
                     "3RD PLACE PLAYOFFS",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: OTextPrimaryColor),
                   ),
                   const SizedBox(
                     height: 12,
@@ -268,7 +293,8 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 8),
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -280,9 +306,13 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: playsOffFormat == index ? OprimaryColor : Colors.white,
+                                  color: playsOffFormat == index
+                                      ? OprimaryColor
+                                      : Colors.white,
                                   border: Border.all(
-                                    color: playsOffFormat == index ? OprimaryColor : Colors.grey,
+                                    color: playsOffFormat == index
+                                        ? OprimaryColor
+                                        : Colors.grey,
                                   ),
                                   borderRadius: BorderRadius.circular(8)),
                               // check if the index is equal to the selected Card integer
@@ -292,7 +322,9 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                     playsOffOption[index],
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: playsOffFormat == index ? Colors.white : Colors.black,
+                                      color: playsOffFormat == index
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -309,7 +341,10 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               ),
               Text(
                 "TOURNAMENT PARTICIPANTS",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: OTextPrimaryColor),
               ),
               const SizedBox(
                 height: 16,
@@ -317,9 +352,9 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               Obx(
                 () => Column(
                   children: [
-                    for (int i = 0; i < booking.profile.length; i++)
+                    for (int i = 0; i < cBooking.profile.length; i++)
                       ItemNama(
-                        name: booking.profile[i].fullname,
+                        name: cBooking.profile[i].fullname,
                         // color: OprimaryColor,
                         numb: (i + 1).toString(),
                       ),
@@ -330,28 +365,38 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 height: 24,
               ),
               GestureDetector(
-                onTap: () {
-                  Get.to(ListOtherUserPage());
+                onTap: () async {
+                  // Get.to(ListOtherUserPage());
+                  cBooking.isAddUserFromBooking = true;
+                  await Get.to(ListUserPage());
+                  cBooking.isAddUserFromBooking = false;
                 },
                 child: Container(
                   height: 46,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.grey)),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Row(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey)),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SvgPicture.asset("assets/ic/ic_add_member.svg"),
-                        const SizedBox(
-                          width: 16,
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            const Text("Add New Participants")
+                                .pageTitleText()
+                                .black()
+                          ],
                         ),
-                        const Text("Add New Participants").pageTitleText().black()
-                      ],
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 15,
-                    )
-                  ]),
+                        const Icon(
+                          Icons.arrow_forward_ios_sharp,
+                          size: 15,
+                        )
+                      ]),
                 ),
               ),
               const SizedBox(
@@ -362,7 +407,10 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                 children: [
                   Text(
                     "VENUE BOOKING",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OTextPrimaryColor),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: OTextPrimaryColor),
                   ),
                   const SizedBox(
                     height: 12,
@@ -378,7 +426,8 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 8),
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -390,9 +439,13 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: venueBookingFormat == index ? OprimaryColor : Colors.white,
+                                  color: venueBookingFormat == index
+                                      ? OprimaryColor
+                                      : Colors.white,
                                   border: Border.all(
-                                    color: venueBookingFormat == index ? OprimaryColor : Colors.grey,
+                                    color: venueBookingFormat == index
+                                        ? OprimaryColor
+                                        : Colors.grey,
                                   ),
                                   borderRadius: BorderRadius.circular(8)),
                               // check if the index is equal to the selected Card integer
@@ -403,7 +456,9 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
                                     venueBookingOption[index],
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: venueBookingFormat == index ? Colors.white : Colors.black,
+                                      color: venueBookingFormat == index
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -428,7 +483,6 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               height: 56,
               ontap: () {
                 saveData();
-                Get.to(BookingListPage());
               },
               text: "CONTINUE",
               outlineRadius: 0,
@@ -496,7 +550,8 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     return format;
   }
 
-  saveData() {
+  saveData() async {
+    bool issucces = false;
     int drawSize = 1;
     if (nameController.text == null) {
       Alertx().error("Please Fill The Tournament Name");
@@ -505,6 +560,7 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
     } else {
       try {
         drawSize = int.parse(drawSizeController.text);
+        issucces = true;
       } catch (e) {
         Alertx().error("Please Fill The Draw Size with a Number");
       }
@@ -520,7 +576,13 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
       data.tournamentFormat = formatTournament;
       data.matchFormat = formatMatch;
 
-      booking.createDataTournament = data;
+      cBooking.createDataTournament = data;
+    }
+
+    if (issucces &&
+        drawSizeController.text != null &&
+        nameController.text != null) {
+      Get.to(BookingListPage());
     }
   }
 }
@@ -564,14 +626,20 @@ class _ItemNamaState extends State<ItemNama> {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: (widget.color == null) ? Colors.grey[350] : widget.color,
+                        backgroundColor: (widget.color == null)
+                            ? Colors.grey[350]
+                            : widget.color,
                         radius: 20,
                         child: CircleAvatar(
-                          backgroundColor: (widget.color == null) ? Colors.white : widget.color,
+                          backgroundColor: (widget.color == null)
+                              ? Colors.white
+                              : widget.color,
                           radius: 19,
                           child: Icon(
                             Icons.person_outline_rounded,
-                            color: (widget.color == null) ? Colors.grey[350] : Colors.white,
+                            color: (widget.color == null)
+                                ? Colors.grey[350]
+                                : Colors.white,
                           ),
                         ),
                       ),
@@ -580,7 +648,8 @@ class _ItemNamaState extends State<ItemNama> {
                       ),
                       Text(
                         widget.name,
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

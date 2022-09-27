@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/payment/payment_option.dart';
@@ -33,11 +34,12 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
   final _tournamentNameController = TextEditingController(text: '');
   final loading = true.obs;
   final listProfile = <Profile>[].obs;
+  final cBooking = Get.find<BookController>();
   String query = '';
   @override
   void initState() {
     super.initState();
-    getData();
+    // getData();
   }
 
   getData() async {
@@ -92,14 +94,18 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: const Text("1Event Tournament").black().titleText(),
+                  child: Text(cBooking.createDataTournament!.name.toString())
+                      .black()
+                      .titleText(),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: const Text("Lapangan Tenis Brata Bakti").black().regularText(),
+                  child: Text(cBooking.selectPlace.first.name)
+                      .black()
+                      .regularText(),
                 ),
                 const SizedBox(
                   height: 50,
@@ -111,27 +117,31 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                     children: [
                       const Text(
                         "PLAYER NAME",
-                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 10, fontWeight: FontWeight.bold),
                       ).gray(),
                       Row(
                         children: [
                           const Text(
                             "PTS",
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           ).gray(),
                           const SizedBox(
                             width: 35,
                           ),
                           const Text(
                             "W",
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           ).gray(),
                           const SizedBox(
                             width: 35,
                           ),
                           const Text(
                             "L",
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           ).gray(),
                           // const ItemNama()
                         ],
@@ -144,28 +154,21 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                 ),
                 const ItemNama(
                   isMe: true,
-                  name: 'Stephen Strange (Me)',
+                  name: '(Me)',
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const ItemNama(
-                  isMe: false,
-                  name: 'Tommy Bong',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const ItemNama(
-                  isMe: false,
-                  name: 'Wanda Maximoff',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const ItemNama(
-                  isMe: false,
-                  name: 'Tony Stark',
+                Obx(
+                  () => Wrap(
+                    children: [
+                      for (int i = 0; i < cBooking.profile.length; i++)
+                        ItemNama(
+                          isMe: false,
+                          name: cBooking.profile[i].fullname,
+                        ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 34,
@@ -184,18 +187,26 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                               children: [
                                 const Text(
                                   "TOURNAMENT NAME",
-                                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ).gray(),
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                const Text("1Event Tournament").black().descriptionText(),
+                                Text(cBooking.createDataTournament!.name
+                                        .toString())
+                                    .black()
+                                    .descriptionText(),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey))),
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              width: 1, color: Colors.grey))),
                                 )
                               ],
                             ),
@@ -209,18 +220,26 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                               children: [
                                 const Text(
                                   "DRAW SIZE",
-                                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ).gray(),
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                const Text("4").black().descriptionText(),
+                                Text(cBooking.createDataTournament!.drawSize
+                                        .toString())
+                                    .black()
+                                    .descriptionText(),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey))),
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              width: 1, color: Colors.grey))),
                                 )
                               ],
                             ),
@@ -240,18 +259,25 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                               children: [
                                 const Text(
                                   "3RD PLACE PLAYOFFS",
-                                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ).gray(),
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                const Text("On").black().descriptionText(),
+                                //  Text(cBooking.createDataTournament!.
+                                //         .toString()).black().descriptionText(),
+                                Text('----'),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey))),
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              width: 1, color: Colors.grey))),
                                 )
                               ],
                             ),
@@ -265,18 +291,26 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                               children: [
                                 const Text(
                                   "MATCH FORMAT",
-                                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ).gray(),
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                const Text("Single").black().descriptionText(),
+                                Text(cBooking.createDataTournament!.matchFormat
+                                        .toString())
+                                    .black()
+                                    .descriptionText(),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey))),
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              width: 1, color: Colors.grey))),
                                 )
                               ],
                             ),
@@ -300,8 +334,11 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                 ),
                 Center(
                     child: Text(
-                  "LAPANGAN TENNIS SENAYAN",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: OprimaryColor),
+                  cBooking.selectPlace.first.name,
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: OprimaryColor),
                 )),
                 const SizedBox(
                   height: 16,
@@ -311,16 +348,31 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset("assets/ic/ic_location_primary.svg"),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const Text("Jakarta, Indonesia").descriptionText().black()
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                                "assets/ic/ic_location_primary.svg"),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: Text(cBooking.selectPlace.first.address)
+                                  .descriptionText()
+                                  .black(),
+                            )
+                          ],
+                        ),
                       ),
-                      const Text("08.00 AM - 06.00 P  M").descriptionText().black()
+                      Wrap(
+                        direction: Axis.vertical,
+                        children: cBooking.bookingDateTime
+                            .map((BookingTimeDate i) =>
+                                Text("${i.time.schedule} PM ")
+                                    .regularText()
+                                    .black())
+                            .toList(),
+                      ),
                     ],
                   ),
                 ),
@@ -336,7 +388,10 @@ class _TournamentCheckoutPageState extends State<TournamentCheckoutPage> {
             children: [
               BaseButton(
                 ontap: () {
-                  bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+                  bottomSheetWidget(
+                      heightFactor: 0.9,
+                      context: context,
+                      child: const PaymentOption());
                 },
                 text: "CONTINUE",
                 color: OTextsecondaryColor,
@@ -382,7 +437,8 @@ class _ItemNamaState extends State<ItemNama> {
                       backgroundColor: Colors.grey[350],
                       radius: 20,
                       child: CircleAvatar(
-                        backgroundColor: (widget.isMe) ? OprimaryColor : Colors.white,
+                        backgroundColor:
+                            (widget.isMe) ? OprimaryColor : Colors.white,
                         radius: 19,
                         child: Icon(
                           Icons.person_outline_rounded,
@@ -405,21 +461,24 @@ class _ItemNamaState extends State<ItemNama> {
                   children: [
                     const Text(
                       "0",
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                     ).gray(),
                     const SizedBox(
                       width: 40,
                     ),
                     const Text(
                       "0",
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                     ).gray(),
                     const SizedBox(
                       width: 40,
                     ),
                     const Text(
                       "0",
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                     ).gray(),
                   ],
                 )

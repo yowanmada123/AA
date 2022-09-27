@@ -63,7 +63,7 @@ class BookController extends GetxController {
         log(selectProduct.first.name);
         break;
       case BookingType.tournament:
-        // bookingTurnament();
+        bookingTurnament();
         break;
       default:
     }
@@ -190,14 +190,93 @@ class BookController extends GetxController {
     }
     return null;
   }
-}
 
-Future<String?> createBillingInput({
-  required final String userPayment,
-  required final String totalAmount,
-  required final String phoneNumber,
-}) async {
-  String data = '''
+  Future<String?> bookingTurnament() async {
+    String payment_method = paymentMethods.id;
+    String phone_number = "";
+    String? product_id = selectProduct.first.id;
+    String scheduled_date = bookingDateTime[0].date.toyyyyMMdd();
+    String scheduled_time = bookingDateTime[0].time.schedule;
+    String? trainer = selectTrainner.first.id;
+    String bookTimes = '''
+''';
+
+    for (var i = 0; i < bookingDateTime.length; i++) {
+      if (i > 0) bookTimes += ', ';
+      String bookTime = '''
+{
+            product_id: "$product_id",
+            scheduled_date: "${bookingDateTime[i].date.toDate2()}",
+            scheduled_time: "${bookingDateTime[i].time.schedule}"
+        }
+''';
+      bookTimes += bookTime;
+    }
+
+    String profileItems = '''
+''';
+    for (var i = 0; i < profile.length; i++) {
+      if (i > 0) profileItems += ', ';
+      String profileItem = '''
+{
+            people_id: "${profile[i].id}",
+            
+        }
+''';
+      profileItems += profileItem;
+    }
+
+    String data = '''
+              mutation {
+                createTurnament(
+                  input: {
+                    booking_time: "risus",
+                    draw_size: 2,
+                    format: Group,
+                    match: DOUBLE,
+                    name: "auctor",
+                    venue: "ON"
+                    payment_method: "$payment_method"
+                    phone_number: "085259737334"
+                    product:[$bookTimes]
+                    people:[$profileItems]
+                    
+                  }
+                ) {
+                  __typename
+                 ... on Error{
+                    message
+                  }
+                  ... on  SuccessCreateTurnament{
+                     transactionId
+                     turnamentId
+                  }
+                  ... on InvalidInputError{
+                    message
+                  }
+                }
+              }
+
+''';
+    log(data);
+    try {
+      Map<String, dynamic>? res = await GraphQLBase().mutate(data);
+      if (res != null) {
+        return res["createTraining"][0]["transactionId"];
+      }
+    } on Error catch (e, s) {
+      print(e);
+      print(s);
+    }
+    return null;
+  }
+
+  Future<String?> createBillingInput({
+    required final String userPayment,
+    required final String totalAmount,
+    required final String phoneNumber,
+  }) async {
+    String data = '''
 mutation {
     createBilling (
         input:  {
@@ -227,17 +306,18 @@ mutation {
 }
 ''';
 
-  log(data);
-  // try {
-  //   Map<String, dynamic>? res = await GraphQLBase().mutate(data);
-  //   if (res != null) {
-  //     log()
-  //     // return res["createTraining"][0]["transactionId"];
-  //   }
-  // } on Error catch (e, s) {
-  //   print(e);
-  //   print(s);
-  // }
+    log(data);
+    // try {
+    //   Map<String, dynamic>? res = await GraphQLBase().mutate(data);
+    //   if (res != null) {
+    //     log()
+    //     // return res["createTraining"][0]["transactionId"];
+    //   }
+    // } on Error catch (e, s) {
+    //   print(e);
+    //   print(s);
+    // }
+  }
 }
 
 class BookingTimeDate {
