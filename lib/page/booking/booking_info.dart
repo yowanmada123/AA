@@ -27,10 +27,12 @@ class BookingInfo extends StatefulWidget {
   State<BookingInfo> createState() => _BookingInfoState();
 }
 
-class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStateMixin {
+class _BookingInfoState extends State<BookingInfo>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final cGlobal = Get.find<GlobalController>();
-  final booking = Get.find<BookController>();
+
+  final cBook = Get.find<BookController>();
   final cTournament = Get.put(TournamentController());
   final loading = true.obs;
   final selectProduct = 0.obs;
@@ -88,8 +90,6 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
     loading.value = false;
   }
 
-  final cBook = Get.find<BookController>();
-
   @override
   void initState() {
     super.initState();
@@ -105,7 +105,8 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
             CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
-                  delegate: MySliverAppBar(image: widget.item.getImageUrl(), expandedHeight: 300),
+                  delegate: MySliverAppBar(
+                      image: widget.item.getImageUrl(), expandedHeight: 300),
                   pinned: true,
                 ),
                 SliverList(
@@ -116,10 +117,12 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                 Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(widget.item.name).titleText(),
                                           Container(
@@ -135,10 +138,17 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                       ),
                                       Text(widget.item.region.name),
                                       Obx(
-                                        () => Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                                          const SizedBox(height: 5),
-                                          (listProduct.isNotEmpty) ? Text(booking.product.price.toCurrency()).pageTitleText() : Container(),
-                                        ]),
+                                        () => Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              const SizedBox(height: 5),
+                                              (listProduct.isNotEmpty)
+                                                  ? Text(listProduct.first.price
+                                                          .toCurrency())
+                                                      .pageTitleText()
+                                                  : Container(),
+                                            ]),
                                       ),
                                       Text(widget.item.address),
                                     ],
@@ -150,10 +160,16 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                     children: [
                                       TabBar(
                                         labelColor: Colors.black,
-                                        labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-                                        unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                        labelStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700),
+                                        unselectedLabelStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
                                         isScrollable: true,
-                                        indicatorColor: Theme.of(context).colorScheme.primary,
+                                        indicatorColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                         onTap: (index) {
                                           // Tab index when user select it, it start from zero
                                         },
@@ -171,20 +187,30 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                         child: TabBarView(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 21),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 28,
+                                                      vertical: 21),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  const Text("Facilities").fieldTitleText(),
+                                                  const Text("Facilities")
+                                                      .fieldTitleText(),
                                                   const SizedBox(
                                                     height: 12,
                                                   ),
-                                                  const ItemInfo(info: "Parking Spot"),
-                                                  const ItemInfo(info: "Changing Rooms"),
-                                                  const ItemInfo(info: "Cafetaria"),
-                                                  const ItemInfo(info: "Cafetaria"),
+                                                  const ItemInfo(
+                                                      info: "Parking Spot"),
+                                                  const ItemInfo(
+                                                      info: "Changing Rooms"),
+                                                  const ItemInfo(
+                                                      info: "Cafetaria"),
+                                                  const ItemInfo(
+                                                      info: "Cafetaria"),
                                                 ],
                                               ),
                                             ),
@@ -194,47 +220,71 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                   () => Container(
                                                     child: (loading.value)
                                                         ? const Center(
-                                                            child: CircularProgressIndicator(),
+                                                            child:
+                                                                CircularProgressIndicator(),
                                                           )
                                                         : Padding(
-                                                            padding: const EdgeInsets.all(8.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
                                                             child: SizedBox(
                                                               height: 35,
-                                                              child: ListView.builder(
-                                                                  // shrinkWrap:
-                                                                  //     true,
-                                                                  scrollDirection: Axis.horizontal,
-                                                                  itemCount: listProduct.length,
-                                                                  itemBuilder: (BuildContext context, int index) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(left: 8, right: 12),
-                                                                      child: InkWell(
-                                                                        onTap: () {
-                                                                          listSchedule.value = listProduct[index].schedules;
-                                                                          selectProduct.value = index;
-                                                                          booking.selectProduct.clear();
-                                                                          booking.selectProduct.add(listProduct[index]);
-                                                                          cBook.selectProduct.clear();
-                                                                          cBook.selectProduct.add(listProduct[index]);
-                                                                          // widget.createData?.product = listProduct[index];
-                                                                        },
-                                                                        child: Obx(
-                                                                          () => Container(
-                                                                            decoration: BoxDecoration(
-                                                                              color: (selectProduct.value == index) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
-                                                                              borderRadius: const BorderRadius.all(Radius.circular(30)),
-                                                                            ),
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-                                                                              child: Center(
-                                                                                child: Text(listProduct[index].name).fieldTitleText().white(),
-                                                                              ),
+                                                              child: ListView
+                                                                  .builder(
+                                                                      // shrinkWrap:
+                                                                      //     true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemCount:
+                                                                          listProduct
+                                                                              .length,
+                                                                      itemBuilder:
+                                                                          (BuildContext context,
+                                                                              int index) {
+                                                                        return Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 8,
+                                                                              right: 12),
+                                                                          child:
+                                                                              InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              listSchedule.value = listProduct[index].schedules;
+                                                                              selectProduct.value = index;
+                                                                              log("select produck");
+                                                                              cBook.selectProduct.clear();
+                                                                              cBook.selectProduct.add(listProduct[index]);
+                                                                              // widget.createData?.product = listProduct[index];
+                                                                            },
+                                                                            child:
+                                                                                Obx(
+                                                                              () {
+                                                                                bool isSelect = false;
+                                                                                //todo cek apakah produk sudah dipilih
+                                                                                if (cBook.selectProduct.isNotEmpty) {
+                                                                                  //todo cek apakah produk yang sudah dipilih = data index
+                                                                                  if (cBook.selectProduct.first.id == listProduct[index].id) {
+                                                                                    isSelect = true;
+                                                                                  }
+                                                                                }
+                                                                                return Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    color: isSelect ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
+                                                                                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                                                                                  ),
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                                                                                    child: Center(
+                                                                                      child: Text(listProduct[index].name).fieldTitleText().white(),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  }),
+                                                                        );
+                                                                      }),
                                                             ),
                                                           ),
                                                   ),
@@ -244,11 +294,17 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                     child: Obx(
                                                   () => ListView.builder(
                                                       shrinkWrap: true,
-                                                      physics: NeverScrollableScrollPhysics(),
-                                                      itemCount: listSchedule.length,
-                                                      itemBuilder: (BuildContext context, int index) {
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      itemCount:
+                                                          listSchedule.length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
                                                         return OpeningHour(
-                                                          schedule: listSchedule[index],
+                                                          schedule:
+                                                              listSchedule[
+                                                                  index],
                                                           // createData: widget.createData,
                                                         );
                                                       }),
@@ -299,17 +355,18 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
         bottomNavigationBar: Obx(
           () => OButtonBar(
               title: "BOOK NOW",
-              isEnable: (listProduct.isNotEmpty),
+              isEnable: (cBook.selectProduct.isNotEmpty),
               onPressed: () {
-                booking.product = listProduct[selectProduct.value];
-                cTournament.tournamentdata.product = listProduct[selectProduct.value].id;
+                // cBook.product = listProduct[selectProduct.value];
+                cTournament.tournamentdata.product =
+                    listProduct[selectProduct.value].id;
                 log(cTournament.tournamentdata.name.toString());
                 log(cTournament.tournamentdata.drawSize.toString());
                 log(cTournament.tournamentdata.tournamentFormat.toString());
                 log(cTournament.tournamentdata.matchFormat.toString());
                 log(cTournament.tournamentdata.product.toString());
                 Get.to(BookingDate(
-                  product: listProduct[selectProduct.value],
+                  product: cBook.selectProduct.first,
                 ));
               }),
         ));
@@ -326,7 +383,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Stack(
       fit: StackFit.expand,
       // overflow: Overflow.visible,

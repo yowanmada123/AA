@@ -14,7 +14,7 @@ import '../model/payment/payment_methods.dart';
 import '../model/tournament/create_data_tournamert.dart';
 
 enum BookingType { veneu, trainer, tournament }
-
+//Get.put<BookController>(BookController());
 class BookController extends GetxController {
   Future<BookController> init() async {
     return this;
@@ -29,7 +29,7 @@ class BookController extends GetxController {
   var bookingDateTime = <BookingTimeDate>[].obs;
 
   late PaymentMethods paymentMethods;
-  late Product product;
+  // late Product product;
   late BookingType bookingType;
 
   CreateDataTournament? createDataTournament;
@@ -62,7 +62,7 @@ class BookController extends GetxController {
   Future<String?> bookingVenue() async {
     String payment_method = paymentMethods.id;
     String phone_number = "";
-    String? product_id = product.id;
+    String? product_id = selectProduct.first.id;
     String scheduled_date = bookingDateTime[0].date.toyyyyMMdd();
     String scheduled_time = bookingDateTime[0].time.schedule;
 
@@ -107,7 +107,7 @@ class BookController extends GetxController {
   Future<String?> bookinTrainer() async {
     String payment_method = paymentMethods.id;
     String phone_number = "";
-    String? product_id = product.id;
+    String? product_id = selectProduct.first.id;
     String scheduled_date = bookingDateTime[0].date.toyyyyMMdd();
     String scheduled_time = bookingDateTime[0].time.schedule;
 

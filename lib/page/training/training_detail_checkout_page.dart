@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
@@ -26,14 +27,16 @@ class TrainerDetailCheckoutPage extends StatefulWidget {
   const TrainerDetailCheckoutPage({Key? key}) : super(key: key);
 
   @override
-  State<TrainerDetailCheckoutPage> createState() => _TrainerDetailCheckoutPageState();
+  State<TrainerDetailCheckoutPage> createState() =>
+      _TrainerDetailCheckoutPageState();
 }
 
 class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
   final loading = true.obs;
   final listProfile = <Profile>[].obs;
   String query = '';
-  final cBooking = Get.put(BookingController());
+  // final cBooking = Get.put(BookingController());
+  final cBook = Get.put<BookController>(BookController());
   @override
   void initState() {
     super.initState();
@@ -83,230 +86,244 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
     return OScaffold(
       title: "Training Detail",
       body: Stack(children: [
-        Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("VENUE DETAILS").descriptionText().red(),
-                const SizedBox(
-                  height: 13,
-                ),
-                const Text("LAPANGAN TENNIS").fieldTitleText().black(),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
+        ListView(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset("assets/ic/ic_location-primary.svg"),
+                    const Text("VENUE DETAILS").descriptionText().red(),
                     const SizedBox(
-                      width: 8,
+                      height: 13,
                     ),
-                    const Text("Jakarta, Indonesia").regularBigText().black(),
-                  ],
-                ),
-                const SizedBox(
-                  height: 23,
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            thickness: 8,
-            color: Color(0xffF6F6F6),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("TRAINER DETAILS").descriptionText().red(),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/trainer1.png"),
-                    ),
+                    Text(cBook.selectPlace.first.name).fieldTitleText().black(),
                     const SizedBox(
-                      width: 13,
-                    ),
-                    const Text("Peter Parker").descriptionText().black(),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            thickness: 8,
-            color: Color(0xffF6F6F6),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("SCHEDULE DETAILS").descriptionText().red(),
-                const SizedBox(
-                  height: 11,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/ic/ic_calender_19.svg"),
-                        const SizedBox(
-                          width: 13,
-                        ),
-                        const Text("3 Februari 2022 ").regularText().black(),
-                      ],
+                      height: 8,
                     ),
                     Row(
                       children: [
-                        const Text("11:00 AM").regularText().black(),
+                        SvgPicture.asset("assets/ic/ic_location_primary.svg"),
                         const SizedBox(
-                          width: 13,
+                          width: 8,
                         ),
-                        const Text("-").regularText().black(),
-                        const SizedBox(
-                          width: 13,
+                        Expanded(
+                          child: Text(cBook.selectPlace.first.address)
+                              .regularBigText()
+                              .black(),
                         ),
-                        const Text("01:00 PM").regularText().black(),
                       ],
-                    )
+                    ),
+                    // const SizedBox(
+                    //   height: 23,
+                    // ),
                   ],
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            thickness: 8,
-            color: Color(0xffF6F6F6),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("BOOKING FOR").descriptionText().red(),
-                const SizedBox(
-                  height: 11,
-                ),
-                Row(
+              ),
+              const Divider(
+                thickness: 8,
+                color: Color(0xffF6F6F6),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey[350],
-                      radius: 20,
-                      child: CircleAvatar(
-                        backgroundColor: OprimaryColor,
-                        radius: 19,
-                        child: const Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.white,
+                    const Text("TRAINER DETAILS").descriptionText().red(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/trainer1.png"),
                         ),
-                      ),
+                        const SizedBox(
+                          width: 13,
+                        ),
+                        Text(cBook.selectTrainner.first.name.toString())
+                            .descriptionText()
+                            .black(),
+                      ],
                     ),
                     const SizedBox(
-                      width: 8,
+                      height: 16,
                     ),
-                    const Text("Stephen Strange (Me)").descriptionText().black(),
                   ],
                 ),
-                const SizedBox(
-                  height: 21,
-                ),
-                Row(
+              ),
+              const Divider(
+                thickness: 8,
+                color: Color(0xffF6F6F6),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey[350],
-                      radius: 20,
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 19,
-                        child: Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.grey,
+                    const Text("SCHEDULE DETAILS").descriptionText().red(),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/ic/ic_calender_19.svg"),
+                            const SizedBox(
+                              width: 13,
+                            ),
+                            Text(cBook.bookingDateTime.first.date.toDateDay())
+                                .regularText()
+                                .black(),
+                          ],
                         ),
-                      ),
+                        Wrap(
+                          direction: Axis.vertical,
+                          children: cBook.bookingDateTime
+                              .map((BookingTimeDate i) =>
+                                  Text("${i.time.schedule} PM")
+                                      .regularText()
+                                      .black())
+                              .toList(),
+                        ),
+                      ],
                     ),
                     const SizedBox(
-                      width: 8,
+                      height: 16,
                     ),
-                    const Text("Tony Stark").descriptionText().black(),
                   ],
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 21,
-          ),
-          Center(
-              child: BaseButton(
-            outlineRadius: 16,
-            width: 317,
-            height: 32,
-            ontap: () {},
-            text: "Add Member",
-            iconSvg: "assets/ic/ic_add_circle.svg",
-            color: OprimaryColor,
-          )),
-          const SizedBox(
-            height: 44,
-          ),
-          // Obx(
-          //   () => Container(
-          //     child: (loading.value)
-          //         ? const Center(
-          //             child: CircularProgressIndicator(),
-          //           )
-          //         : Expanded(
-          //             child: SizedBox(
-          //               width: Get.width,
-          //               // height: Get.height,
-          //               child: ListView.builder(
-          //                   itemCount: listProfile.length,
-          //                   itemBuilder: (BuildContext context, int index) {
-          //                     return ItemTrainer(
-          //                       item: listProfile[index],
-          //                       // onTap: () {
-          //                       //   // Get.to(ListHealtPage());
-          //                       // },
-          //                     );
-          //                   }),
-          //             ),
-          //           ),
-          //   ),
-          // ),
-        ]),
+              ),
+              const Divider(
+                thickness: 8,
+                color: Color(0xffF6F6F6),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("BOOKING FOR").descriptionText().red(),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.grey[350],
+                          radius: 20,
+                          child: CircleAvatar(
+                            backgroundColor: OprimaryColor,
+                            radius: 19,
+                            child: const Icon(
+                              Icons.person_outline_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text("Stephen Strange (Me)")
+                            .descriptionText()
+                            .black(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 21,
+                    ),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.grey[350],
+                          radius: 20,
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 19,
+                            child: Icon(
+                              Icons.person_outline_rounded,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text("Tony Stark").descriptionText().black(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 21,
+              ),
+              Center(
+                  child: BaseButton(
+                outlineRadius: 16,
+                width: 317,
+                height: 32,
+                ontap: () {},
+                text: "Add Member",
+                iconSvg: "assets/ic/ic_add_circle.svg",
+                color: OprimaryColor,
+              )),
+              const SizedBox(
+                height: 44,
+              ),
+              // Obx(
+              //   () => Container(
+              //     child: (loading.value)
+              //         ? const Center(
+              //             child: CircularProgressIndicator(),
+              //           )
+              //         : Expanded(
+              //             child: SizedBox(
+              //               width: Get.width,
+              //               // height: Get.height,
+              //               child: ListView.builder(
+              //                   itemCount: listProfile.length,
+              //                   itemBuilder: (BuildContext context, int index) {
+              //                     return ItemTrainer(
+              //                       item: listProfile[index],
+              //                       // onTap: () {
+              //                       //   // Get.to(ListHealtPage());
+              //                       // },
+              //                     );
+              //                   }),
+              //             ),
+              //           ),
+              //   ),
+              // ),
+            ]),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             BaseButton(
               ontap: () {
-                bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+                bottomSheetWidget(
+                    heightFactor: 0.9,
+                    context: context,
+                    child: const PaymentOption());
               },
               text: "CONTINUE",
               color: OTextsecondaryColor,
@@ -354,7 +371,8 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 18.0, right: 18.0, left: 18.0),
+                      padding: const EdgeInsets.only(
+                          top: 18.0, right: 18.0, left: 18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,7 +381,8 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: SvgPicture.asset("assets/ic/ic_close.svg")),
+                              child:
+                                  SvgPicture.asset("assets/ic/ic_close.svg")),
                           const Text(
                             "Filter",
                             style: TextStyle(color: Color(0xff19204E)),
@@ -402,7 +421,10 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                             children: [
                               Text(
                                 "TRAINING TYPE",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OprimaryColor),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: OprimaryColor),
                               ),
                               const SizedBox(
                                 height: 12,
@@ -414,13 +436,19 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                                     shrinkWrap: false,
                                     scrollDirection: Axis.vertical,
                                     itemCount: trainingOption.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisSpacing: 10,
                                       crossAxisSpacing: 10,
                                       crossAxisCount: 2,
-                                      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 8),
+                                      childAspectRatio: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                          (MediaQuery.of(context).size.height /
+                                              8),
                                     ),
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -430,18 +458,25 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: trainingType == index ? OprimaryColor : Colors.white,
+                                              color: trainingType == index
+                                                  ? OprimaryColor
+                                                  : Colors.white,
                                               border: Border.all(
-                                                color: trainingType == index ? OprimaryColor : Colors.grey,
+                                                color: trainingType == index
+                                                    ? OprimaryColor
+                                                    : Colors.grey,
                                               ),
-                                              borderRadius: BorderRadius.circular(8)),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
                                           child: Expanded(
                                             child: Center(
                                               child: Text(
                                                 trainingOption[index],
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  color: trainingType == index ? Colors.white : Colors.black,
+                                                  color: trainingType == index
+                                                      ? Colors.white
+                                                      : Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -497,7 +532,8 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18, top: 18),
+                    padding:
+                        const EdgeInsets.only(left: 18.0, right: 18, top: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -619,7 +655,9 @@ class _ItemTrainerState extends State<ItemTrainer> {
                               Container(
                                 width: 8,
                                 height: 8,
-                                decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle),
                               ),
                               const SizedBox(
                                 width: 6,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
@@ -42,16 +44,20 @@ class PlaceItem extends StatelessWidget {
                       Text(
                         item.name,
                         // textAlign: TextAlign.center,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
                       ).titleText(),
-                      Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
+                      Text(item.region.name,
+                              style: TextStyle(color: OColorBrown))
+                          .informationText(),
                       Expanded(child: Container()),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
+                            child:
+                                SvgPicture.asset("assets/ic/ic_location.svg"),
                           ),
                           Expanded(
                             child: Text(
@@ -76,6 +82,9 @@ class PlaceItem extends StatelessWidget {
                   // cGlobal.selectProduct.clear();
                   // cGlobal.selectPaymentMethods.clear();
                   // cGlobal.selectScheduleTime.clear();
+                  // log("aa");
+                  cBook.selectPlace.clear();
+                  cBook.selectPlace.add(item);
                   Get.to(() => BookingInfo(
                         item: item,
                       ));
@@ -86,7 +95,8 @@ class PlaceItem extends StatelessWidget {
                     bottomRight: Radius.circular(9),
                   ),
                   child: Image.network(
-                    GlobalController.to.baseFile + item.images.replaceAll("\"", ""),
+                    GlobalController.to.baseFile +
+                        item.images.replaceAll("\"", ""),
                     fit: BoxFit.cover,
                   ),
                 ),
