@@ -70,7 +70,7 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                         height: 20,
                       ),
                       const Text("Pembayaran").fieldTitleText().brown(),
-                      Text(cGlobal.selectPaymentMethods.first.name).regularBigText(),
+                      // Text(cGlobal.selectPaymentMethods.first.name).regularBigText(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -104,20 +104,20 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    cGlobal.selectProduct.first.name,
-                                  ).titleText(),
+                                  // Text(
+                                  //   cGlobal.selectProduct.first.name,
+                                  // ).titleText(),
                                   // Text(
                                   //   cGlobal.selectProduct.first.name,
                                   // ).regularBigText()
                                 ],
                               )),
-                          Expanded(
-                              flex: 1,
-                              child: Text(
-                                cGlobal.selectProduct.first.price.toCurrency(),
-                                textAlign: TextAlign.end,
-                              ).regularBigText()),
+                          // Expanded(
+                          //     flex: 1,
+                          //     child: Text(
+                          //       cGlobal.selectProduct.first.price.toCurrency(),
+                          //       textAlign: TextAlign.end,
+                          //     ).regularBigText()),
                         ],
                       ),
                       const SizedBox(
@@ -149,12 +149,12 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                               child: const Text(
                                 "Total",
                               ).regularBigText()),
-                          Expanded(
-                              flex: 1,
-                              child: Text(
-                                cGlobal.selectProduct.first.price.toCurrency(),
-                                textAlign: TextAlign.end,
-                              ).titleText()),
+                          // Expanded(
+                          //     flex: 1,
+                          //     child: Text(
+                          //       cGlobal.selectProduct.first.price.toCurrency(),
+                          //       textAlign: TextAlign.end,
+                          //     ).titleText()),
                         ],
                       ),
                     ],
@@ -168,7 +168,7 @@ class _PaymentDetailPageState extends State<PaymentDetailPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [const  Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
+                    children: [const Text("FIELD TITLE - NUNITO BOLD 12 ").fieldTitleText().brown(), _buildPanel()],
                   ),
                 )
               ],

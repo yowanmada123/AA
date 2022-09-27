@@ -4,7 +4,7 @@ import 'package:boilerplate_flutter/all_screen.dart';
 import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
-import 'package:boilerplate_flutter/page/order/order_detail.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_checkout_page.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -136,15 +136,21 @@ class _OrderListPageState extends State<OrderListPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    const ItemOrder(isActive: true,),
+                    const ItemOrder(
+                      isActive: true,
+                    ),
                     const SizedBox(
                       height: 18,
                     ),
-                    const ItemOrder(isActive: false,),
+                    const ItemOrder(
+                      isActive: false,
+                    ),
                     const SizedBox(
                       height: 18,
                     ),
-                    const ItemOrder(isActive: false,),
+                    const ItemOrder(
+                      isActive: false,
+                    ),
                   ],
                 ),
               ),
@@ -159,7 +165,8 @@ class _OrderListPageState extends State<OrderListPage> {
 class ItemOrder extends StatefulWidget {
   final bool isActive;
   const ItemOrder({
-    Key? key, required this.isActive,
+    Key? key,
+    required this.isActive,
   }) : super(key: key);
 
   @override
@@ -191,18 +198,12 @@ class _ItemOrderState extends State<ItemOrder> {
             height: 32,
             width: Get.width,
             decoration: BoxDecoration(
-                color: (widget.isActive) 
-                ? const Color(statusDone)
-                : const Color(statusExpired),
+                color: (widget.isActive) ? const Color(statusDone) : const Color(statusExpired),
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(8),
                   topLeft: Radius.circular(8),
                 )),
-            child: Center(
-              child: (widget.isActive) 
-              ? const Text("Active Tournaments").black().informationText() 
-              : const Text("Tournaments Finished ").black().informationText() 
-            ),
+            child: Center(child: (widget.isActive) ? const Text("Active Tournaments").black().informationText() : const Text("Tournaments Finished ").black().informationText()),
           ),
           const SizedBox(
             height: 12,
@@ -271,7 +272,7 @@ class _ItemOrderState extends State<ItemOrder> {
             child: BaseButton(
               height: 40,
               ontap: () {
-                Get.to(OrderDetailPage());
+                Get.to(() => const TournamentCheckoutPage());
               },
               text: (widget.isActive) ? "LIHAT DETAIL" : "CEK HASIL",
               color: OTextsecondaryColor,

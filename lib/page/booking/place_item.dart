@@ -42,20 +42,16 @@ class PlaceItem extends StatelessWidget {
                       Text(
                         item.name,
                         // textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
                       ).titleText(),
-                      Text(item.region.name,
-                              style: TextStyle(color: OColorBrown))
-                          .informationText(),
+                      Text(item.region.name, style: TextStyle(color: OColorBrown)).informationText(),
                       Expanded(child: Container()),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child:
-                                SvgPicture.asset("assets/ic/ic_location.svg"),
+                            child: SvgPicture.asset("assets/ic/ic_location.svg"),
                           ),
                           Expanded(
                             child: Text(
@@ -80,18 +76,9 @@ class PlaceItem extends StatelessWidget {
                   // cGlobal.selectProduct.clear();
                   // cGlobal.selectPaymentMethods.clear();
                   // cGlobal.selectScheduleTime.clear();
-
-                  switch (cBook.bookingType) {
-                    case BookingType.trainer:
-                      Get.to(ChoseLocation(
+                  Get.to(() => BookingInfo(
                         item: item,
                       ));
-                      break;
-                    default:
-                      Get.to(BookingInfo(
-                        item: item,
-                      ));
-                  }
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
@@ -99,8 +86,7 @@ class PlaceItem extends StatelessWidget {
                     bottomRight: Radius.circular(9),
                   ),
                   child: Image.network(
-                    GlobalController.to.baseFile +
-                        item.images.replaceAll("\"", ""),
+                    GlobalController.to.baseFile + item.images.replaceAll("\"", ""),
                     fit: BoxFit.cover,
                   ),
                 ),

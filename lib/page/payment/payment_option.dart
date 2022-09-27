@@ -1,22 +1,14 @@
-import 'dart:developer';
-
 import 'package:boilerplate_flutter/graphql_base.dart';
 import 'package:boilerplate_flutter/model/payment/payment_methods.dart';
-import 'package:boilerplate_flutter/model/tournament/create_data_tournamert.dart';
 import 'package:boilerplate_flutter/page/global_controller.dart';
-import 'package:boilerplate_flutter/page/home/onboarding.dart';
-import 'package:boilerplate_flutter/page/payment/payment_detail.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_title.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 import '../book_controller.dart';
 import '../profil/list_profil.dart';
-import 'payment_controller.dart';
 
 class PaymentOption extends StatefulWidget {
   const PaymentOption({
@@ -35,7 +27,11 @@ class _PaymentOptionState extends State<PaymentOption> {
     loading.value = true;
     String options = '''
        query {
-            userPaymentMethods {
+            userPaymentMethods(filter: {
+              status:{
+                eq: "ACTIVE"
+              }
+            }, sorting: [])  {
               ... on UserPaymentMethod {
                 name
                 group
@@ -49,22 +45,15 @@ class _PaymentOptionState extends State<PaymentOption> {
           }
 
     ''';
-    log(options.toString());
     Map<String, dynamic>? data = await GraphQLBase().query(options, showLoading: false);
 
-    log(data.toString());
     var list = data!['userPaymentMethods'] as List;
     if (list.isNotEmpty) {
       List<PaymentMethods> newData = list.map((i) => PaymentMethods.fromMap(i)).toList();
-      log(newData.length.toString());
       listPaymentMethods.value = newData;
-      log(newData.toString());
     } else {
       listPaymentMethods.value = [];
     }
-
-    log(listPaymentMethods.length.toString());
-
     loading.value = false;
   }
 
@@ -106,7 +95,6 @@ class _PaymentOptionState extends State<PaymentOption> {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () async {
-                                log("tap pay");
                                 booking.paymentMethods = listPaymentMethods[index];
                                 // cGlobal.selectPaymentMethods.clear();
                                 // cGlobal.selectPaymentMethods.add(listPaymentMethods[index]);
@@ -191,9 +179,7 @@ Future<void> createTournament(TournamentController cTournament) async {
   try {
     Map<String, dynamic>? res = await GraphQLBase().mutate(option);
     if (res != null) {
-      log(res.toString());
       final successMessage = res['createTurnament'][0]['Success'];
-      log(successMessage);
       Get.offAll(const HomePage());
     }
   } on Error catch (e, s) {

@@ -17,6 +17,8 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../widget/base/form/form_scaffold.dart';
 import '../../widget/base/button/button_bar.dart';
+import '../tournament/tournament_checkout_page.dart';
+import '../training/training_detail_checkout_page.dart';
 
 class BookingDate extends StatefulWidget {
   final Product product;
@@ -79,7 +81,7 @@ class _BookingDateState extends State<BookingDate> {
     } else {
       listScheduleTime.value = [];
     }
-    cGlobal.selectScheduleTime.value.clear();
+    // cGlobal.selectScheduleTime.value.clear();
     loading.value = false;
   }
 
@@ -160,26 +162,30 @@ class _BookingDateState extends State<BookingDate> {
         bottomNavigationBar: Obx(
           () => OButtonBar(
               title: "BOOK NOW",
-              isEnable: (cGlobal.selectScheduleTime.isNotEmpty),
+              isEnable: (booking.bookingDateTime.isNotEmpty),
               onPressed: () {
-                booking.product =
-                    // log(cTournament.tournamentdata.name.toString());
-                    // log(cTournament.tournamentdata.drawSize.toString());
-                    // log(cTournament.tournamentdata.tournamentFormat.toString());
-                    // log(cTournament.tournamentdata.matchFormat.toString());
-                    // log(cTournament.tournamentdata.product.toString());
-                    // log(cTournament.tournamentdata.scheduleDate.toString());
-                    // log(cTournament.tournamentdata.scheduleTime.toString());
+                // log(cTournament.tournamentdata.name.toString());
+                // log(cTournament.tournamentdata.drawSize.toString());
+                // log(cTournament.tournamentdata.tournamentFormat.toString());
+                // log(cTournament.tournamentdata.matchFormat.toString());
+                // log(cTournament.tournamentdata.product.toString());
+                // log(cTournament.tournamentdata.scheduleDate.toString());
+                // log(cTournament.tournamentdata.scheduleTime.toString());
 
-                    // log(cBook.selectTrainner.first.toString());
-                    // log(cBook.selectPlace.first.toString());
-                    // log(cBook.selectLong.value.toString());
-                    // log(cBook.selectLat.value.toString());
-                    // log(cBook.selectProduct.first.toString());
-                    // log(cBook.scheduleDate.value.toString());
-                    // log(cBook.scheduleTime.value.toString());
-
-                    bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+                // log(cBook.selectTrainner.first.toString());
+                // log(cBook.selectPlace.first.toString());
+                // log(cBook.selectLong.value.toString());
+                // log(cBook.selectLat.value.toString());
+                // log(cBook.selectProduct.first.toString());
+                // log(cBook.scheduleDate.value.toString());
+                // log(cBook.scheduleTime.value.toString());
+                if (booking.bookingType == BookingType.veneu) {
+                  bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+                } else if (booking.bookingType == BookingType.trainer) {
+                  Get.to(() => const TrainerDetailCheckoutPage());
+                } else if (booking.bookingType == BookingType.tournament) {
+                  Get.to(() => const TournamentCheckoutPage());
+                }
               }),
         ));
   }

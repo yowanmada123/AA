@@ -43,13 +43,6 @@ class GlobalController extends GetxController {
 
   String addres = "";
 
-  //todo : select data transaksi
-  final selectPlace = <Place>[].obs;
-  final selectProduct = <Product>[].obs;
-  final selectPaymentMethods = <PaymentMethods>[].obs;
-  final selectScheduleDate = "".obs;
-  final selectScheduleTime = <ScheduleTime>[].obs;
-
   void setToken(String val) {
     final box = GetStorage();
     box.write('token', val);

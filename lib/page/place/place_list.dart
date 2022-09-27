@@ -105,8 +105,7 @@ class ItemPlace extends StatelessWidget {
   final Place item;
   final GlobalController state;
 
-  const ItemPlace({Key? key, required this.item, required this.state})
-      : super(key: key);
+  const ItemPlace({Key? key, required this.item, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +115,12 @@ class ItemPlace extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          cGlobal.selectPlace.clear();
-          // cGlobal.selectPlace.add(item);
-          cGlobal.selectPlace.clear();
-          cGlobal.selectProduct.clear();
-          cGlobal.selectPaymentMethods.clear();
-          cGlobal.selectScheduleTime.clear();
+          // cGlobal.selectPlace.clear();
+          // // cGlobal.selectPlace.add(item);
+          // cGlobal.selectPlace.clear();
+          // cGlobal.selectProduct.clear();
+          // cGlobal.selectPaymentMethods.clear();
+          // cGlobal.selectScheduleTime.clear();
           cBook.selectPlace.clear();
           cBook.selectPlace.add(item);
           Get.to(ChoseLocation(
@@ -168,8 +167,7 @@ class ItemPlace extends StatelessWidget {
                         Text(
                           item.name,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         ).titleText(),
                       ],
                     ),
@@ -182,8 +180,7 @@ class ItemPlace extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, top: 10.0, bottom: 2),
+                            padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 2),
                             child: Text(item.description).titleText(),
                           ),
                         ),

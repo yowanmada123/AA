@@ -19,15 +19,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../graphql_base.dart';
+import '../../widget/popup/bottom_sheet.dart';
+import '../payment/payment_option.dart';
 
-class DetailTrainerPage extends StatefulWidget {
-  DetailTrainerPage({Key? key}) : super(key: key);
+class TrainerDetailCheckoutPage extends StatefulWidget {
+  const TrainerDetailCheckoutPage({Key? key}) : super(key: key);
 
   @override
-  State<DetailTrainerPage> createState() => _DetailTrainerPageState();
+  State<TrainerDetailCheckoutPage> createState() => _TrainerDetailCheckoutPageState();
 }
 
-class _DetailTrainerPageState extends State<DetailTrainerPage> {
+class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
   final loading = true.obs;
   final listProfile = <Profile>[].obs;
   String query = '';
@@ -80,12 +82,8 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
   Widget build(BuildContext context) {
     return OScaffold(
       title: "Training Detail",
-      body: Stack(
-        children:[
-          Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: Stack(children: [
+        Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
             child: Column(
@@ -111,7 +109,6 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
                 const SizedBox(
                   height: 23,
                 ),
-                
               ],
             ),
           ),
@@ -191,7 +188,6 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
                         const Text("01:00 PM").regularText().black(),
                       ],
                     )
-      
                   ],
                 ),
                 const SizedBox(
@@ -220,21 +216,21 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
                 Row(
                   children: [
                     CircleAvatar(
-                        backgroundColor: Colors.grey[350],
-                        radius: 20,
-                        child: CircleAvatar(
-                          backgroundColor: OprimaryColor,
-                          radius: 19,
-                          child: const Icon(
-                            Icons.person_outline_rounded,
-                            color: Colors.white,
-                          ),
+                      backgroundColor: Colors.grey[350],
+                      radius: 20,
+                      child: CircleAvatar(
+                        backgroundColor: OprimaryColor,
+                        radius: 19,
+                        child: const Icon(
+                          Icons.person_outline_rounded,
+                          color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text("Stephen Strange (Me)").descriptionText().black(),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text("Stephen Strange (Me)").descriptionText().black(),
                   ],
                 ),
                 const SizedBox(
@@ -243,21 +239,21 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
                 Row(
                   children: [
                     CircleAvatar(
-                        backgroundColor: Colors.grey[350],
-                        radius: 20,
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 19,
-                          child: Icon(
-                            Icons.person_outline_rounded,
-                            color: Colors.grey,
-                          ),
+                      backgroundColor: Colors.grey[350],
+                      radius: 20,
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 19,
+                        child: Icon(
+                          Icons.person_outline_rounded,
+                          color: Colors.grey,
                         ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text("Tony Stark").descriptionText().black(),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text("Tony Stark").descriptionText().black(),
                   ],
                 ),
               ],
@@ -266,7 +262,16 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
           const SizedBox(
             height: 21,
           ),
-          Center(child: BaseButton(outlineRadius: 16, width: 317 ,height: 32,ontap: (){},text: "Add Member", iconSvg: "assets/ic/ic_add_circle.svg", color: OprimaryColor,)),
+          Center(
+              child: BaseButton(
+            outlineRadius: 16,
+            width: 317,
+            height: 32,
+            ontap: () {},
+            text: "Add Member",
+            iconSvg: "assets/ic/ic_add_circle.svg",
+            color: OprimaryColor,
+          )),
           const SizedBox(
             height: 44,
           ),
@@ -299,12 +304,18 @@ class _DetailTrainerPageState extends State<DetailTrainerPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            BaseButton(ontap: (){}, text: "CONTINUE", color: OTextsecondaryColor, textColor: Colors.white, outlineRadius: 0,)
+            BaseButton(
+              ontap: () {
+                bottomSheetWidget(heightFactor: 0.9, context: context, child: const PaymentOption());
+              },
+              text: "CONTINUE",
+              color: OTextsecondaryColor,
+              textColor: Colors.white,
+              outlineRadius: 0,
+            )
           ],
         ),
-        
-        ] 
-      ),
+      ]),
     );
   }
 

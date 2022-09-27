@@ -6,8 +6,9 @@ import 'package:boilerplate_flutter/page/activity/activity_order_detail_page.dar
 import 'package:boilerplate_flutter/page/activity/activity_payment_detail_page.dart';
 import 'package:boilerplate_flutter/page/booking/booking_list.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
-import 'package:boilerplate_flutter/page/order/order_detail.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_checkout_page.dart';
 import 'package:boilerplate_flutter/page/place/place_list.dart';
+import 'package:boilerplate_flutter/page/tournament/tournament_detail_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
@@ -124,13 +125,15 @@ class _ActivityPageState extends State<ActivityPage> {
                             height: 18,
                           ),
                           const ItemWaitingOrder(
-                            iconSvg: "assets/ic/ic_calender_red.svg", customer: 'Stephen Strange',
+                            iconSvg: "assets/ic/ic_calender_red.svg",
+                            customer: 'Stephen Strange',
                           ),
                           const SizedBox(
                             height: 18,
                           ),
                           const ItemWaitingOrder(
-                            iconSvg: "assets/ic/ic_trophy_red_bg.svg", customer: 'Yowanda',
+                            iconSvg: "assets/ic/ic_trophy_red_bg.svg",
+                            customer: 'Yowanda',
                           ),
                         ],
                       ),
@@ -331,7 +334,7 @@ class _ItemOrderState extends State<ItemOrder> {
                   child: BaseButton(
                     height: 40,
                     ontap: () {
-                      Get.to(OrderDetailPage());
+                      Get.to(TournamentDetailPage());
                     },
                     iconSvg: "assets/ic/ic_qr.svg",
                     text: (widget.isActive) ? "BUKA QR BOOKING" : "CEK HASIL",
@@ -350,7 +353,8 @@ class ItemWaitingOrder extends StatefulWidget {
   final String customer;
   const ItemWaitingOrder({
     Key? key,
-    required this.iconSvg, required this.customer,
+    required this.iconSvg,
+    required this.customer,
   }) : super(key: key);
 
   @override
@@ -465,7 +469,7 @@ class _ItemWaitingOrderState extends State<ItemWaitingOrder> {
             child: BaseButton(
               height: 40,
               ontap: () {
-                Get.to(OrderDetailPage());
+                Get.to(TournamentDetailPage());
               },
               text: "CARA PEMBAYARAN",
               color: OTextsecondaryColor,

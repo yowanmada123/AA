@@ -137,7 +137,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                       Obx(
                                         () => Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                                           const SizedBox(height: 5),
-                                          (cGlobal.selectProduct.isNotEmpty) ? Text(cGlobal.selectProduct.value.first.price.toCurrency()).pageTitleText() : Container(),
+                                          (listProduct.isNotEmpty) ? Text(booking.product.price.toCurrency()).pageTitleText() : Container(),
                                         ]),
                                       ),
                                       Text(widget.item.address),
@@ -212,8 +212,8 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
                                                                         onTap: () {
                                                                           listSchedule.value = listProduct[index].schedules;
                                                                           selectProduct.value = index;
-                                                                          cGlobal.selectProduct.clear();
-                                                                          cGlobal.selectProduct.add(listProduct[index]);
+                                                                          booking.selectProduct.clear();
+                                                                          booking.selectProduct.add(listProduct[index]);
                                                                           cBook.selectProduct.clear();
                                                                           cBook.selectProduct.add(listProduct[index]);
                                                                           // widget.createData?.product = listProduct[index];
@@ -299,7 +299,7 @@ class _BookingInfoState extends State<BookingInfo> with SingleTickerProviderStat
         bottomNavigationBar: Obx(
           () => OButtonBar(
               title: "BOOK NOW",
-              isEnable: (cGlobal.selectProduct.isNotEmpty),
+              isEnable: (listProduct.isNotEmpty),
               onPressed: () {
                 booking.product = listProduct[selectProduct.value];
                 cTournament.tournamentdata.product = listProduct[selectProduct.value].id;
