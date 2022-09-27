@@ -31,6 +31,7 @@ class BookController extends GetxController {
   late PaymentMethods paymentMethods;
   // late Product product;
   late BookingType bookingType;
+  bool isAddUserFromBooking = false;
 
   CreateDataTournament? createDataTournament;
 
@@ -39,6 +40,14 @@ class BookController extends GetxController {
       bookingDateTime.remove(bookingTimeDate);
     } else {
       bookingDateTime.add(bookingTimeDate);
+    }
+  }
+
+   void addProfilUser(Profile prof) {
+    if (profile.contains(prof)) {
+      profile.remove(prof);
+    } else {
+      profile.add(prof);
     }
   }
 

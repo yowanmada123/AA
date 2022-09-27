@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:boilerplate_flutter/model/user/profile.dart';
 import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/booking/booking_controller.dart';
+import 'package:boilerplate_flutter/page/global_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/maps/maps_open_street.dart';
+import 'package:boilerplate_flutter/page/profil/list_user_page.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_small_outline.dart';
@@ -36,11 +38,12 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
   final listProfile = <Profile>[].obs;
   String query = '';
   // final cBooking = Get.put(BookingController());
-  final cBook = Get.put<BookController>(BookController());
+  final cBook = Get.put(BookController());
+  final cGlobal = Get.put(GlobalController());
   @override
   void initState() {
     super.initState();
-    getData();
+    // getData();
   }
 
   getData() async {
@@ -195,7 +198,7 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                           direction: Axis.vertical,
                           children: cBook.bookingDateTime
                               .map((BookingTimeDate i) =>
-                                  Text("${i.time.schedule} PM")
+                                  Text("${i.time.schedule} PM ")
                                       .regularText()
                                       .black())
                               .toList(),
@@ -242,33 +245,46 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                         const SizedBox(
                           width: 8,
                         ),
-                        const Text("Stephen Strange (Me)")
+                        Text("${cGlobal.getFullName()} (Me)")
                             .descriptionText()
                             .black(),
                       ],
                     ),
                     const SizedBox(
-                      height: 21,
+                      height: 3,
                     ),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey[350],
-                          radius: 20,
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 19,
-                            child: Icon(
-                              Icons.person_outline_rounded,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        const Text("Tony Stark").descriptionText().black(),
-                      ],
+                    Obx(
+                      () => Wrap(
+                        direction: Axis.vertical,
+                        children: cBook.profile
+                            .map((Profile i) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.grey[350],
+                                        radius: 20,
+                                        child: const CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          radius: 19,
+                                          child: Icon(
+                                            Icons.person_outline_rounded,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(i.fullname)
+                                          .descriptionText()
+                                          .black(),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
                     ),
                   ],
                 ),
@@ -281,7 +297,11 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
                 outlineRadius: 16,
                 width: 317,
                 height: 32,
-                ontap: () {},
+                ontap: () async {
+                  cBook.isAddUserFromBooking = true;
+                  await Get.to(ListUserPage());
+                  cBook.isAddUserFromBooking = false;
+                },
                 text: "Add Member",
                 iconSvg: "assets/ic/ic_add_circle.svg",
                 color: OprimaryColor,
@@ -314,25 +334,26 @@ class _TrainerDetailCheckoutPageState extends State<TrainerDetailCheckoutPage> {
               //   ),
               // ),
             ]),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            BaseButton(
-              ontap: () {
-                bottomSheetWidget(
-                    heightFactor: 0.9,
-                    context: context,
-                    child: const PaymentOption());
-              },
-              text: "CONTINUE",
-              color: OTextsecondaryColor,
-              textColor: Colors.white,
-              outlineRadius: 0,
-            )
-          ],
-        ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.end,
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+
+        //   ],
+        // ),
       ]),
+      bottomNavigationBar: BaseButton(
+        ontap: () {
+          bottomSheetWidget(
+              heightFactor: 0.9,
+              context: context,
+              child: const PaymentOption());
+        },
+        text: "CONTINUE",
+        color: OTextsecondaryColor,
+        textColor: Colors.white,
+        outlineRadius: 0,
+      ),
     );
   }
 

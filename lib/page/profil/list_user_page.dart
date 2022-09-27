@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boilerplate_flutter/model/user/profile.dart';
+import 'package:boilerplate_flutter/page/book_controller.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/kyc/kyc_form.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
@@ -24,6 +25,7 @@ class _ListUserPageState extends State<ListUserPage> {
   final loading = true.obs;
   final listProfile = <Profile>[].obs;
   String query = '';
+
   @override
   void initState() {
     super.initState();
@@ -83,35 +85,47 @@ class _ListUserPageState extends State<ListUserPage> {
           ),
         ),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.to(const KYCFormPage());
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xffD8D8D8))),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xffD8D8D8))),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Row(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset("assets/ic/ic_add_member.svg"),
-                    const SizedBox(
-                      width: 18,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/ic/ic_add_member.svg"),
+                          const SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Add New Member")
+                                    .pageTitleText()
+                                    .black(),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text("Fill in new member details to add new member")
+                                    .regularText()
+                                    .black(),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Add New Member").pageTitleText().black(),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        SizedBox(width: 207, child: const Text("Fill in new member details to add new member").regularText().black()),
-                      ],
-                    )
-                  ],
-                ),
-                const Icon(Icons.keyboard_arrow_right_outlined)
-              ]),
+                    const Icon(Icons.keyboard_arrow_right_outlined)
+                  ]),
             ),
           ),
         ),
@@ -161,73 +175,91 @@ class ItemNama extends StatefulWidget {
 
 class _ItemNamaState extends State<ItemNama> {
   bool isCheck = false;
+  final cBook = Get.put(BookController());
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(
-          KYCEditFormPage(
-            profile: widget.item,
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey[350],
-                          radius: 20,
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 19,
-                            child: Icon(
-                              Icons.person_outline_rounded,
-                              color: Colors.grey,
-                            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: [
+          (cBook.isAddUserFromBooking)
+              ? Obx(() => Checkbox(
+                  value: cBook.profile.contains(widget.item),
+                  onChanged: (v) {
+                    cBook.addProfilUser(widget.item);
+                  }))
+              : Container(),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                if (cBook.isAddUserFromBooking) {
+                  cBook.addProfilUser(widget.item);
+                } else {
+                  Get.to(
+                    KYCEditFormPage(
+                      profile: widget.item,
+                    ),
+                  );
+                }
+              },
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.grey[350],
+                                radius: 20,
+                                child: const CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 19,
+                                  child: Icon(
+                                    Icons.person_outline_rounded,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Text(item.id),
+                                  Text(widget.item.email).titleText(),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    widget.item.phone.toString(),
+                                    style: TextStyle(fontSize: 10),
+                                  )
+                                  // Text(widget.item.id).informationText(),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Text(item.id),
-                            Text(widget.item.email).titleText(),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            const Text(
-                              "082335645799",
-                              style: TextStyle(fontSize: 10),
-                            )
-                            // Text(widget.item.id).informationText(),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                      // GestureDetector(
+                      //     onTap: () => Get.to(
+                      //           KYCEditFormPage(
+                      //             profile: widget.item,
+                      //           ),
+                      //         ),
+                      //     child: const Icon(Icons.arrow_right))
+                    ],
                   ),
-                ),
-                // GestureDetector(
-                //     onTap: () => Get.to(
-                //           KYCEditFormPage(
-                //             profile: widget.item,
-                //           ),
-                //         ),
-                //     child: const Icon(Icons.arrow_right))
-              ],
+                  const Divider()
+                ],
+              ),
             ),
-            const Divider()
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

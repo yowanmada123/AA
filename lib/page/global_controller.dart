@@ -35,7 +35,7 @@ class GlobalController extends GetxController {
   String username = '';
   String phone = '';
   String profileImage = '';
-  String idEdit = "3f89794e-f10d-497d-bd80-f7ab15bdd406";
+  // String idEdit = "3f89794e-f10d-497d-bd80-f7ab15bdd406";
   bool isDev = false;
 
   double latitude = 0.0;
@@ -46,6 +46,23 @@ class GlobalController extends GetxController {
   void setToken(String val) {
     final box = GetStorage();
     box.write('token', val);
+    token = val;
+  }
+  void setId(String val) {
+    final box = GetStorage();
+    box.write('id', val);
+    token = val;
+  }
+
+   String getId() {
+    final box = GetStorage();
+    String ids = box.read('id');
+    return ids;
+  }
+
+  void setFullName(String val) {
+    final box = GetStorage();
+    box.write('fullName', val);
     token = val;
   }
 
@@ -79,6 +96,12 @@ class GlobalController extends GetxController {
   String getUsername() {
     final box = GetStorage();
     return box.read('username');
+  }
+
+  String getFullName() {
+    final box = GetStorage();
+    String token = box.read('fullName') ?? "";
+    return token;
   }
 
   String getProfileImage() {

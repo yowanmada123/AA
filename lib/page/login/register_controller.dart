@@ -164,8 +164,10 @@ class RegisterController extends GetxController {
         final token = res['loginByEmail'][0]['token'];
         log(token);
         cGlobal.setToken(token);
+        cGlobal.setId(res['loginByEmail'][0]['user']['id']);
         // if (res['loginByEmail'][0]['user']['profiles'].lenght > 0) {
-        //   cGlobal.setPhone(res['loginByEmail'][0]['user']['profiles'][0]['phone']);
+        //   cGlobal.setFullName(
+        //       res['loginByEmail'][0]['user']['profiles'][0]['fullname']);
         // }
         Get.offAll(HomeNavbarButton());
       }
@@ -203,7 +205,9 @@ class RegisterController extends GetxController {
     }
   }
 
-  Future<void> loginByApple({required final String identityToken, required final String authorizationCode}) async {
+  Future<void> loginByApple(
+      {required final String identityToken,
+      required final String authorizationCode}) async {
     String q = '''
    mutation {
       loginByApple(
