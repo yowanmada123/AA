@@ -14,6 +14,7 @@ import '../model/payment/payment_methods.dart';
 import '../model/tournament/create_data_tournamert.dart';
 
 enum BookingType { veneu, trainer, tournament }
+
 //Get.put<BookController>(BookController());
 class BookController extends GetxController {
   Future<BookController> init() async {
@@ -43,7 +44,7 @@ class BookController extends GetxController {
     }
   }
 
-   void addProfilUser(Profile prof) {
+  void addProfilUser(Profile prof) {
     if (profile.contains(prof)) {
       profile.remove(prof);
     } else {
@@ -58,7 +59,7 @@ class BookController extends GetxController {
         bookingVenue();
         break;
       case BookingType.trainer:
-        // bookingTrainer();
+        bookingTrainer();
         log(selectProduct.first.name);
         break;
       case BookingType.tournament:
@@ -113,29 +114,57 @@ class BookController extends GetxController {
     return null;
   }
 
-  Future<String?> bookinTrainer() async {
+  Future<String?> bookingTrainer() async {
     String payment_method = paymentMethods.id;
     String phone_number = "";
     String? product_id = selectProduct.first.id;
     String scheduled_date = bookingDateTime[0].date.toyyyyMMdd();
     String scheduled_time = bookingDateTime[0].time.schedule;
+    String? trainer = selectTrainner.first.id;
+    String bookTimes = '''
+''';
+
+    for (var i = 0; i < bookingDateTime.length; i++) {
+      if (i > 0) bookTimes += ', ';
+      String bookTime = '''
+{
+            product_id: "$product_id",
+            scheduled_date: "${bookingDateTime[i].date.toDate2()}",
+            scheduled_time: "${bookingDateTime[i].time.schedule}"
+        }
+''';
+      bookTimes += bookTime;
+    }
+
+    String profileItems = '''
+''';
+    for (var i = 0; i < profile.length; i++) {
+      if (i > 0) profileItems += ', ';
+      String profileItem = '''
+{
+            people_id: "${profile[i].id}",
+            
+        }
+''';
+      profileItems += profileItem;
+    }
 
     String data = '''
               mutation {
-                createTransaction(
+                createTraining(
                   input: {
                     payment_method: "$payment_method"
                     phone_number: "085259737334"
-                    product_id: "$product_id"
-                    scheduled_date: "$scheduled_date"
-                    scheduled_time: "$scheduled_time"
+                    product:[$bookTimes]
+                    people:[$profileItems]
+                    trainer_id:"$trainer"
                   }
                 ) {
                   __typename
                  ... on Error{
                     message
                   }
-                  ... on  SuccessCreateTransaction{
+                  ... on  SuccessCreateTraining{
                     transactionId
                   }
                   ... on InvalidInputError{
@@ -149,7 +178,11 @@ class BookController extends GetxController {
     try {
       Map<String, dynamic>? res = await GraphQLBase().mutate(data);
       if (res != null) {
-        return res["createTransaction"][0]["transactionId"];
+        await createBillingInput(
+            phoneNumber: "085259737334",
+            totalAmount: "100000",
+            userPayment: payment_method);
+        return res["createTraining"][0]["transactionId"];
       }
     } on Error catch (e, s) {
       print(e);
@@ -157,6 +190,54 @@ class BookController extends GetxController {
     }
     return null;
   }
+}
+
+Future<String?> createBillingInput({
+  required final String userPayment,
+  required final String totalAmount,
+  required final String phoneNumber,
+}) async {
+  String data = '''
+mutation {
+    createBilling (
+        input:  {
+        phoneNumber: $phoneNumber
+        totalAmount: $totalAmount
+        userPaymentMethod: $userPayment
+    }
+    ) {
+        __typename
+        ... on Error {
+            message
+        }
+        ... on InvalidInputError {
+            errors { 
+                field
+                messages
+            }
+            message
+        }
+        ... on SuccesCreateBilling {
+            billNumber
+            paymentId
+            trxId
+            virtualAccount
+        }
+    }
+}
+''';
+
+  log(data);
+  // try {
+  //   Map<String, dynamic>? res = await GraphQLBase().mutate(data);
+  //   if (res != null) {
+  //     log()
+  //     // return res["createTraining"][0]["transactionId"];
+  //   }
+  // } on Error catch (e, s) {
+  //   print(e);
+  //   print(s);
+  // }
 }
 
 class BookingTimeDate {
