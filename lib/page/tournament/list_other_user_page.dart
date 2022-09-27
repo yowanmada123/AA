@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+
 import 'package:boilerplate_flutter/model/user/profile.dart';
-import 'package:boilerplate_flutter/page/kyc/kyc_edit_form.dart';
 import 'package:boilerplate_flutter/page/tournament/tournament_controller.dart';
 import 'package:boilerplate_flutter/utils/colors.dart';
 import 'package:boilerplate_flutter/widget/base/button/button_base.dart';
@@ -9,14 +12,12 @@ import 'package:boilerplate_flutter/widget/base/form/form_checkbox.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_scaffold.dart';
 import 'package:boilerplate_flutter/widget/base/form/form_search_widget.dart';
 import 'package:boilerplate_flutter/widget/extention/base_ext.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 import '../../graphql_base.dart';
+import '../book_controller.dart';
 
 class ListOtherUserPage extends StatefulWidget {
-  ListOtherUserPage({Key? key}) : super(key: key);
+  const ListOtherUserPage({Key? key}) : super(key: key);
 
   @override
   State<ListOtherUserPage> createState() => _ListOtherUserPageState();
@@ -24,8 +25,8 @@ class ListOtherUserPage extends StatefulWidget {
 
 class _ListOtherUserPageState extends State<ListOtherUserPage> {
   final loading = true.obs;
-  final listProfile = <Profile>[].obs;
-  final cTournament = Get.put(TournamentController());
+  final listProfile = <ProfileChosser>[].obs;
+  final booking = Get.find<BookController>();
 
   String query = '';
   @override
@@ -64,7 +65,8 @@ class _ListOtherUserPageState extends State<ListOtherUserPage> {
     ''';
     Map<String, dynamic>? data = await GraphQLBase().query(q);
     var list = data!['profiles']['nodes'] as List;
-    List<Profile> newData = list.map((i) => Profile.fromMap(i)).toList();
+    List<ProfileChosser> newData = list.map((i) => ProfileChosser(isSelected: false, profile: Profile.fromMap(i))).toList();
+
     log(newData.length.toString());
     listProfile.value = newData;
     log(newData.toString());
@@ -125,24 +127,19 @@ class _ListOtherUserPageState extends State<ListOtherUserPage> {
                       child: CircularProgressIndicator(),
                     )
                   : Expanded(
-                      child: SizedBox(
-                        width: Get.width,
-                        // height: Get.height,
-                        child: ListView.builder(
-                            itemCount: listProfile.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    cTournament.selectedProfiles.length;
-                                  });
-                                },
-                                child: ItemNama(
-                                  item: listProfile[index],
-                                ),
-                              );
-                            }),
-                      ),
+                      child: ListView.builder(
+                          itemCount: listProfile.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                listProfile[index].isSelected = !listProfile[index].isSelected;
+                                listProfile.refresh();
+                              },
+                              child: ItemNama(
+                                item: listProfile[index],
+                              ),
+                            );
+                          }),
                     ),
             ),
           ),
@@ -159,12 +156,18 @@ class _ListOtherUserPageState extends State<ListOtherUserPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Total Member Selected:").regularText().black(),
-                  Text("${cTournament.selectedProfiles.length} Name").pageTitleText().black(),
+                  Text("0 Name").pageTitleText().black(),
                 ],
               ),
             ),
             BaseButton(
-              ontap: () {},
+              ontap: () {
+                booking.profile.clear();
+                for (var element in listProfile) {
+                  if (element.isSelected) booking.profile.add(element.profile);
+                }
+                Get.back();
+              },
               text: "CONTINUE",
               color: Colors.grey,
               outlineRadius: 0,
@@ -176,122 +179,74 @@ class _ListOtherUserPageState extends State<ListOtherUserPage> {
   }
 }
 
-class ItemNama extends StatefulWidget {
-  final Profile item;
+class ItemNama extends StatelessWidget {
+  final ProfileChosser item;
   const ItemNama({
     Key? key,
     required this.item,
   }) : super(key: key);
 
   @override
-  State<ItemNama> createState() => _ItemNamaState();
-}
-
-class _ItemNamaState extends State<ItemNama> {
-  bool isCheck = false;
-  final cTournament = Get.put(TournamentController());
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: OSquareCheckBox(
-                    text: "",
-                    accept: isCheck,
-                    color: OTextsecondaryColor,
-                    fungsi: (val) {
-                      setState(() {
-                        isCheck = !isCheck;
-                        (isCheck == true)
-                            ? cTournament.selectedProfiles.add(Profile(
-                                identityNumber: widget.item.identityNumber,
-                                identityType: widget.item.identityType,
-                                address: widget.item.address,
-                                createdAt: widget.item.createdAt,
-                                dateOfBirth: widget.item.dateOfBirth,
-                                placeOfBirth: widget.item.placeOfBirth,
-                                email: widget.item.email,
-                                fullname: widget.item.fullname,
-                                gender: widget.item.gender,
-                                id: widget.item.id,
-                                phone: widget.item.phone,
-                                updatedAt: widget.item.updatedAt,
-                                identityPhoto: widget.item.identityPhoto,
-                                profilePhoto: widget.item.profilePhoto,
-                              ))
-                            : cTournament.selectedProfiles.remove(Profile(
-                                identityNumber: widget.item.identityNumber,
-                                identityType: widget.item.identityType,
-                                address: widget.item.address,
-                                createdAt: widget.item.createdAt,
-                                dateOfBirth: widget.item.dateOfBirth,
-                                placeOfBirth: widget.item.placeOfBirth,
-                                email: widget.item.email,
-                                fullname: widget.item.fullname,
-                                gender: widget.item.gender,
-                                id: widget.item.id,
-                                phone: widget.item.phone,
-                                updatedAt: widget.item.updatedAt,
-                                identityPhoto: widget.item.identityPhoto,
-                                profilePhoto: widget.item.profilePhoto,
-                              ));
-                      });
-                    },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              (item.isSelected) ? const Icon(Icons.check_box_outlined) : const Icon(Icons.check_box_outline_blank),
+              const SizedBox(width: 10),
+              CircleAvatar(
+                backgroundColor: Colors.grey[350],
+                radius: 20,
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 19,
+                  child: Icon(
+                    Icons.person_outline_rounded,
+                    color: Colors.grey,
                   ),
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.grey[350],
-                  radius: 20,
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 19,
-                    child: Icon(
-                      Icons.person_outline_rounded,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Column(
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Text(item.id),
-                    Text(widget.item.email).titleText(),
+                    Text(item.profile.fullname).titleText(),
                     const SizedBox(
                       height: 4,
                     ),
-                    const Text(
-                      "082335645799",
-                      style: TextStyle(fontSize: 10),
-                    )
+                    Text(item.profile.email),
                     // Text(widget.item.id).informationText(),
                   ],
                 ),
-
-                // GestureDetector(
-                //     onTap: () => Get.to(
-                //           KYCEditFormPage(
-                //             profile: widget.item,
-                //           ),
-                //         ),
-                //     child: const Icon(Icons.arrow_right))
-              ],
-            ),
-            const Divider()
-          ],
-        ),
+              ),
+            ],
+          ),
+          // Checkbox(value: widget.item.isSelected, onChanged: (val) {}),
+          // OSquareCheckBox(
+          //   text: "",
+          //   accept: widget.item.isSelected,
+          //   color: OTextsecondaryColor,
+          //   fungsi: (val) {},
+          //   child:
+          // ),
+          const Divider()
+        ],
       ),
     );
   }
+}
+
+class ProfileChosser {
+  bool isSelected;
+  Profile profile;
+  ProfileChosser({
+    required this.isSelected,
+    required this.profile,
+  });
 }

@@ -314,46 +314,17 @@ class _TournamentCreatePageState extends State<TournamentCreatePage> {
               const SizedBox(
                 height: 16,
               ),
-              // Obx(
-              //   () => Container(
-              //     child: (loading.value)
-              //         ? const Center(
-              //             child: CircularProgressIndicator(),
-              //           )
-              //         : Expanded(
-              //             child: SizedBox(
-              //               width: Get.width,
-              //               // height: Get.height,
-              //               child: ListView.builder(
-              //                   itemCount: listProfile.length,
-              //                   itemBuilder: (BuildContext context, int index) {
-              //                     return ItemNama(
-              //                       item: listProfile[index],
-              //                       // onTap: () {
-              //                       //   // Get.to(ListHealtPage());
-              //                       // },
-              //                     );
-              //                   }),
-              //             ),
-              //           ),
-              //   ),
-              // ),
-              ItemNama(
-                name: "Stephen Strange (Me)",
-                color: OprimaryColor,
-                numb: '1.',
-              ),
-              const ItemNama(
-                name: "Tommy Bong",
-                numb: '2.',
-              ),
-              const ItemNama(
-                name: "Wanda Maximoff",
-                numb: '3.',
-              ),
-              const ItemNama(
-                name: "Tony Stark",
-                numb: '4.',
+              Obx(
+                () => Column(
+                  children: [
+                    for (int i = 0; i < booking.profile.length; i++)
+                      ItemNama(
+                        name: booking.profile[i].fullname,
+                        // color: OprimaryColor,
+                        numb: (i + 1).toString(),
+                      ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 24,
